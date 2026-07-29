@@ -1,0 +1,270 @@
+{
+  "name": "Preceptor's Primer",
+
+  // Distribution model (settled): students launch a Codespace directly ON
+  // PPBDS/codespace-starter and run connect-repo.sh to create or clone their
+  // own work repo — they do NOT "Use this template", fork, or use Classroom.
+  // Because they launch from THIS repo, they get its Codespaces prebuild
+  // (enabled in Settings → Codespaces), so first launches are fast. Their work
+  // repo is just data, opened as a folder inside the same Codespace; it needs
+  // no prebuild of its own.
+
+  // The PPBDS image, pinned to v1.0.6. Since v1.0.0 there is ONE image for
+  // the whole org (ghcr.io/ppbds/devcontainer — it replaced the old
+  // devcontainers/base + /dev + /student trio, and additionally bakes the
+  // package-development tooling: devtools, pkgdown, roxygen2, testthat,
+  // usethis, qpdf). Bumping is a deliberate edit to this line — never use
+  // `:latest` in student-facing config, since it would float silently with
+  // every push to PPBDS/devcontainers.
+  //
+  // WHEN BUMPING THIS PIN, bump it everywhere: the same tag is pinned in the
+  // CI of the tutorial package repos, where a "student-env-render" job
+  // renders every tutorial inside this exact image to prove it works for
+  // students. Currently: primer.tutorials, misc.tutorials, and
+  // vscode.tutorials (each in .github/workflows/R-CMD-check.yaml).
+  // Also PPBDS/primer's .devcontainer pins this image. If those pins lag,
+  // their CI validates against an image students no longer run.
+  //
+  // Bakes in: gh, quarto, arf (Rust R console), httpgd, pak,
+  // tutorial.helpers, vscode.tutorials, misc.tutorials, primer.tutorials,
+  // a modeling stack (tidymodels + xgboost/lightgbm/catboost/randomForest/
+  // ranger/glmnet engines + brms for Bayesian/Stan),
+  // a mapping/census stack (sf + tidycensus/tigris for census-tract maps,
+  // plus the Kyle Walker toolkit: mapgl for token-free WebGL vector maps via
+  // maplibre() + CARTO styles, crsuggest for CRS picks, idbr for
+  // international Census data — live tidycensus/idbr queries need each
+  // student's free Census API key),
+  // an inference-reporting/presentation set used throughout the primer book
+  // and tutorials (gt tables, marginaleffects, patchwork, easystats),
+  // a basic Python data-science stack
+  // (numpy/pandas/matplotlib/seaborn/scikit-learn/statsmodels/jupyter in a venv
+  // at /opt/venv, the default `python`), interactive-viz + Shinylive
+  // packages (R plotly/leaflet/DT/crosstalk + Python plotly/altair/folium/
+  // itables; shiny+shinylive compile to WebAssembly for static hosting),
+  // Observable (Quarto renders {ojs} cells out of the box; the `observable`
+  // Framework CLI is also installed), and four AI coding CLIs:
+  //   - claude  (Anthropic)         — sign in with a Claude plan, or ANTHROPIC_API_KEY
+  //   - codex   (OpenAI)            — sign in with a ChatGPT plan, or `codex login`
+  //   - agy     (Antigravity/Google)— sign in with a Google account, or ANTIGRAVITY_API_KEY
+  //   - aider   (multi-provider)    — key-only: DeepSeek/OpenRouter for cheap models
+  // Signing in on first run is the recommended path; API keys (set as
+  // Codespaces user secrets at https://github.com/settings/codespaces) are
+  // the fallback. See https://github.com/PPBDS/devcontainers for details.
+  //
+  // Note for instructors: `gh` is preinstalled and authenticated against
+  // the Codespace's home repo via the built-in GITHUB_TOKEN. Pushing to
+  // OTHER repos (e.g., cloning a sibling package and pushing to it)
+  // requires a one-time `gh auth login` per Codespace — that's by design,
+  // not a bug. The built-in token is read-mostly outside the home repo.
+  "image": "ghcr.io/ppbds/devcontainer:1.0.6",
+
+  // NO postCreateCommand right now — RETIRED 2026-07-30. All course
+  // packages, including primer.tutorials, ship at whatever versions the
+  // image baked; the live at-create refresh of primer.tutorials was removed
+  // because the baked version is recent enough, making creates faster and
+  // GitHub-independent.
+  //
+  // The discussion below is KEPT ON PURPOSE: it is the recipe if course
+  // content ever again needs to move faster than image releases. To revive,
+  // restore this line here:
+  //
+  //   "postCreateCommand": "R -q -e 'pak::pkg_install(\"PPBDS/primer.tutorials\", ask = FALSE)'",
+  //
+  // and re-read the following before doing so:
+  //
+  // - It MUST be postCreateCommand, not onCreate/updateContentCommand:
+  //   those run at prebuild time and would re-freeze "latest" at the
+  //   prebuild, recreating the manual-update problem this solves. postCreate
+  //   runs live when each Codespace is created, even from a prebuild. A
+  //   failed postCreateCommand doesn't block the Codespace from opening, and
+  //   the image's baked copy remains as the fallback.
+  //
+  // - No upgrade = TRUE: deps are already baked at known-good versions, so
+  //   the refresh touches only the named package and avoids re-churning the
+  //   learnr/knitr/xfun chain (see the xfun ABI note in the devcontainers
+  //   Dockerfile).
+  //
+  // - ACCEPTED RISK — blast radius: tracking GitHub HEAD means a bad commit
+  //   to the refreshed package breaks EVERY new Codespace at once, with no
+  //   pinned image to shield us. The mitigation is operational, not config:
+  //   revert the offending commit upstream ASAP — that fixes all subsequent
+  //   creates immediately, with no image rebuild or pin bump needed.
+
+  // "Setup complete" signal + onboarding, via postAttachCommand — NOT
+  // postStartCommand. This distinction is the whole point: in Codespaces,
+  // postStartCommand (and postCreateCommand) output is routed to the hidden
+  // creation log, so a banner there is invisible — students finish the wait
+  // staring at a bare prompt. postAttachCommand runs in a VISIBLE terminal,
+  // and the lifecycle order (postCreate → postStart → postAttach) means it
+  // fires after any create-time work — so if the postCreateCommand above is
+  // ever revived, the banner stays a true "ready" signal. It points
+  // students to STUDENT_WORKFLOW.md but deliberately does NOT auto-open it.
+  // Absolute path via ${containerWorkspaceFolder} so it still resolves after a
+  // student switches their open folder to their own repo. See welcome.sh.
+  "postAttachCommand": "bash ${containerWorkspaceFolder}/.devcontainer/welcome.sh",
+
+  "customizations": {
+    "vscode": {
+
+      // Extensions students actually need.
+      //
+      // DELIBERATELY ABSENT: the AI assistant *extensions* (anthropic.claude-code,
+      // openai.chatgpt). The AI tools ship as CLIs in the image (claude, codex,
+      // agy, aider) and that is intentional — do NOT add the extension panels
+      // here. Tested 2026-06: the in-editor panels are webviews that render
+      // broken in the browser-based Codespaces client (garbled/overlapping UI),
+      // and there is no reliable desktop fallback for a big slice of students —
+      // VS Code Desktop does not exist for iPad or ChromeOS, and drops Windows
+      // 7/8. The integrated terminal (and thus the CLIs) renders fine on every
+      // device, so CLIs are the device-agnostic answer. (Same Codespaces-remote
+      // webview class of failure that got the Gemini companion extension dropped.)
+      // NOTE — PPBDS.vscode-r-tutorials is deliberately NOT in this list.
+      // We publish it to Open VSX, and this list can only install from the
+      // Microsoft Marketplace (whose copy is stale). The extension is baked
+      // into the image instead (RT_EXT_VERSION build arg in the
+      // PPBDS/devcontainers Dockerfile), pre-extracted from the Open VSX
+      // .vsix so its Activity Bar icon exists from first window paint — an
+      // attach-time install needed a window reload. Ship a new version by
+      // bumping RT_EXT_VERSION there and cutting an image release.
+      "extensions": [
+        "reditorsupport.r",
+        "quarto.quarto",
+        "ritwickdey.LiveServer",
+        "tomoki1207.pdf",
+        "mechatroner.rainbow-csv",
+        // Python data science: language support + notebooks. Unlike the AI
+        // assistant panels above, these are ordinary language tooling that
+        // renders fine in the web Codespaces client.
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+      ],
+
+      "settings": {
+
+        // Make Copilot Chat read AGENTS.md from the workspace root. Inert in
+        // this launcher (which deliberately has no AGENTS.md); it matters in
+        // the student's own repo, where connect-repo.sh places one by default
+        // (skippable via --no-agents). Set explicitly because some VS Code
+        // versions ship it off. Canonical file: .devcontainer/AGENTS.md.
+        "chat.useAgentsMdFile": true,
+
+        // Point the Python extension at the baked data-science venv so
+        // notebooks and scripts use the right interpreter out of the box
+        // (numpy/pandas/etc. importable, the "Python (data science)" kernel).
+        "python.defaultInterpreterPath": "/opt/venv/bin/python",
+
+        // Do NOT let the Python extension auto-`source .../activate` in every
+        // terminal. It injects that command into terminals it shouldn't touch —
+        // notably the R Tutorial terminal — corrupting whatever R command is
+        // running ("Execution halted"). It's also unnecessary: /opt/venv/bin is
+        // already first on PATH (image ENV), so `python`/`pip` resolve to the
+        // venv with no activation needed.
+        "python.terminal.activateEnvironment": false,
+
+        // Blank the built-in, repo-scoped GITHUB_TOKEN / GH_TOKEN in integrated
+        // terminals — INCLUDING the R console (arf), which the R extension
+        // launches with the VS Code server's environment. Without this, R's
+        // remotes/pak see GITHUB_TOKEN and nag on every install_github:
+        // "Using github PAT from envvar GITHUB_TOKEN ... use the more secure
+        // credential store instead." Emptied here, they fall back to the git
+        // credential store (your token, set by connect-repo) — so installs are
+        // authenticated AND quiet. This does NOT affect postCreateCommand (a
+        // lifecycle hook, not a terminal), so the baked-package refresh keeps
+        // the built-in token and avoids GitHub API rate limits.
+        // PKG_SYSREQS=false stops pak from trying to `sudo apt-get install`
+        // system requirements when a student installs an R package — the
+        // non-root rstudio user can't sudo, so e.g. a package pulling in V8
+        // would otherwise die on "System command 'sudo' failed". The system
+        // libs our packages need are provided by the base image (geospatial,
+        // text-shaping, …); pak builds against those. With this off pak still
+        // PRINTS any sysreq it believes is missing but does not install it.
+        // NOTE: this is primarily set GLOBALLY in the student image itself
+        // (ENV PKG_SYSREQS=false in the devcontainers Dockerfile), which already covers
+        // the build, postCreate, and runtime terminals. It is repeated here as
+        // a terminal-scoped belt-and-suspenders. (Separately, the V8 "missing
+        // libnode-dev" false positive is handled in the image via a metadata
+        // libnode-dev-virtual package — see the devcontainers Dockerfile.)
+        "terminal.integrated.env.linux": {
+          "GITHUB_TOKEN": "",
+          "GH_TOKEN": "",
+          "PKG_SYSREQS": "false"
+        },
+
+        // Use arf (Rust-based R console) instead of the default R terminal.
+        // Point at the stable /usr/local/bin/arf symlink the base image
+        // provides for exactly this purpose (see the Dockerfile in
+        // PPBDS/devcontainers), NOT the real /home/rstudio/.cargo/bin/arf
+        // path — that way a change to the image's default user only touches
+        // that Dockerfile, not this consumer setting.
+        "r.rterm.linux": "/usr/local/bin/arf",
+
+        // Required for arf-style consoles to handle pasted code correctly.
+        "r.bracketedPaste": true,
+
+        // Render plots inside VS Code via the httpgd graphics device
+        // instead of opening an external window (which doesn't work in Codespaces).
+        "r.plot.useHttpgd": true,
+
+        // Make the "Run Source" button (the ▷ in the editor title bar) and its
+        // Ctrl/Cmd+Shift+S shortcut run source(FILE, echo = TRUE) instead of a
+        // silent source, so students see each line echo as it executes — not
+        // just the final output.
+        "r.source.echo": true,
+
+        // Prevent VS Code from nagging to relaunch the terminal when
+        // environment variables change.
+        "terminal.integrated.environmentChangesRelaunch": false,
+
+        // NOTE — we want to suppress VS Code's Welcome / "Get Started" tab,
+        // but there is currently NO way to do it from here. The setting that
+        // controls it, workbench.startupEditor, is application-scoped: VS
+        // Code only honors it in per-user settings and deliberately IGNORES
+        // it in workspace/remote/devcontainer settings. So a
+        // "workbench.startupEditor": "none" line here is a confirmed no-op in
+        // Codespaces (see microsoft/vscode#134073, #160635, #242243) — it was
+        // removed rather than left as dead config that looks like it works.
+        // Revisit if that bug is ever fixed. We don't fight it further: the VS
+        // Code Welcome tab is left as-is, and postAttachCommand prints a ready
+        // banner (welcome.sh) pointing students to .devcontainer/STUDENT_WORKFLOW.md.
+
+        // Auto-stage all changes on commit so students don't get a confusing
+        // dialog asking whether to stage files.
+        "git.enableSmartCommit": true,
+
+        // Don't prompt "are you sure?" before push/pull.
+        "git.confirmSync": false,
+
+        // Don't fetch from the remote in the background. Keeps things
+        // predictable and avoids confusing status bar changes.
+        "git.autofetch": false,
+
+        // Auto-save files after a short delay. Prevents the #1 beginner
+        // problem: "my code isn't working" because the file wasn't saved.
+        "files.autoSave": "afterDelay",
+
+        // Stop VS Code from suggesting random extensions students don't need.
+        "extensions.ignoreRecommendations": true,
+
+        // Prevent the "open repository in parent folder?" prompt that
+        // confuses students who don't understand nested git repos.
+        "git.openRepositoryInParentFolders": "never",
+
+        // Prevent extensions from opening walkthrough tabs on first install.
+        "workbench.welcomePage.walkthroughs.openOnInstall": false,
+
+        // Wrap long lines so students don't think code disappeared
+        // off the right edge of the screen.
+        "editor.wordWrap": "on",
+
+        // Disable the minimap — beginners don't use it and it wastes
+        // screen space, especially on Chromebooks and small laptops.
+        "editor.minimap.enabled": false,
+
+        // Prevent VS Code from opening files in "preview" mode (italic
+        // tab title) which silently replaces the tab when another file
+        // is clicked. Beginners think their file vanished.
+        "workbench.editor.enablePreview": false
+      }
+    }
+  }
+}
