@@ -11,11 +11,16 @@ format:
 <p class="hero-subtitle">Does a better economic environment lead to higher proportions of people pursuing post-secondary education?</p>
 :::
 
-## 1. The Context
+## 1. Executive Motivation & Context
 
-Understanding how macroeconomic momentum and public policy investment influence educational attainment is essential for state policymakers, academic leaders, and workforce planners. During periods of robust macroeconomic expansion, rising real median household incomes ($\Delta \text{Income}$) and expanding regional economic output ($\Delta \text{GDP}$) provide families and state budgets with greater financial liquidity to invest in human capital. Simultaneously, targeted state investments in higher education ($\Delta \text{Edu Investment}$) expand capacity and subsidize tuition costs. 
+Understanding how macroeconomic momentum and public policy investment influence educational attainment is essential for state policymakers, academic leaders, and workforce planners. During periods of robust macroeconomic expansion, rising real median household incomes ($\Delta \text{Income}$) and expanding regional economic output ($\Delta \text{GDP}$) provide families and state budgets with greater financial liquidity to invest in human capital. Simultaneously, targeted state investments in higher education ($\Delta \text{Edu Investment}$) expand capacity and subsidize tuition costs.
 
-However, does this economic growth actually encourage people to continue their education? We aim to forecast expected educational outcomes given observable the macroeconomic indicators of GDP, Median Income, and Educational Investments.
+Rather than asserting causal mechanisms—which require strict counterfactual identification assumptions—this data science framework focuses on **predictive modeling** and **conditional expected values**. We aim to forecast expected educational outcomes given observable macroeconomic indicators.
+
+::: {.callout-note}
+### Collaborative Note: Strategic Domain Context
+State workforce development boards and university system enrollment managers can utilize these predictive conditional expectations for long-term budget allocation, facility planning, and tuition assistance strategy during shifting macroeconomic growth regimes.
+:::
 
 ---
 
@@ -34,7 +39,7 @@ To establish a quantitative data science framework, we formulate our core predic
 
 ---
 
-## 3. Dataset Architecture
+## 3. Dataset Architecture & Summary
 
 The predictive framework draws upon a panel dataset spanning **50 US States** over **21 years (2004–2024)**, capturing macroeconomic growth indicators alongside state-level educational attainment statistics.
 
@@ -90,3 +95,4 @@ summary_table |>
 - **Temporal Depth**: Annual panel from 2004 through 2024 ($N = 1,050$ total state-year observations).
 - **Outcome Variables**: Continuous degree completion percentage (`bachelors_plus_pct`), average schooling years (`avg_years_schooling`), and ordinal attainment tiers (`education_tier`).
 :::
+

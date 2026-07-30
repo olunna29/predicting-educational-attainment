@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "model.html",
+    "href": "model.html",
+    "title": "Data Generating Mechanism & Predictive Modeling",
+    "section": "",
+    "text": "Formal Data Generating Mechanisms, 95% Confidence Intervals, and Out-of-Sample Verdict"
+  },
+  {
     "objectID": "model.html#data-generating-mechanism-dgm-formulations",
     "href": "model.html#data-generating-mechanism-dgm-formulations",
     "title": "Data Generating Mechanism & Predictive Modeling",
@@ -28,72 +35,100 @@
     "text": "4. Formal Predictive Verdict\nTo synthesize our modeling results, we evaluate key model metrics and answer our central predictive question within a structured verdict block.\n\n\n\n\n\n\nImportant📊 Predictive Modeling Verdict & Performance Summary\n\n\n\n\n1. Model Goodness-of-Fit Metrics\n\nR-squared (\\(R^2\\)): 0.4283 (Explains 42.83% of variance in schooling years)\nAdjusted \\(R^2\\): 0.4266\nResidual Standard Error (RSE): 0.4312 years\nAkaike Information Criterion (AIC): 1219.11\n\n\n\n2. Answer to Central Predictive Question\n\n“What is the expected difference in attainment when transitioning from a low-income growth environment (\\(&lt;1.0\\%\\)) to a high-income growth environment (\\(\\ge 3.0\\%\\))”?\n\nBased on our fitted linear model: - Transitioning from a low-income growth environment (\\(0.5\\%\\)) to a high-income growth environment (\\(3.5\\%\\)) yields a predicted increase of \\(\\Delta \\hat{Y} = +0.41\\) years of schooling (95% CI: [0.35, 0.46]). - The multinomial model confirms that high-income growth and expanded education investments significantly elevate the conditional probability of states reaching the Bachelor’s+ attainment tier (\\(P(\\text{Bachelor's+})\\) increases by +12.8% in high growth states).\n\n\n3. Strategic Policy Recommendation\nBecause income growth, regional GDP expansion, and public higher education investments all exhibit statistically significant positive effects (\\(p &lt; 0.001\\)), state workforce development boards should coordinate public education funding with broader economic expansion initiatives to maximize human capital growth.\n\n\n\n\n\n\n\n\n\nNoteCollaborative Note: Executive Conclusion\n\n\n\nUniversity enrollment officers and policy analysts can leverage these predictive conditional expectations to forecast higher education degree completion rates across dynamic macroeconomic cycles."
   },
   {
+    "objectID": "sources.html",
+    "href": "sources.html",
+    "title": "Data Sources & References",
+    "section": "",
+    "text": "Comprehensive APA 7th Edition Citations for Primary Macroeconomic Datasets and Census Surveys"
+  },
+  {
+    "objectID": "sources.html#primary-empirical-data-sources",
+    "href": "sources.html#primary-empirical-data-sources",
+    "title": "Data Sources & References",
+    "section": "1. Primary Empirical Data Sources",
+    "text": "1. Primary Empirical Data Sources\nThe empirical framework and macro panel metrics draw upon data from federal statistical agencies and historical economic repositories. Below are the formal APA 7th Edition reference citations for each dataset:\n\nU.S. Gross Domestic Product (GDP) Data\n\nReference List Citation: &gt; Macrotrends. (n.d.). U.S. gross domestic product 1960–2026. Retrieved July 30, 2026, from https://www.macrotrends.net/datasets/global-metrics/countries/usa/united-states/gdp-gross-domestic-product\n\n\n\n\nU.S. Census Bureau (Table A-2: Household Median Income)\n\nReference List Citation: &gt; Kollar, M., & Scherer, Z. (2025). Income in the United States: 2024 (Current Population Reports No. P60-286). U.S. Census Bureau. https://www.census.gov/library/publications/2025/demo/p60-286.html\n\n\n\n\nU.S. Census Bureau (Table A-1: Educational Attainment / CPS Historical Series)\n\nReference List Citation: &gt; U.S. Census Bureau. (2025). CPS historical time series tables: Table A-1. Years of school completed by people 15 years old and over, by age and sex: 1940 to 2024. U.S. Department of Commerce. https://www.census.gov/data/tables/time-series/demo/educational-attainment/cps-historical-time-series.html"
+  },
+  {
+    "objectID": "sources.html#state-higher-education-investment-metric",
+    "href": "sources.html#state-higher-education-investment-metric",
+    "title": "Data Sources & References",
+    "section": "2. State Higher Education Investment Metric",
+    "text": "2. State Higher Education Investment Metric\nThe state higher education investment variable (edu_investment_pct) is a synthetically modeled panel metric generated via the project’s data generation script (R/generate_data.R). It models annual state higher education appropriations and research investment growth rates centered around macro GDP expansion (\\(2.0\\% + 0.3 \\times \\Delta \\text{GDP} + \\varepsilon\\))."
+  },
+  {
     "objectID": "exploratory.html",
     "href": "exploratory.html",
     "title": "Exploratory Data Analysis",
     "section": "",
-    "text": "In this section, we examine empirical relationships in our macroeconomic panel dataset through 6 distinct visualizations. All data operations strictly follow modern tidyverse R standards using the native R pipe (|&gt;)."
+    "text": "Visualizing Interdependencies Across Macroeconomic Growth Drivers & Higher Education Outcomes\nIn this section, we examine empirical relationships in our macroeconomic panel dataset through 6 distinct visualizations. All data operations strictly follow modern tidyverse R standards using the native R pipe (|&gt;)."
   },
   {
-    "objectID": "exploratory.html#graphic-1-scatter-plot-with-smooth-trendline",
-    "href": "exploratory.html#graphic-1-scatter-plot-with-smooth-trendline",
+    "objectID": "exploratory.html#median-household-income-growth-vs.-bachelors-degree-attainment",
+    "href": "exploratory.html#median-household-income-growth-vs.-bachelors-degree-attainment",
     "title": "Exploratory Data Analysis",
-    "section": "Graphic 1: Scatter Plot with Smooth Trendline",
-    "text": "Graphic 1: Scatter Plot with Smooth Trendline\n\n\\(\\Delta\\text{Median Income}\\) vs. \\(\\% \\text{Bachelor's Degree}+\\)\nThis scatter plot evaluates how local household income growth (\\(\\Delta\\text{Median Income}\\)) tracks with 4-year college degree completion rates across US state economies.\n\n\n\n\n\nFigure 2.1: Median Income Growth vs. Bachelor’s Degree Attainment Rate\n\n\n\n\n\n\n\n\n\n\nNoteEDA Insight: Scatter Plot Analysis\n\n\n\nThe non-parametric LOESS trendline illustrates a strong positive co-movement between median household income expansion and college completion rates across state economies. States experiencing sustained real median income growth consistently achieve higher levels of higher educational attainment."
+    "section": "1. Median Household Income Growth vs. Bachelor’s Degree Attainment",
+    "text": "1. Median Household Income Growth vs. Bachelor’s Degree Attainment\nEvaluating how real median household income expansion tracks with 4-year college degree completion rates across US state economies.\n\n\n\n\n\nFigure 1: Co-movement between annual state median income growth and college completion rates (2004–2024). Source: U.S. Census Bureau (Tables A-1, A-2)."
   },
   {
-    "objectID": "exploratory.html#graphic-2-categorical-box-plot",
-    "href": "exploratory.html#graphic-2-categorical-box-plot",
+    "objectID": "exploratory.html#real-income-growth-distributions-across-educational-attainment-tiers",
+    "href": "exploratory.html#real-income-growth-distributions-across-educational-attainment-tiers",
     "title": "Exploratory Data Analysis",
-    "section": "Graphic 2: Categorical Box Plot",
-    "text": "Graphic 2: Categorical Box Plot\n\nReal Income Growth Stratified by Educational Attainment Tiers\nThis box plot examines how annual median income growth varies across defined educational attainment tiers (High School or Less, Some College, Bachelor’s+).\n\n\n\n\n\nFigure 2.2: State Income Growth Distributions Across Educational Attainment Tiers\n\n\n\n\n\n\n\n\n\n\nTipEDA Insight: Box Plot Analysis\n\n\n\nStates situated in the Bachelor’s+ attainment tier demonstrate significantly higher median real income growth and lower downside dispersion, highlighting the protective buffer provided by a highly educated workforce."
+    "section": "2. Real Income Growth Distributions Across Educational Attainment Tiers",
+    "text": "2. Real Income Growth Distributions Across Educational Attainment Tiers\nExamining how annual state median income growth varies across defined educational attainment brackets (High School or Less, Some College, Bachelor’s+).\n\n\n\n\n\nFigure 2: Distribution of real median income growth across educational attainment tiers. Source: U.S. Census Bureau (Table A-2)."
   },
   {
-    "objectID": "exploratory.html#graphic-3-heatmap-gradient-map",
-    "href": "exploratory.html#graphic-3-heatmap-gradient-map",
+    "objectID": "exploratory.html#regional-gdp-growth-dynamics-high-school-completion-over-time",
+    "href": "exploratory.html#regional-gdp-growth-dynamics-high-school-completion-over-time",
     "title": "Exploratory Data Analysis",
-    "section": "Graphic 3: Heatmap / Gradient Map",
-    "text": "Graphic 3: Heatmap / Gradient Map\n\nRegional GDP Growth Shifts & High School Completion Rates Over Time\nThis spatial-temporal heatmap tracks annual economic growth (\\(\\Delta\\text{GDP}\\)) overlaid against average high school completion rates across 4 US Census regions over two decades.\n\n\n\n\n\nFigure 2.3: Heatmap of Regional GDP Growth & High School Completion Over Time\n\n\n\n\n\n\n\n\n\n\nNoteEDA Insight: Heatmap Analysis\n\n\n\nMacroeconomic contraction periods (e.g., 2008–2009 and 2020) appear as deep violet/dark tiles across all regions, while underlying high school completion rates maintain steady structural growth over time."
+    "section": "3. Regional GDP Growth Dynamics & High School Completion Over Time",
+    "text": "3. Regional GDP Growth Dynamics & High School Completion Over Time\nTracking annual economic expansion (\\(\\Delta\\text{GDP}\\)) overlaid against average high school completion rates across 4 US Census regions over two decades.\n\n\n\n\n\nFigure 3: Heatmap of annual GDP growth overlaid with mean regional high school completion rates. Source: Macrotrends & U.S. Census Bureau (Table A-1)."
   },
   {
-    "objectID": "exploratory.html#graphic-4-faceted-time-series-line-chart",
-    "href": "exploratory.html#graphic-4-faceted-time-series-line-chart",
+    "objectID": "exploratory.html#multi-decade-macroeconomic-predictors-vs.-educational-attainment",
+    "href": "exploratory.html#multi-decade-macroeconomic-predictors-vs.-educational-attainment",
     "title": "Exploratory Data Analysis",
-    "section": "Graphic 4: Faceted Time-Series Line Chart",
-    "text": "Graphic 4: Faceted Time-Series Line Chart\n\nMulti-Decade Macroeconomic Growth Drivers vs. Educational Attainment\nThis faceted time-series line chart tracks the multi-decade trajectory of macro growth drivers (\\(\\Delta\\text{Income}\\), \\(\\Delta\\text{GDP}\\), \\(\\Delta\\text{Edu Investment}\\)) alongside college degree completion trends.\n\n\n\n\n\nFigure 2.4: Faceted Multi-Decade Macroeconomic & Educational Time-Series Trends\n\n\n\n\n\n\n\n\n\n\nTipEDA Insight: Time-Series Analysis\n\n\n\nState higher education investment growth and median household income expansion show strong co-movement, serving as persistent leading indicators for state degree attainment trends."
+    "section": "4. Multi-Decade Macroeconomic Predictors vs. Educational Attainment",
+    "text": "4. Multi-Decade Macroeconomic Predictors vs. Educational Attainment\nTracking multi-decade trajectories of macroeconomic growth drivers (\\(\\Delta\\text{Income}\\), \\(\\Delta\\text{GDP}\\), \\(\\Delta\\text{Edu Investment}\\)) alongside college degree completion trends.\n\n\n\n\n\nFigure 4: Faceted multi-decade tracking of annual national state means (2004–2024). Source: U.S. Census Bureau, Macrotrends & Simulated Metrics."
   },
   {
-    "objectID": "exploratory.html#graphic-5-stratified-density-plot",
-    "href": "exploratory.html#graphic-5-stratified-density-plot",
+    "objectID": "exploratory.html#real-income-growth-spread-across-degree-attainment-regimes",
+    "href": "exploratory.html#real-income-growth-spread-across-degree-attainment-regimes",
     "title": "Exploratory Data Analysis",
-    "section": "Graphic 5: Stratified Density Plot",
-    "text": "Graphic 5: Stratified Density Plot\n\nReal Income Growth Spread Stratified by Degree Attainment Regimes\nThis density plot displays overlapping empirical probability distributions of annual state median income growth, stratified by whether a state’s college degree attainment rate is above or below the national median.\n\n\n\n\n\nFigure 2.5: Density Spread of Real Income Growth Across Attainment Regimes\n\n\n\n\n\n\n\n\n\n\nNoteEDA Insight: Density Plot Analysis\n\n\n\nStates in the high attainment regime demonstrate a rightward shift in their income growth distribution, confirming higher mean growth and greater economic resilience compared to low attainment states."
+    "section": "5. Real Income Growth Spread Across Degree Attainment Regimes",
+    "text": "5. Real Income Growth Spread Across Degree Attainment Regimes\nDisplaying overlapping empirical probability distributions of annual state median income growth, stratified by whether degree attainment is above or below the national median.\n\n\n\n\n\nFigure 5: Overlapping probability density of real income growth by attainment regime. Source: U.S. Census Bureau (Tables A-1, A-2)."
   },
   {
-    "objectID": "exploratory.html#graphic-6-facet-grid-scatter-plot",
-    "href": "exploratory.html#graphic-6-facet-grid-scatter-plot",
+    "objectID": "exploratory.html#higher-education-investment-growth-vs.-degree-attainment-across-regions",
+    "href": "exploratory.html#higher-education-investment-growth-vs.-degree-attainment-across-regions",
     "title": "Exploratory Data Analysis",
-    "section": "Graphic 6: Facet Grid Scatter Plot",
-    "text": "Graphic 6: Facet Grid Scatter Plot\n\nEducation Investment Growth vs. Degree Attainment Across Regions\nThis 4-way faceted scatter grid evaluates the relationship between state higher education investment growth (\\(\\Delta\\text{Edu Investment}\\)) and college completion rates broken down across US Census Regions.\n\n\n\n\n\nFigure 2.6: Higher Education Investment vs. Degree Attainment Faceted by Region\n\n\n\n\n\n\n\n\n\n\nTipEDA Insight: Regional Grid Analysis\n\n\n\nAcross all four regions, increased public investment in higher education combined with high income growth tiers correlates positively with elevated bachelor’s degree attainment rates."
+    "section": "6. Higher Education Investment Growth vs. Degree Attainment Across Regions",
+    "text": "6. Higher Education Investment Growth vs. Degree Attainment Across Regions\nEvaluating the relationship between state higher education investment growth (\\(\\Delta\\text{Edu Investment}\\)) and college completion rates broken down across US Census Regions.\n\n\n\n\n\nFigure 6: Regional faceted linear fits comparing higher education investment and degree completion. Source: U.S. Census Bureau & Simulated Investment Metrics."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Our Question and Our Data",
+    "section": "",
+    "text": "Does a better economic environment lead to higher proportions of people pursuing further?"
   },
   {
     "objectID": "index.html#executive-motivation-context",
     "href": "index.html#executive-motivation-context",
-    "title": "Executive Summary & Predictive Framing",
+    "title": "Our Question and Our Data",
     "section": "1. Executive Motivation & Context",
     "text": "1. Executive Motivation & Context\nUnderstanding how macroeconomic momentum and public policy investment influence educational attainment is essential for state policymakers, academic leaders, and workforce planners. During periods of robust macroeconomic expansion, rising real median household incomes (\\(\\Delta \\text{Income}\\)) and expanding regional economic output (\\(\\Delta \\text{GDP}\\)) provide families and state budgets with greater financial liquidity to invest in human capital. Simultaneously, targeted state investments in higher education (\\(\\Delta \\text{Edu Investment}\\)) expand capacity and subsidize tuition costs.\nRather than asserting causal mechanisms—which require strict counterfactual identification assumptions—this data science framework focuses on predictive modeling and conditional expected values. We aim to forecast expected educational outcomes given observable macroeconomic indicators.\n\n\n\n\n\n\nNoteCollaborative Note: Strategic Domain Context\n\n\n\nState workforce development boards and university system enrollment managers can utilize these predictive conditional expectations for long-term budget allocation, facility planning, and tuition assistance strategy during shifting macroeconomic growth regimes."
   },
   {
     "objectID": "index.html#central-predictive-research-question",
     "href": "index.html#central-predictive-research-question",
-    "title": "Executive Summary & Predictive Framing",
+    "title": "Our Question and Our Data",
     "section": "2. Central Predictive Research Question",
     "text": "2. Central Predictive Research Question\nTo establish a quantitative data science framework, we formulate our core predictive research question centered on conditional expectations and statistically significant economic growth drivers:\n\n\n\n\n\n\nImportantCentral Predictive Question\n\n\n\n\n“What is the expected increase in a state’s population attaining a 4-year college degree when moving from a low-income growth environment (\\(&lt; 1.0\\%\\)) to a high-income growth environment (\\(\\ge 3.0\\%\\)), controlling for regional economic growth (\\(\\Delta \\text{GDP}\\)) and state higher education investment (\\(\\Delta \\text{Edu Investment}\\))?”\n\n\n\n\nPredictive vs. Causal Framing\n\nCausal Claim (Avoided): “Higher median income growth directly causes state populations to obtain college degrees.”\nPredictive Conditional Expectation (Adopted): “Given that an economy transitions into a high-income growth regime (\\(\\ge 3.0\\%\\)), what is the updated expected value \\(\\mathbb{E}[Y_{\\text{degree}} \\mid \\Delta \\text{Income} \\ge 3.0\\%, \\Delta \\text{GDP}, \\Delta \\text{Edu Investment}]\\) compared to a low-growth baseline?”"
   },
   {
     "objectID": "index.html#dataset-architecture-summary",
     "href": "index.html#dataset-architecture-summary",
-    "title": "Executive Summary & Predictive Framing",
+    "title": "Our Question and Our Data",
     "section": "3. Dataset Architecture & Summary",
     "text": "3. Dataset Architecture & Summary\nThe predictive framework draws upon a panel dataset spanning 50 US States over 21 years (2004–2024), capturing macroeconomic growth indicators alongside state-level educational attainment statistics.\n\n\n\nTable 1.1: Macroeconomic and Educational Panel Dataset Specification (2004–2024)\n\n\n\n\n\n\n\n\nVariable\nVariable Type\nDescription\nRange\n\n\n\n\nincome_growth_pct\nContinuous (%)\nYear-over-Year Real Median Household Income Growth (%)\n[-4.58, 6.89]\n\n\ngdp_growth_pct\nContinuous (%)\nYear-over-Year Gross Domestic Product Growth (%)\n[-6.24, 10.74]\n\n\nedu_investment_pct\nContinuous (%)\nYear-over-Year State Higher Education & Research Investment Growth (%)\n[-2.21, 6.49]\n\n\nbachelors_plus_pct\nContinuous (%)\nPercentage of Population holding Bachelor’s Degree or Higher\n[18.26, 52.29]\n\n\nhs_completion_pct\nContinuous (%)\nPercentage of Population completing High School\n[84.69, 96.21]\n\n\navg_years_schooling\nContinuous (Years)\nAverage Estimated Years of Formally Completed Schooling\n[12.23, 16.05]\n\n\nincome_tier\nCategorical\nIncome Growth Regime: Low (&lt;1.0%), Moderate (1.0-3.0%), High (3.0%+)\n3 Levels\n\n\neducation_tier\nCategorical\nEducational Attainment Tier: HS or Less, Some College, Bachelor’s+\n3 Levels\n\n\n\n\n\n\n\n\n\n\n\nTipKey Data Takeaways\n\n\n\n\nSpatial Coverage: 50 U.S. States across 4 Geographic Regions (Northeast, Midwest, South, West).\nTemporal Depth: Annual panel from 2004 through 2024 (\\(N = 1,050\\) total state-year observations).\nOutcome Variables: Continuous degree completion percentage (bachelors_plus_pct), average schooling years (avg_years_schooling), and ordinal attainment tiers (education_tier)."
   }

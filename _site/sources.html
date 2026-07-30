@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Generating Mechanism &amp; Predictive Modeling – Macro-Economic Dynamics &amp; Higher Education</title>
+<title>Data Sources &amp; References – Macro-Economic Dynamics &amp; Higher Education</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -131,11 +131,11 @@ window.Quarto = {
 <span class="menu-text">Exploratory EDA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./model.html" aria-current="page"> 
+    <a class="nav-link" href="./model.html"> 
 <span class="menu-text">Predictive Modeling &amp; DGM</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./sources.html"> 
+    <a class="nav-link active" href="./sources.html" aria-current="page"> 
 <span class="menu-text">Sources</span></a>
   </li>  
 </ul>
@@ -154,10 +154,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#data-generating-mechanism-dgm-formulations" id="toc-data-generating-mechanism-dgm-formulations" class="nav-link active" data-scroll-target="#data-generating-mechanism-dgm-formulations">1. Data Generating Mechanism (DGM) Formulations</a></li>
-  <li><a href="#model-estimation-95-confidence-intervals" id="toc-model-estimation-95-confidence-intervals" class="nav-link" data-scroll-target="#model-estimation-95-confidence-intervals">2. Model Estimation &amp; 95% Confidence Intervals</a></li>
-  <li><a href="#visualizing-uncertainty-coefficient-interval-plot" id="toc-visualizing-uncertainty-coefficient-interval-plot" class="nav-link" data-scroll-target="#visualizing-uncertainty-coefficient-interval-plot">3. Visualizing Uncertainty: Coefficient Interval Plot</a></li>
-  <li><a href="#formal-predictive-verdict" id="toc-formal-predictive-verdict" class="nav-link" data-scroll-target="#formal-predictive-verdict">4. Formal Predictive Verdict</a></li>
+  <li><a href="#primary-empirical-data-sources" id="toc-primary-empirical-data-sources" class="nav-link active" data-scroll-target="#primary-empirical-data-sources">1. Primary Empirical Data Sources</a></li>
+  <li><a href="#state-higher-education-investment-metric" id="toc-state-higher-education-investment-metric" class="nav-link" data-scroll-target="#state-higher-education-investment-metric">2. State Higher Education Investment Metric</a></li>
   </ul>
 </nav>
     </div>
@@ -166,8 +164,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Generating Mechanism &amp; Predictive Modeling</h1>
-<p class="subtitle lead">Statistical Formulation, Model Estimation, Uncertainty Quantification, and Verdict</p>
+<h1 class="title">Data Sources &amp; References</h1>
+<p class="subtitle lead">APA Reference List for Macroeconomic Datasets and Educational Metrics</p>
 </div>
 
 
@@ -184,294 +182,40 @@ window.Quarto = {
 </header>
 
 
-<section id="predictive-statistical-modeling-dgm" class="level1 unlisted hero-banner">
-<h1 class="unlisted">Predictive Statistical Modeling &amp; DGM</h1>
+<section id="data-sources-references" class="level1 unlisted hero-banner">
+<h1 class="unlisted">Data Sources &amp; References</h1>
 <p class="hero-subtitle">
-Formal Data Generating Mechanisms, 95% Confidence Intervals, and Out-of-Sample Verdict
+Comprehensive APA 7th Edition Citations for Primary Macroeconomic Datasets and Census Surveys
 </p>
 </section>
-<hr>
-<section id="data-generating-mechanism-dgm-formulations" class="level2">
-<h2 class="anchored" data-anchor-id="data-generating-mechanism-dgm-formulations">1. Data Generating Mechanism (DGM) Formulations</h2>
-<p>To evaluate expected educational outcomes under varying macroeconomic growth regimes, we formulate two distinct statistical mechanisms corresponding to continuous and categorical targets.</p>
-<section id="continuous-outcome-linear-regression-dgm" class="level3">
-<h3 class="anchored" data-anchor-id="continuous-outcome-linear-regression-dgm">1.1 Continuous Outcome: Linear Regression DGM</h3>
-<p>We model the conditional expected average years of schooling (<span class="math inline">\(\hat{Y}_{\text{schooling}}\)</span>) as a linear function of state-level real median income growth, regional economic expansion, and public higher education investment:</p>
-<p><span class="math display">\[\hat{Y}_{\text{schooling}} = \beta_0 + \beta_1 (\Delta \text{Income}) + \beta_2 (\Delta \text{GDP}) + \beta_3 (\Delta \text{Edu Investment}) + \varepsilon\]</span></p>
-<p>where: - <span class="math inline">\(\Delta \text{Income}\)</span> is the annual percentage change in real median household income (<code>income_growth_pct</code>), - <span class="math inline">\(\Delta \text{GDP}\)</span> is the annual percentage change in state Gross Domestic Product (<code>gdp_growth_pct</code>), - <span class="math inline">\(\Delta \text{Edu Investment}\)</span> is the annual growth in state higher education investment (<code>edu_investment_pct</code>), - <span class="math inline">\(\varepsilon \sim \mathcal{N}(0, \sigma^2)\)</span> represents residual stochastic variance.</p>
-<hr>
-</section>
-<section id="categorical-outcome-multinomial-logistic-dgm" class="level3">
-<h3 class="anchored" data-anchor-id="categorical-outcome-multinomial-logistic-dgm">1.2 Categorical Outcome: Multinomial Logistic DGM</h3>
-<p>We model the conditional log-odds of a state falling into educational attainment tier <span class="math inline">\(k \in \{\text{Some College}, \text{Bachelor's+}\}\)</span> relative to baseline <span class="math inline">\(K = \text{High School or Less}\)</span>:</p>
-<p><span class="math display">\[\ln\left(\frac{P(Y = k)}{P(Y = K)}\right) = \beta_{k0} + \beta_{k1} (\Delta \text{Income}) + \beta_{k2} (\Delta \text{Edu Investment})\]</span></p>
-<p>The probability <span class="math inline">\(P(Y = k)\)</span> of attainment tier <span class="math inline">\(k\)</span> is given by the soft-max transformation:</p>
-<p><span class="math display">\[P(Y = k \mid \mathbf{X}) = \frac{\exp(\mathbf{X}\boldsymbol{\beta}_k)}{1 + \sum_{j=1}^{K-1} \exp(\mathbf{X}\boldsymbol{\beta}_j)}\]</span></p>
-<hr>
-</section>
-</section>
-<section id="model-estimation-95-confidence-intervals" class="level2">
-<h2 class="anchored" data-anchor-id="model-estimation-95-confidence-intervals">2. Model Estimation &amp; 95% Confidence Intervals</h2>
-<section id="estimating-model-1-continuous-schooling-years" class="level3">
-<h3 class="anchored" data-anchor-id="estimating-model-1-continuous-schooling-years">2.1 Estimating Model 1: Continuous Schooling Years</h3>
-<p>We estimate the parameters of the Linear DGM using Ordinary Least Squares (OLS) and extract exact 95% confidence intervals using <code>broom::tidy(conf.int = TRUE)</code>.</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Table 3.1: OLS Model Parameters &amp; 95% Confidence Intervals for Average Schooling Years</caption>
-<colgroup>
-<col style="width: 34%">
-<col style="width: 8%">
-<col style="width: 10%">
-<col style="width: 11%">
-<col style="width: 7%">
-<col style="width: 12%">
-<col style="width: 12%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Parameter</th>
-<th style="text-align: right;">Estimate</th>
-<th style="text-align: right;">Std. Error</th>
-<th style="text-align: right;">t statistic</th>
-<th style="text-align: right;">p-value</th>
-<th style="text-align: right;">95% CI Lower</th>
-<th style="text-align: right;">95% CI Upper</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Intercept (β₀)</td>
-<td style="text-align: right;">13.8613</td>
-<td style="text-align: right;">0.0283</td>
-<td style="text-align: right;">489.3019</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">13.8057</td>
-<td style="text-align: right;">13.9169</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Δ Median Income Growth (β₁)</td>
-<td style="text-align: right;">0.1359</td>
-<td style="text-align: right;">0.0089</td>
-<td style="text-align: right;">15.1851</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.1183</td>
-<td style="text-align: right;">0.1534</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Δ GDP Growth (β₂)</td>
-<td style="text-align: right;">0.0495</td>
-<td style="text-align: right;">0.0075</td>
-<td style="text-align: right;">6.6235</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0348</td>
-<td style="text-align: right;">0.0641</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Δ Education Investment Growth (β₃)</td>
-<td style="text-align: right;">0.0541</td>
-<td style="text-align: right;">0.0108</td>
-<td style="text-align: right;">4.9835</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0328</td>
-<td style="text-align: right;">0.0753</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Interpretation of Linear Coefficients
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<section id="primary-empirical-data-sources" class="level2">
+<h2 class="anchored" data-anchor-id="primary-empirical-data-sources">1. Primary Empirical Data Sources</h2>
+<p>The empirical framework and macro panel metrics draw upon data from federal statistical agencies and historical economic repositories. Below are the formal APA 7th Edition reference citations for each dataset:</p>
+<section id="u.s.-gross-domestic-product-gdp-data" class="level3">
+<h3 class="anchored" data-anchor-id="u.s.-gross-domestic-product-gdp-data">U.S. Gross Domestic Product (GDP) Data</h3>
 <ul>
-<li><strong>Income Growth (<span class="math inline">\(\beta_1\)</span>)</strong>: For each 1 percentage point increase in real median household income growth, expected average schooling increases by <strong>0.136 years</strong> (95% CI: [0.118, 0.153], <span class="math inline">\(p &lt; 0.001\)</span>).</li>
-<li><strong>GDP Growth (<span class="math inline">\(\beta_2\)</span>)</strong>: Regional economic growth exhibits a positive conditional effect of <strong>0.049 years</strong> (95% CI: [0.035, 0.064], <span class="math inline">\(p &lt; 0.001\)</span>).</li>
-<li><strong>Education Investment (<span class="math inline">\(\beta_3\)</span>)</strong>: Higher public education investment provides a positive conditional return of <strong>0.054 years</strong> (95% CI: [0.033, 0.075], <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Reference List Citation</strong>: &gt; Macrotrends. (n.d.). <em>U.S. gross domestic product 1960–2026</em>. Retrieved July 30, 2026, from <a href="https://www.macrotrends.net/datasets/global-metrics/countries/usa/united-states/gdp-gross-domestic-product">https://www.macrotrends.net/datasets/global-metrics/countries/usa/united-states/gdp-gross-domestic-product</a></li>
 </ul>
-</div>
-</div>
 <hr>
 </section>
-<section id="estimating-model-2-multinomial-educational-tiers" class="level3">
-<h3 class="anchored" data-anchor-id="estimating-model-2-multinomial-educational-tiers">2.2 Estimating Model 2: Multinomial Educational Tiers</h3>
-<p>We fit the Multinomial Logistic DGM using <code>nnet::multinom()</code>.</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Table 3.2: Multinomial Logistic Model Estimates &amp; 95% CIs (Ref: High School or Less)</caption>
-<colgroup>
-<col style="width: 12%">
-<col style="width: 18%">
-<col style="width: 13%">
-<col style="width: 10%">
-<col style="width: 9%">
-<col style="width: 7%">
-<col style="width: 12%">
-<col style="width: 12%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Outcome Tier</th>
-<th style="text-align: left;">Parameter</th>
-<th style="text-align: right;">Log-Odds Est.</th>
-<th style="text-align: right;">Std. Error</th>
-<th style="text-align: right;">Statistic</th>
-<th style="text-align: right;">p-value</th>
-<th style="text-align: right;">95% CI Lower</th>
-<th style="text-align: right;">95% CI Upper</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">1.4494</td>
-<td style="text-align: right;">0.2250</td>
-<td style="text-align: right;">6.4417</td>
-<td style="text-align: right;">0.0000</td>
-<td style="text-align: right;">1.0084</td>
-<td style="text-align: right;">1.8904</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">income_growth_pct</td>
-<td style="text-align: right;">0.3264</td>
-<td style="text-align: right;">0.0719</td>
-<td style="text-align: right;">4.5424</td>
-<td style="text-align: right;">0.0000</td>
-<td style="text-align: right;">0.1856</td>
-<td style="text-align: right;">0.4672</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">edu_investment_pct</td>
-<td style="text-align: right;">0.1593</td>
-<td style="text-align: right;">0.1001</td>
-<td style="text-align: right;">1.5908</td>
-<td style="text-align: right;">0.1117</td>
-<td style="text-align: right;">-0.0370</td>
-<td style="text-align: right;">0.3555</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Bachelor’s+</td>
-<td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">0.2016</td>
-<td style="text-align: right;">0.2573</td>
-<td style="text-align: right;">0.7834</td>
-<td style="text-align: right;">0.4334</td>
-<td style="text-align: right;">-0.3028</td>
-<td style="text-align: right;">0.7059</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Bachelor’s+</td>
-<td style="text-align: left;">income_growth_pct</td>
-<td style="text-align: right;">0.6871</td>
-<td style="text-align: right;">0.0791</td>
-<td style="text-align: right;">8.6846</td>
-<td style="text-align: right;">0.0000</td>
-<td style="text-align: right;">0.5320</td>
-<td style="text-align: right;">0.8422</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Bachelor’s+</td>
-<td style="text-align: left;">edu_investment_pct</td>
-<td style="text-align: right;">0.4254</td>
-<td style="text-align: right;">0.1052</td>
-<td style="text-align: right;">4.0451</td>
-<td style="text-align: right;">0.0001</td>
-<td style="text-align: right;">0.2193</td>
-<td style="text-align: right;">0.6315</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<hr>
-</section>
-</section>
-<section id="visualizing-uncertainty-coefficient-interval-plot" class="level2">
-<h2 class="anchored" data-anchor-id="visualizing-uncertainty-coefficient-interval-plot">3. Visualizing Uncertainty: Coefficient Interval Plot</h2>
-<p>To evaluate parameter estimates and quantify uncertainty visually, we build a horizontal point-range plot displaying parameter estimates alongside exact 95% Confidence Interval bounds.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="model_files/figure-html/coef-plot-1.png" class="img-fluid figure-img" width="864"></p>
-<figcaption>Figure 3.1: Model Parameter Estimates &amp; 95% Confidence Interval Bounds</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Robust Statistical Significance
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Notice that <strong>none</strong> of the 95% confidence intervals cross the vertical dashed pink line (<span class="math inline">\(\text{Effect} = 0\)</span>). All three macroeconomic predictors demonstrate strong, statistically significant positive relationships with educational outcomes (<span class="math inline">\(p &lt; 0.001\)</span>).</p>
-</div>
-</div>
-<hr>
-</section>
-<section id="formal-predictive-verdict" class="level2">
-<h2 class="anchored" data-anchor-id="formal-predictive-verdict">4. Formal Predictive Verdict</h2>
-<p>To synthesize our modeling results, we evaluate key model metrics and answer our central predictive question within a structured verdict block.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>📊 Predictive Modeling Verdict &amp; Performance Summary
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<section id="model-goodness-of-fit-metrics" class="level4">
-<h4 class="anchored" data-anchor-id="model-goodness-of-fit-metrics">1. Model Goodness-of-Fit Metrics</h4>
+<section id="u.s.-census-bureau-table-a-2-household-median-income" class="level3">
+<h3 class="anchored" data-anchor-id="u.s.-census-bureau-table-a-2-household-median-income">U.S. Census Bureau (Table A-2: Household Median Income)</h3>
 <ul>
-<li><strong>R-squared (<span class="math inline">\(R^2\)</span>)</strong>: 0.4283 (Explains <strong>42.83%</strong> of variance in schooling years)</li>
-<li><strong>Adjusted <span class="math inline">\(R^2\)</span></strong>: 0.4266</li>
-<li><strong>Residual Standard Error (RSE)</strong>: 0.4312 years</li>
-<li><strong>Akaike Information Criterion (AIC)</strong>: 1219.11</li>
+<li><strong>Reference List Citation</strong>: &gt; Kollar, M., &amp; Scherer, Z. (2025). <em>Income in the United States: 2024</em> (Current Population Reports No.&nbsp;P60-286). U.S. Census Bureau. <a href="https://www.census.gov/library/publications/2025/demo/p60-286.html">https://www.census.gov/library/publications/2025/demo/p60-286.html</a></li>
 </ul>
+<hr>
 </section>
-<section id="answer-to-central-predictive-question" class="level4">
-<h4 class="anchored" data-anchor-id="answer-to-central-predictive-question">2. Answer to Central Predictive Question</h4>
-<blockquote class="blockquote">
-<p><strong>“What is the expected difference in attainment when transitioning from a low-income growth environment (<span class="math inline">\(&lt;1.0\%\)</span>) to a high-income growth environment (<span class="math inline">\(\ge 3.0\%\)</span>)”?</strong></p>
-</blockquote>
-<p>Based on our fitted linear model: - Transitioning from a low-income growth environment (<span class="math inline">\(0.5\%\)</span>) to a high-income growth environment (<span class="math inline">\(3.5\%\)</span>) yields a predicted increase of <strong><span class="math inline">\(\Delta \hat{Y} = +0.41\)</span> years of schooling</strong> (95% CI: <code>[0.35, 0.46]</code>). - The multinomial model confirms that high-income growth and expanded education investments significantly elevate the conditional probability of states reaching the <strong>Bachelor’s+</strong> attainment tier (<span class="math inline">\(P(\text{Bachelor's+})\)</span> increases by <strong>+12.8%</strong> in high growth states).</p>
+<section id="u.s.-census-bureau-table-a-1-educational-attainment-cps-historical-series" class="level3">
+<h3 class="anchored" data-anchor-id="u.s.-census-bureau-table-a-1-educational-attainment-cps-historical-series">U.S. Census Bureau (Table A-1: Educational Attainment / CPS Historical Series)</h3>
+<ul>
+<li><strong>Reference List Citation</strong>: &gt; U.S. Census Bureau. (2025). <em>CPS historical time series tables: Table A-1. Years of school completed by people 15 years old and over, by age and sex: 1940 to 2024</em>. U.S. Department of Commerce. <a href="https://www.census.gov/data/tables/time-series/demo/educational-attainment/cps-historical-time-series.html">https://www.census.gov/data/tables/time-series/demo/educational-attainment/cps-historical-time-series.html</a></li>
+</ul>
+<hr>
 </section>
-<section id="strategic-policy-recommendation" class="level4">
-<h4 class="anchored" data-anchor-id="strategic-policy-recommendation">3. Strategic Policy Recommendation</h4>
-<p>Because income growth, regional GDP expansion, and public higher education investments all exhibit statistically significant positive effects (<span class="math inline">\(p &lt; 0.001\)</span>), state workforce development boards should coordinate public education funding with broader economic expansion initiatives to maximize human capital growth.</p>
 </section>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Collaborative Note: Executive Conclusion
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>University enrollment officers and policy analysts can leverage these predictive conditional expectations to forecast higher education degree completion rates across dynamic macroeconomic cycles.</p>
-</div>
-</div>
+<section id="state-higher-education-investment-metric" class="level2">
+<h2 class="anchored" data-anchor-id="state-higher-education-investment-metric">2. State Higher Education Investment Metric</h2>
+<p>The state higher education investment variable (<code>edu_investment_pct</code>) is a <strong>synthetically modeled panel metric</strong> generated via the project’s data generation script (<code>R/generate_data.R</code>). It models annual state higher education appropriations and research investment growth rates centered around macro GDP expansion (<span class="math inline">\(2.0\% + 0.3 \times \Delta \text{GDP} + \varepsilon\)</span>).</p>
 
 
 </section>

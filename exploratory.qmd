@@ -1,16 +1,16 @@
 ---
 title: "Exploratory Data Analysis"
-subtitle: "Empirical Patterns in Macro-Economic Dynamics & Educational Attainment"
 format:
   html:
     toc: true
+    toc-depth: 2
     fig-width: 9
     fig-height: 5.5
 ---
 
 ::: {.hero-banner}
-# Exploratory Data Analysis (EDA)
-### Visualizing Interdependencies Across Macroeconomic Growth Drivers & Higher Education Outcomes
+# Exploratory Data Analysis (EDA) {.unlisted}
+<p class="hero-subtitle">Visualizing Interdependencies Across Macroeconomic Growth Drivers & Higher Education Outcomes</p>
 :::
 
 In this section, we examine empirical relationships in our macroeconomic panel dataset through 6 distinct visualizations. All data operations strictly follow modern tidyverse R standards using the native R pipe (`|>`).
@@ -55,16 +55,15 @@ palette_edu <- c("High School or Less" = "#3b82f6", "Some College" = "#8b5cf6", 
 
 ---
 
-## Graphic 1: Scatter Plot with Smooth Trendline
-### $\Delta\text{Median Income}$ vs. $\% \text{Bachelor's Degree}+$
+## 1. Median Household Income Growth vs. Bachelor's Degree Attainment
 
-This scatter plot evaluates how local household income growth ($\Delta\text{Median Income}$) tracks with 4-year college degree completion rates across US state economies.
+Evaluating how real median household income expansion tracks with 4-year college degree completion rates across US state economies.
 
 ```{r graphic-1}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 2.1: Median Income Growth vs. Bachelor's Degree Attainment Rate"
+#| fig-cap: "Figure 1: Co-movement between annual state median income growth and college completion rates (2004–2024). Source: U.S. Census Bureau (Tables A-1, A-2)."
 
 df |> 
   ggplot(aes(x = income_growth_pct, y = bachelors_plus_pct, color = region)) +
@@ -72,60 +71,48 @@ df |>
   geom_smooth(method = "loess", color = "#0f172a", fill = "#c084fc", linewidth = 1.3, se = TRUE) +
   scale_color_manual(values = palette_main, name = "Geographic Region") +
   labs(
-    title = "Figure 2.1: Median Household Income Growth vs. Bachelor's Degree Attainment",
-    subtitle = "Evaluating linear and non-linear trend alignment between state income growth and higher education rates",
+    title = "Median Household Income Growth vs. Bachelor's Degree Attainment",
+    subtitle = "Key Takeaway: State median income growth exhibits strong positive co-movement with bachelor's degree completion rates",
     x = "Annual Real Median Household Income Growth (%)",
     y = "Bachelor's Degree or Higher Attainment (%)"
   )
 ```
 
-::: {.callout-note}
-### EDA Insight: Scatter Plot Analysis
-The non-parametric LOESS trendline illustrates a strong positive co-movement between median household income expansion and college completion rates across state economies. States experiencing sustained real median income growth consistently achieve higher levels of higher educational attainment.
-:::
-
 ---
 
-## Graphic 2: Categorical Box Plot
-### Real Income Growth Stratified by Educational Attainment Tiers
+## 2. Real Income Growth Distributions Across Educational Attainment Tiers
 
-This box plot examines how annual median income growth varies across defined educational attainment tiers (*High School or Less*, *Some College*, *Bachelor's+*).
+Examining how annual state median income growth varies across defined educational attainment brackets (*High School or Less*, *Some College*, *Bachelor's+*).
 
 ```{r graphic-2}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 2.2: State Income Growth Distributions Across Educational Attainment Tiers"
+#| fig-cap: "Figure 2: Distribution of real median income growth across educational attainment tiers. Source: U.S. Census Bureau (Table A-2)."
 
 df |> 
   ggplot(aes(x = education_tier, y = income_growth_pct, fill = education_tier)) +
   geom_boxplot(alpha = 0.85, outlier.color = "#ec4899", outlier.alpha = 0.6) +
   scale_fill_manual(values = palette_edu, name = "Education Tier") +
   labs(
-    title = "Figure 2.2: Real Income Growth Distribution Stratified by Education Tiers",
-    subtitle = "Comparing median growth and interquartile dispersion across state educational attainment brackets",
+    title = "Real Income Growth Stratified by Educational Attainment Tiers",
+    subtitle = "Key Takeaway: States in the Bachelor's+ tier demonstrate higher median income growth and lower downside economic dispersion",
     x = "State Educational Attainment Tier",
     y = "Annual Real Median Household Income Growth (%)"
   )
 ```
 
-::: {.callout-tip}
-### EDA Insight: Box Plot Analysis
-States situated in the *Bachelor's+* attainment tier demonstrate significantly higher median real income growth and lower downside dispersion, highlighting the protective buffer provided by a highly educated workforce.
-:::
-
 ---
 
-## Graphic 3: Heatmap / Gradient Map
-### Regional GDP Growth Shifts & High School Completion Rates Over Time
+## 3. Regional GDP Growth Dynamics & High School Completion Over Time
 
-This spatial-temporal heatmap tracks annual economic growth ($\Delta\text{GDP}$) overlaid against average high school completion rates across 4 US Census regions over two decades.
+Tracking annual economic expansion ($\Delta\text{GDP}$) overlaid against average high school completion rates across 4 US Census regions over two decades.
 
 ```{r graphic-3}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 2.3: Heatmap of Regional GDP Growth & High School Completion Over Time"
+#| fig-cap: "Figure 3: Heatmap of annual GDP growth overlaid with mean regional high school completion rates. Source: Macrotrends & U.S. Census Bureau (Table A-1)."
 
 df_heat <- df |> 
   group_by(region, year) |> 
@@ -144,31 +131,25 @@ df_heat |>
     name = "Mean GDP Growth (%)"
   ) +
   labs(
-    title = "Figure 2.3: Temporal Heatmap of Regional GDP Growth",
-    subtitle = "Overlaying regional GDP growth gradients with average High School Completion Rate text labels",
+    title = "Temporal Heatmap of Regional GDP Growth & High School Completion",
+    subtitle = "Key Takeaway: Macro contractions affect GDP growth uniformly, while high school completion rates maintain steady structural growth",
     x = "Calendar Year",
     y = "Census Region"
   ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-::: {.callout-note}
-### EDA Insight: Heatmap Analysis
-Macroeconomic contraction periods (e.g., 2008–2009 and 2020) appear as deep violet/dark tiles across all regions, while underlying high school completion rates maintain steady structural growth over time.
-:::
-
 ---
 
-## Graphic 4: Faceted Time-Series Line Chart
-### Multi-Decade Macroeconomic Growth Drivers vs. Educational Attainment
+## 4. Multi-Decade Macroeconomic Predictors vs. Educational Attainment
 
-This faceted time-series line chart tracks the multi-decade trajectory of macro growth drivers ($\Delta\text{Income}$, $\Delta\text{GDP}$, $\Delta\text{Edu Investment}$) alongside college degree completion trends.
+Tracking multi-decade trajectories of macroeconomic growth drivers ($\Delta\text{Income}$, $\Delta\text{GDP}$, $\Delta\text{Edu Investment}$) alongside college degree completion trends.
 
 ```{r graphic-4}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 2.4: Faceted Multi-Decade Macroeconomic & Educational Time-Series Trends"
+#| fig-cap: "Figure 4: Faceted multi-decade tracking of annual national state means (2004–2024). Source: U.S. Census Bureau, Macrotrends & Simulated Metrics."
 
 df_ts <- df |> 
   group_by(year) |> 
@@ -193,31 +174,25 @@ df_ts |>
     "Bachelor's+ Rate (%)" = "#06b6d4"
   )) +
   labs(
-    title = "Figure 2.4: Macroeconomic Predictors vs. Higher Education Trends",
-    subtitle = "Faceted multi-decade tracking of national annual state means (2004–2024)",
+    title = "Multi-Decade Trajectories of Macroeconomic Predictors & Attainment",
+    subtitle = "Key Takeaway: Public education investment and household income growth act as leading indicators for degree attainment",
     x = "Year",
     y = "Indicator Value"
   ) +
   theme(legend.position = "none")
 ```
 
-::: {.callout-tip}
-### EDA Insight: Time-Series Analysis
-State higher education investment growth and median household income expansion show strong co-movement, serving as persistent leading indicators for state degree attainment trends.
-:::
-
 ---
 
-## Graphic 5: Stratified Density Plot
-### Real Income Growth Spread Stratified by Degree Attainment Regimes
+## 5. Real Income Growth Spread Across Degree Attainment Regimes
 
-This density plot displays overlapping empirical probability distributions of annual state median income growth, stratified by whether a state's college degree attainment rate is above or below the national median.
+Displaying overlapping empirical probability distributions of annual state median income growth, stratified by whether degree attainment is above or below the national median.
 
 ```{r graphic-5}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 2.5: Density Spread of Real Income Growth Across Attainment Regimes"
+#| fig-cap: "Figure 5: Overlapping probability density of real income growth by attainment regime. Source: U.S. Census Bureau (Tables A-1, A-2)."
 
 df_density <- df |> 
   mutate(
@@ -236,31 +211,25 @@ df_density |>
     "Low Attainment (Below Median)" = "#ec4899"
   )) +
   labs(
-    title = "Figure 2.5: Density Spread of Real Income Growth Across Attainment Regimes",
-    subtitle = "Comparing economic growth distribution between high and low degree attainment states",
+    title = "Density Spread of Real Income Growth Across Attainment Regimes",
+    subtitle = "Key Takeaway: States with high college attainment exhibit a rightward shift in income growth and greater economic resilience",
     x = "Annual Real Median Household Income Growth (%)",
     y = "Empirical Probability Density",
     fill = "College Attainment Regime"
   )
 ```
 
-::: {.callout-note}
-### EDA Insight: Density Plot Analysis
-States in the high attainment regime demonstrate a rightward shift in their income growth distribution, confirming higher mean growth and greater economic resilience compared to low attainment states.
-:::
-
 ---
 
-## Graphic 6: Facet Grid Scatter Plot
-### Education Investment Growth vs. Degree Attainment Across Regions
+## 6. Higher Education Investment Growth vs. Degree Attainment Across Regions
 
-This 4-way faceted scatter grid evaluates the relationship between state higher education investment growth ($\Delta\text{Edu Investment}$) and college completion rates broken down across US Census Regions.
+Evaluating the relationship between state higher education investment growth ($\Delta\text{Edu Investment}$) and college completion rates broken down across US Census Regions.
 
 ```{r graphic-6}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 2.6: Higher Education Investment vs. Degree Attainment Faceted by Region"
+#| fig-cap: "Figure 6: Regional faceted linear fits comparing higher education investment and degree completion. Source: U.S. Census Bureau & Simulated Investment Metrics."
 
 df |> 
   ggplot(aes(x = edu_investment_pct, y = bachelors_plus_pct, color = income_tier)) +
@@ -269,14 +238,9 @@ df |>
   facet_wrap(~ region, ncol = 2) +
   scale_color_manual(values = palette_tiers, name = "Income Growth Tier") +
   labs(
-    title = "Figure 2.6: Regional Heterogeneity in Education Investment vs. Degree Completion",
-    subtitle = "Faceted linear fits capturing structural differences across US Census Regions",
+    title = "Education Investment Growth vs. Degree Completion Across Regions",
+    subtitle = "Key Takeaway: Public investment in higher education combined with high income tiers correlates positively with attainment in all regions",
     x = "Annual State Higher Education Investment Growth (%)",
     y = "Bachelor's Degree or Higher Attainment (%)"
   )
 ```
-
-::: {.callout-tip}
-### EDA Insight: Regional Grid Analysis
-Across all four regions, increased public investment in higher education combined with high income growth tiers correlates positively with elevated bachelor's degree attainment rates.
-:::

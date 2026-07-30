@@ -1,0 +1,41 @@
+---
+title: "Data Sources & References"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+---
+
+::: {.hero-banner}
+# Data Sources & References {.unlisted}
+<p class="hero-subtitle">Comprehensive APA 7th Edition Citations for Primary Macroeconomic Datasets and Census Surveys</p>
+:::
+
+## 1. Primary Empirical Data Sources
+
+The empirical framework and macro panel metrics draw upon data from federal statistical agencies and historical economic repositories. Below are the formal APA 7th Edition reference citations for each dataset:
+
+### U.S. Gross Domestic Product (GDP) Data
+
+- **Reference List Citation**:
+  > Macrotrends. (n.d.). *U.S. gross domestic product 1960–2026*. Retrieved July 30, 2026, from [https://www.macrotrends.net/datasets/global-metrics/countries/usa/united-states/gdp-gross-domestic-product](https://www.macrotrends.net/datasets/global-metrics/countries/usa/united-states/gdp-gross-domestic-product)
+
+---
+
+### U.S. Census Bureau (Table A-2: Household Median Income)
+
+- **Reference List Citation**:
+  > Kollar, M., & Scherer, Z. (2025). *Income in the United States: 2024* (Current Population Reports No. P60-286). U.S. Census Bureau. [https://www.census.gov/library/publications/2025/demo/p60-286.html](https://www.census.gov/library/publications/2025/demo/p60-286.html)
+
+---
+
+### U.S. Census Bureau (Table A-1: Educational Attainment / CPS Historical Series)
+
+- **Reference List Citation**:
+  > U.S. Census Bureau. (2025). *CPS historical time series tables: Table A-1. Years of school completed by people 15 years old and over, by age and sex: 1940 to 2024*. U.S. Department of Commerce. [https://www.census.gov/data/tables/time-series/demo/educational-attainment/cps-historical-time-series.html](https://www.census.gov/data/tables/time-series/demo/educational-attainment/cps-historical-time-series.html)
+
+---
+
+## 2. State Higher Education Investment Metric
+
+The state higher education investment variable (`edu_investment_pct`) is a **synthetically modeled panel metric** generated via the project's data generation script (`R/generate_data.R`). It models annual state higher education appropriations and research investment growth rates centered around macro GDP expansion ($2.0\% + 0.3 \times \Delta \text{GDP} + \varepsilon$).

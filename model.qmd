@@ -1,16 +1,16 @@
 ---
 title: "Data Generating Mechanism & Predictive Modeling"
-subtitle: "Statistical Formulation, Model Estimation, Uncertainty Quantification, and Verdict"
 format:
   html:
     toc: true
+    toc-depth: 2
     fig-width: 9
     fig-height: 5.5
 ---
 
 ::: {.hero-banner}
-# Predictive Statistical Modeling & DGM
-### Formal Data Generating Mechanisms, 95% Confidence Intervals, and Out-of-Sample Verdict
+# Predictive Statistical Modeling & DGM {.unlisted}
+<p class="hero-subtitle">Formal Data Generating Mechanisms, 95% Confidence Intervals, and Out-of-Sample Verdict</p>
 :::
 
 ```{r setup}
