@@ -1,0 +1,143 @@
+/* styles.css - Custom CSS Styling for Modern Data Science Quarto Website */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+:root {
+  --primary-color: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary-color: #0f172a;
+  --accent-color: #06b6d4;
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --card-bg: #ffffff;
+  --text-main: #334155;
+  --text-heading: #0f172a;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: -0.02em;
+}
+
+/* Navbar Styling */
+.navbar {
+  background: var(--bg-gradient) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 0.8rem 1.5rem;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #ffffff !important;
+  letter-spacing: -0.01em;
+}
+
+.navbar-nav .nav-link {
+  color: #cbd5e1 !important;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  padding: 0.5rem 1rem !important;
+  border-radius: 6px;
+}
+
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Hero Section */
+.hero-banner {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: #94a3b8;
+  max-width: 800px;
+}
+
+/* Callout Box Customization */
+.callout {
+  border-radius: 12px !important;
+  border-left-width: 5px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  margin: 1.5rem 0;
+}
+
+.callout-note {
+  background-color: #f0f9ff !important;
+  border-left-color: #0284c7 !important;
+}
+
+.callout-tip {
+  background-color: #f0fdf4 !important;
+  border-left-color: #16a34a !important;
+}
+
+.callout-important {
+  background-color: #fff1f2 !important;
+  border-left-color: #e11d48 !important;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+th {
+  background-color: #1e293b;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+}
+
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Code Blocks */
+pre code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  border-radius: 8px;
+}
+
+/* Footer Styling */
+footer {
+  margin-top: 4rem;
+  padding: 2rem 0;
+  border-top: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.9rem;
+}

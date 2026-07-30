@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Macro-Economic Dynamics & Higher Education"
+  search: true
+  navbar:
+    background: primary
+    left:
+      - text: "Executive Summary"
+        href: index.qmd
+      - text: "Exploratory EDA"
+        href: exploratory.qmd
+      - text: "Predictive Modeling & DGM"
+        href: model.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    smooth-scroll: true
+    code-fold: show
+    code-summary: "Show Code"
+    code-overflow: wrap
+    fig-cap-location: bottom
