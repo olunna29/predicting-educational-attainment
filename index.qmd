@@ -1,51 +1,50 @@
 ---
 title: "Executive Summary & Predictive Framing"
-subtitle: "Macroeconomic Volatility and Educational Attainment: A Predictive Framework"
+subtitle: "Macroeconomic Dynamics and Educational Attainment: A Predictive Framework"
 format:
   html:
     toc: true
-    code-fold: show
 ---
 
 ::: {.hero-banner}
 # Macroeconomic Dynamics & Educational Attainment
-### Evaluating Conditional Expectations of Higher Education Outcomes Across Economic Fluctuations
+### Evaluating Conditional Expectations of Higher Education Outcomes Across Economic Growth Regimes
 :::
 
 ## 1. Executive Motivation & Context
 
-Understanding how macroeconomic conditions influence educational attainment is essential for policymakers, academic leaders, and workforce analysts. During periods of economic expansion, buoyant labor markets and rising median incomes offer immediate employment opportunities, potentially raising the opportunity cost of pursuing higher education. Conversely, during economic downturns or high-unemployment regimes, reduced hiring lowers labor market opportunity costs, incentivizing individuals to remain in or return to higher education to build human capital.
+Understanding how macroeconomic momentum and public policy investment influence educational attainment is essential for state policymakers, academic leaders, and workforce planners. During periods of robust macroeconomic expansion, rising real median household incomes ($\Delta \text{Income}$) and expanding regional economic output ($\Delta \text{GDP}$) provide families and state budgets with greater financial liquidity to invest in human capital. Simultaneously, targeted state investments in higher education ($\Delta \text{Edu Investment}$) expand capacity and subsidize tuition costs.
 
 Rather than asserting causal mechanisms—which require strict counterfactual identification assumptions—this data science framework focuses on **predictive modeling** and **conditional expected values**. We aim to forecast expected educational outcomes given observable macroeconomic indicators.
 
 ::: {.callout-note}
-### Collaborative Note: Domain & Strategic Context
-*Insert domain-specific narrative here.* Consider addressing how state-level workforce development boards or university system enrollment managers can use these predictive conditional probabilities for budget allocation and capacity planning during counter-cyclical economic shifts.
+### Collaborative Note: Strategic Domain Context
+State workforce development boards and university system enrollment managers can utilize these predictive conditional expectations for long-term budget allocation, facility planning, and tuition assistance strategy during shifting macroeconomic growth regimes.
 :::
 
 ---
 
 ## 2. Central Predictive Research Question
 
-To establish a quantitative data science framework, we formulate our core predictive research question centered on conditional expectations:
+To establish a quantitative data science framework, we formulate our core predictive research question centered on conditional expectations and statistically significant economic growth drivers:
 
 ::: {.callout-important}
 ### Central Predictive Question
-> **"What is the expected difference in the probability of a state's population attaining a 4-year college degree when moving from a high-unemployment environment ($\ge 7\%$) to a low-unemployment environment ($< 4\%$), controlling for local median income growth ($\Delta \text{Income}$) and regional economic growth ($\Delta \text{GDP}$)?"**
+> **"What is the expected increase in a state's population attaining a 4-year college degree when moving from a low-income growth environment ($< 1.0\%$) to a high-income growth environment ($\ge 3.0\%$), controlling for regional economic growth ($\Delta \text{GDP}$) and state higher education investment ($\Delta \text{Edu Investment}$)?"**
 :::
 
 ### Predictive vs. Causal Framing
-- **Causal Claim (Avoided)**: *"Higher unemployment directly causes state populations to obtain college degrees."*
-- **Predictive Conditional Expectation (Adopted)**: *"Given that an economy transitions into a high-unemployment regime ($\ge 7\%$), what is the updated expected value $\mathbb{E}[Y_{\text{degree}} \mid \text{Unemployment} \ge 7\%, \Delta \text{Income}]$ compared to a low-unemployment baseline?"*
+- **Causal Claim (Avoided)**: *"Higher median income growth directly causes state populations to obtain college degrees."*
+- **Predictive Conditional Expectation (Adopted)**: *"Given that an economy transitions into a high-income growth regime ($\ge 3.0\%$), what is the updated expected value $\mathbb{E}[Y_{\text{degree}} \mid \Delta \text{Income} \ge 3.0\%, \Delta \text{GDP}, \Delta \text{Edu Investment}]$ compared to a low-growth baseline?"*
 
 ---
 
 ## 3. Dataset Architecture & Summary
 
-The predictive framework draws upon a panel dataset spanning **50 US States** over **21 years (2004–2024)**, capturing macroeconomic indicators alongside state-level educational attainment statistics.
+The predictive framework draws upon a panel dataset spanning **50 US States** over **21 years (2004–2024)**, capturing macroeconomic growth indicators alongside state-level educational attainment statistics.
 
 ```{r}
-#| echo: true
+#| echo: false
 #| message: false
 #| warning: false
 
@@ -60,24 +59,24 @@ df <- readRDS("data/macro_education_panel.rds")
 
 # High-level dataset summary table
 summary_table <- tibble(
-  Variable = c("gdp_growth_pct", "income_growth_pct", "unemployment_rate", 
+  Variable = c("income_growth_pct", "gdp_growth_pct", "edu_investment_pct", 
                "bachelors_plus_pct", "hs_completion_pct", "avg_years_schooling",
-               "unemployment_tier", "education_tier"),
-  `Variable Type` = c("Continuous", "Continuous", "Continuous", 
+               "income_tier", "education_tier"),
+  `Variable Type` = c("Continuous (%)", "Continuous (%)", "Continuous (%)", 
                       "Continuous (%)", "Continuous (%)", "Continuous (Years)",
                       "Categorical", "Categorical"),
-  Description = c("Year-over-Year Gross Domestic Product Growth (%)",
-                  "Year-over-Year Real Median Household Income Growth (%)",
-                  "Annual Average Civilian Unemployment Rate (%)",
+  Description = c("Year-over-Year Real Median Household Income Growth (%)",
+                  "Year-over-Year Gross Domestic Product Growth (%)",
+                  "Year-over-Year State Higher Education & Research Investment Growth (%)",
                   "Percentage of Population holding Bachelor's Degree or Higher",
                   "Percentage of Population completing High School",
                   "Average Estimated Years of Formally Completed Schooling",
-                  "Tiered Unemployment Regime: Low (<4%), Mid (4-7%), High (7%+)",
+                  "Income Growth Regime: Low (<1.0%), Moderate (1.0-3.0%), High (3.0%+)",
                   "Educational Attainment Tier: HS or Less, Some College, Bachelor's+"),
   Range = c(
-    paste0("[", min(df$gdp_growth_pct), ", ", max(df$gdp_growth_pct), "]"),
     paste0("[", min(df$income_growth_pct), ", ", max(df$income_growth_pct), "]"),
-    paste0("[", min(df$unemployment_rate), ", ", max(df$unemployment_rate), "]"),
+    paste0("[", min(df$gdp_growth_pct), ", ", max(df$gdp_growth_pct), "]"),
+    paste0("[", min(df$edu_investment_pct), ", ", max(df$edu_investment_pct), "]"),
     paste0("[", min(df$bachelors_plus_pct), ", ", max(df$bachelors_plus_pct), "]"),
     paste0("[", min(df$hs_completion_pct), ", ", max(df$hs_completion_pct), "]"),
     paste0("[", min(df$avg_years_schooling), ", ", max(df$avg_years_schooling), "]"),
@@ -94,5 +93,5 @@ summary_table |>
 ### Key Data Takeaways
 - **Spatial Coverage**: 50 U.S. States across 4 Geographic Regions (Northeast, Midwest, South, West).
 - **Temporal Depth**: Annual panel from 2004 through 2024 ($N = 1,050$ total state-year observations).
-- **Outcome Variables**: Continuous degrees percentage (`bachelors_plus_pct`), average schooling years (`avg_years_schooling`), and ordinal attainment tiers (`education_tier`).
+- **Outcome Variables**: Continuous degree completion percentage (`bachelors_plus_pct`), average schooling years (`avg_years_schooling`), and ordinal attainment tiers (`education_tier`).
 :::

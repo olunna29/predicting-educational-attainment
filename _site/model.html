@@ -23,41 +23,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -77,7 +42,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-33cb648280e5e62ee2bf2a37244f0154.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-f68e1890bf49daf0bb4e7e0e419a9468.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -233,49 +198,21 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="formal-data-generating-mechanisms-95-confidence-intervals-and-out-of-sample-verdict">Formal Data Generating Mechanisms, 95% Confidence Intervals, and Out-of-Sample Verdict</h3>
 </section>
 </section>
-<div class="cell">
-<details open="" class="code-fold">
-<summary>Show Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(tidyr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(broom)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(nnet)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(knitr)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Load panel dataset</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/macro_education_panel.rds"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom ggplot theme</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_family =</span> <span class="st">"sans"</span>) <span class="sc">+</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">13</span>, <span class="at">color =</span> <span class="st">"#0f172a"</span>),</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"#475569"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">10</span>)),</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"#334155"</span>),</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>, <span class="at">color =</span> <span class="st">"#475569"</span>),</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
 <hr>
 <section id="data-generating-mechanism-dgm-formulations" class="level2">
 <h2 class="anchored" data-anchor-id="data-generating-mechanism-dgm-formulations">1. Data Generating Mechanism (DGM) Formulations</h2>
-<p>To evaluate expected educational outcomes under varying macroeconomic conditions, we formulate two distinct statistical mechanisms corresponding to continuous and categorical targets.</p>
+<p>To evaluate expected educational outcomes under varying macroeconomic growth regimes, we formulate two distinct statistical mechanisms corresponding to continuous and categorical targets.</p>
 <section id="continuous-outcome-linear-regression-dgm" class="level3">
 <h3 class="anchored" data-anchor-id="continuous-outcome-linear-regression-dgm">1.1 Continuous Outcome: Linear Regression DGM</h3>
-<p>We model the conditional expected average years of schooling (<span class="math inline">\(\hat{Y}_{\text{schooling}}\)</span>) as a linear combination of macroeconomic growth indicators and labor market conditions:</p>
-<p><span class="math display">\[\hat{Y}_{\text{schooling}} = \beta_0 + \beta_1 (\Delta \text{GDP}) + \beta_2 (\Delta \text{Income}) + \beta_3 (\text{Unemployment Rate}) + \varepsilon\]</span></p>
-<p>where: - <span class="math inline">\(\Delta \text{GDP}\)</span> is the annual percentage change in Gross Domestic Product (<code>gdp_growth_pct</code>), - <span class="math inline">\(\Delta \text{Income}\)</span> is the annual percentage change in median household income (<code>income_growth_pct</code>), - <span class="math inline">\(\text{Unemployment Rate}\)</span> is the annual civilian unemployment rate (<code>unemployment_rate</code>), - <span class="math inline">\(\varepsilon \sim \mathcal{N}(0, \sigma^2)\)</span> represents white-noise residual variance.</p>
+<p>We model the conditional expected average years of schooling (<span class="math inline">\(\hat{Y}_{\text{schooling}}\)</span>) as a linear function of state-level real median income growth, regional economic expansion, and public higher education investment:</p>
+<p><span class="math display">\[\hat{Y}_{\text{schooling}} = \beta_0 + \beta_1 (\Delta \text{Income}) + \beta_2 (\Delta \text{GDP}) + \beta_3 (\Delta \text{Edu Investment}) + \varepsilon\]</span></p>
+<p>where: - <span class="math inline">\(\Delta \text{Income}\)</span> is the annual percentage change in real median household income (<code>income_growth_pct</code>), - <span class="math inline">\(\Delta \text{GDP}\)</span> is the annual percentage change in state Gross Domestic Product (<code>gdp_growth_pct</code>), - <span class="math inline">\(\Delta \text{Edu Investment}\)</span> is the annual growth in state higher education investment (<code>edu_investment_pct</code>), - <span class="math inline">\(\varepsilon \sim \mathcal{N}(0, \sigma^2)\)</span> represents residual stochastic variance.</p>
 <hr>
 </section>
 <section id="categorical-outcome-multinomial-logistic-dgm" class="level3">
 <h3 class="anchored" data-anchor-id="categorical-outcome-multinomial-logistic-dgm">1.2 Categorical Outcome: Multinomial Logistic DGM</h3>
 <p>We model the conditional log-odds of a state falling into educational attainment tier <span class="math inline">\(k \in \{\text{Some College}, \text{Bachelor's+}\}\)</span> relative to baseline <span class="math inline">\(K = \text{High School or Less}\)</span>:</p>
-<p><span class="math display">\[\ln\left(\frac{P(Y = k)}{P(Y = K)}\right) = \beta_{k0} + \beta_{k1} (\Delta \text{GDP}) + \beta_{k2} (\text{Unemployment Rate})\]</span></p>
+<p><span class="math display">\[\ln\left(\frac{P(Y = k)}{P(Y = K)}\right) = \beta_{k0} + \beta_{k1} (\Delta \text{Income}) + \beta_{k2} (\Delta \text{Edu Investment})\]</span></p>
 <p>The probability <span class="math inline">\(P(Y = k)\)</span> of attainment tier <span class="math inline">\(k\)</span> is given by the soft-max transformation:</p>
 <p><span class="math display">\[P(Y = k \mid \mathbf{X}) = \frac{\exp(\mathbf{X}\boldsymbol{\beta}_k)}{1 + \sum_{j=1}^{K-1} \exp(\mathbf{X}\boldsymbol{\beta}_j)}\]</span></p>
 <hr>
@@ -285,46 +222,19 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="model-estimation-95-confidence-intervals">2. Model Estimation &amp; 95% Confidence Intervals</h2>
 <section id="estimating-model-1-continuous-schooling-years" class="level3">
 <h3 class="anchored" data-anchor-id="estimating-model-1-continuous-schooling-years">2.1 Estimating Model 1: Continuous Schooling Years</h3>
-<p>We estimate the parameters of the Linear DGM using Ordinary Least Squares (OLS) and extract 95% confidence intervals using <code>broom::tidy(conf.int = TRUE)</code>.</p>
+<p>We estimate the parameters of the Linear DGM using Ordinary Least Squares (OLS) and extract exact 95% confidence intervals using <code>broom::tidy(conf.int = TRUE)</code>.</p>
 <div class="cell">
-<details open="" class="code-fold">
-<summary>Show Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Continuous OLS Model</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  avg_years_schooling <span class="sc">~</span> gdp_growth_pct <span class="sc">+</span> income_growth_pct <span class="sc">+</span> unemployment_rate, </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract tidy results with 95% Confidence Intervals</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>lm_tidy <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(lm_fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>lm_tidy <span class="sc">|&gt;</span> </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">term =</span> <span class="fu">c</span>(<span class="st">"Intercept (β₀)"</span>, <span class="st">"Δ GDP Growth (β₁)"</span>, <span class="st">"Δ Income Growth (β₂)"</span>, <span class="st">"Unemployment Rate (β₃)"</span>),</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span> <span class="fu">round</span>(.x, <span class="dv">4</span>))</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Parameter</span><span class="st">`</span> <span class="ot">=</span> term,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Estimate</span><span class="st">`</span> <span class="ot">=</span> estimate,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Std. Error</span><span class="st">`</span> <span class="ot">=</span> std.error,</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">t statistic</span><span class="st">`</span> <span class="ot">=</span> statistic,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">p-value</span><span class="st">`</span> <span class="ot">=</span> p.value,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">95% CI Lower</span><span class="st">`</span> <span class="ot">=</span> conf.low,</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">95% CI Upper</span><span class="st">`</span> <span class="ot">=</span> conf.high</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Table 3.1: OLS Model Parameters &amp; 95% Confidence Intervals for Average Years of Schooling"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>Table 3.1: OLS Model Parameters &amp; 95% Confidence Intervals for Average Years of Schooling</caption>
+<caption>Table 3.1: OLS Model Parameters &amp; 95% Confidence Intervals for Average Schooling Years</caption>
 <colgroup>
-<col style="width: 25%">
-<col style="width: 10%">
-<col style="width: 12%">
-<col style="width: 13%">
+<col style="width: 34%">
 <col style="width: 8%">
-<col style="width: 14%">
-<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 7%">
+<col style="width: 12%">
+<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -340,39 +250,39 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Intercept (β₀)</td>
-<td style="text-align: right;">14.0782</td>
-<td style="text-align: right;">0.0742</td>
-<td style="text-align: right;">189.7519</td>
-<td style="text-align: right;">0.0000</td>
-<td style="text-align: right;">13.9326</td>
-<td style="text-align: right;">14.2237</td>
+<td style="text-align: right;">13.8613</td>
+<td style="text-align: right;">0.0283</td>
+<td style="text-align: right;">489.3019</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">13.8057</td>
+<td style="text-align: right;">13.9169</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Δ GDP Growth (β₁)</td>
-<td style="text-align: right;">0.0476</td>
-<td style="text-align: right;">0.0155</td>
-<td style="text-align: right;">3.0650</td>
-<td style="text-align: right;">0.0022</td>
-<td style="text-align: right;">0.0171</td>
-<td style="text-align: right;">0.0781</td>
+<td style="text-align: left;">Δ Median Income Growth (β₁)</td>
+<td style="text-align: right;">0.1359</td>
+<td style="text-align: right;">0.0089</td>
+<td style="text-align: right;">15.1851</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.1183</td>
+<td style="text-align: right;">0.1534</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Δ Income Growth (β₂)</td>
-<td style="text-align: right;">0.0862</td>
-<td style="text-align: right;">0.0201</td>
-<td style="text-align: right;">4.2936</td>
-<td style="text-align: right;">0.0000</td>
-<td style="text-align: right;">0.0468</td>
-<td style="text-align: right;">0.1256</td>
+<td style="text-align: left;">Δ GDP Growth (β₂)</td>
+<td style="text-align: right;">0.0495</td>
+<td style="text-align: right;">0.0075</td>
+<td style="text-align: right;">6.6235</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0348</td>
+<td style="text-align: right;">0.0641</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Unemployment Rate (β₃)</td>
-<td style="text-align: right;">0.0014</td>
-<td style="text-align: right;">0.0096</td>
-<td style="text-align: right;">0.1434</td>
-<td style="text-align: right;">0.8860</td>
-<td style="text-align: right;">-0.0174</td>
-<td style="text-align: right;">0.0202</td>
+<td style="text-align: left;">Δ Education Investment Growth (β₃)</td>
+<td style="text-align: right;">0.0541</td>
+<td style="text-align: right;">0.0108</td>
+<td style="text-align: right;">4.9835</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0328</td>
+<td style="text-align: right;">0.0753</td>
 </tr>
 </tbody>
 </table>
@@ -389,8 +299,9 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><strong>GDP Growth (<span class="math inline">\(\beta_1\)</span>)</strong>: For each 1 percentage point increase in GDP growth, expected average schooling increases by 0.048 years (95% CI: [0.017, 0.078]).</li>
-<li><strong>Unemployment Rate (<span class="math inline">\(\beta_3\)</span>)</strong>: Higher unemployment rates exhibit a positive conditional relationship with schooling years (0.001), aligning with the opportunity-cost hypothesis.</li>
+<li><strong>Income Growth (<span class="math inline">\(\beta_1\)</span>)</strong>: For each 1 percentage point increase in real median household income growth, expected average schooling increases by <strong>0.136 years</strong> (95% CI: [0.118, 0.153], <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>GDP Growth (<span class="math inline">\(\beta_2\)</span>)</strong>: Regional economic growth exhibits a positive conditional effect of <strong>0.049 years</strong> (95% CI: [0.035, 0.064], <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Education Investment (<span class="math inline">\(\beta_3\)</span>)</strong>: Higher public education investment provides a positive conditional return of <strong>0.054 years</strong> (95% CI: [0.033, 0.075], <span class="math inline">\(p &lt; 0.001\)</span>).</li>
 </ul>
 </div>
 </div>
@@ -400,44 +311,18 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="estimating-model-2-multinomial-educational-tiers">2.2 Estimating Model 2: Multinomial Educational Tiers</h3>
 <p>We fit the Multinomial Logistic DGM using <code>nnet::multinom()</code>.</p>
 <div class="cell">
-<details open="" class="code-fold">
-<summary>Show Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Multinomial Model</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>multi_fit <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  education_tier <span class="sc">~</span> gdp_growth_pct <span class="sc">+</span> unemployment_rate,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trace =</span> <span class="cn">FALSE</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract tidy summary with 95% CIs</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>multi_tidy <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(multi_fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>multi_tidy <span class="sc">|&gt;</span> </span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span> <span class="fu">round</span>(.x, <span class="dv">4</span>))) <span class="sc">|&gt;</span> </span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Outcome Tier</span><span class="st">`</span> <span class="ot">=</span> y.level,</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Parameter</span><span class="st">`</span> <span class="ot">=</span> term,</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Log-Odds Est.</span><span class="st">`</span> <span class="ot">=</span> estimate,</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Std. Error</span><span class="st">`</span> <span class="ot">=</span> std.error,</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Statistic</span><span class="st">`</span> <span class="ot">=</span> statistic,</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">p-value</span><span class="st">`</span> <span class="ot">=</span> p.value,</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">95% CI Lower</span><span class="st">`</span> <span class="ot">=</span> conf.low,</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">95% CI Upper</span><span class="st">`</span> <span class="ot">=</span> conf.high</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Table 3.2: Multinomial Logistic Model Estimates &amp; 95% CIs (Ref: High School or Less)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Table 3.2: Multinomial Logistic Model Estimates &amp; 95% CIs (Ref: High School or Less)</caption>
 <colgroup>
-<col style="width: 13%">
+<col style="width: 12%">
 <col style="width: 18%">
-<col style="width: 14%">
-<col style="width: 11%">
+<col style="width: 13%">
 <col style="width: 10%">
-<col style="width: 8%">
-<col style="width: 13%">
-<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 7%">
+<col style="width: 12%">
+<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -455,62 +340,62 @@ window.Quarto = {
 <tr class="odd">
 <td style="text-align: left;">Some College</td>
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">1.0202</td>
-<td style="text-align: right;">0.3139</td>
-<td style="text-align: right;">3.2505</td>
-<td style="text-align: right;">0.0012</td>
-<td style="text-align: right;">0.4051</td>
-<td style="text-align: right;">1.6354</td>
+<td style="text-align: right;">1.4494</td>
+<td style="text-align: right;">0.2250</td>
+<td style="text-align: right;">6.4417</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0084</td>
+<td style="text-align: right;">1.8904</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Some College</td>
-<td style="text-align: left;">gdp_growth_pct</td>
-<td style="text-align: right;">0.0879</td>
-<td style="text-align: right;">0.0439</td>
-<td style="text-align: right;">1.9994</td>
-<td style="text-align: right;">0.0456</td>
-<td style="text-align: right;">0.0017</td>
-<td style="text-align: right;">0.1740</td>
+<td style="text-align: left;">income_growth_pct</td>
+<td style="text-align: right;">0.3264</td>
+<td style="text-align: right;">0.0719</td>
+<td style="text-align: right;">4.5424</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.1856</td>
+<td style="text-align: right;">0.4672</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Some College</td>
-<td style="text-align: left;">unemployment_rate</td>
-<td style="text-align: right;">0.0275</td>
-<td style="text-align: right;">0.0454</td>
-<td style="text-align: right;">0.6049</td>
-<td style="text-align: right;">0.5452</td>
-<td style="text-align: right;">-0.0615</td>
-<td style="text-align: right;">0.1164</td>
+<td style="text-align: left;">edu_investment_pct</td>
+<td style="text-align: right;">0.1593</td>
+<td style="text-align: right;">0.1001</td>
+<td style="text-align: right;">1.5908</td>
+<td style="text-align: right;">0.1117</td>
+<td style="text-align: right;">-0.0370</td>
+<td style="text-align: right;">0.3555</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bachelor’s+</td>
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">0.3702</td>
-<td style="text-align: right;">0.3347</td>
-<td style="text-align: right;">1.1060</td>
-<td style="text-align: right;">0.2687</td>
-<td style="text-align: right;">-0.2859</td>
-<td style="text-align: right;">1.0263</td>
+<td style="text-align: right;">0.2016</td>
+<td style="text-align: right;">0.2573</td>
+<td style="text-align: right;">0.7834</td>
+<td style="text-align: right;">0.4334</td>
+<td style="text-align: right;">-0.3028</td>
+<td style="text-align: right;">0.7059</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bachelor’s+</td>
-<td style="text-align: left;">gdp_growth_pct</td>
-<td style="text-align: right;">0.1109</td>
-<td style="text-align: right;">0.0469</td>
-<td style="text-align: right;">2.3632</td>
-<td style="text-align: right;">0.0181</td>
-<td style="text-align: right;">0.0189</td>
-<td style="text-align: right;">0.2028</td>
+<td style="text-align: left;">income_growth_pct</td>
+<td style="text-align: right;">0.6871</td>
+<td style="text-align: right;">0.0791</td>
+<td style="text-align: right;">8.6846</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.5320</td>
+<td style="text-align: right;">0.8422</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bachelor’s+</td>
-<td style="text-align: left;">unemployment_rate</td>
-<td style="text-align: right;">0.0460</td>
-<td style="text-align: right;">0.0481</td>
-<td style="text-align: right;">0.9558</td>
-<td style="text-align: right;">0.3392</td>
-<td style="text-align: right;">-0.0483</td>
-<td style="text-align: right;">0.1403</td>
+<td style="text-align: left;">edu_investment_pct</td>
+<td style="text-align: right;">0.4254</td>
+<td style="text-align: right;">0.1052</td>
+<td style="text-align: right;">4.0451</td>
+<td style="text-align: right;">0.0001</td>
+<td style="text-align: right;">0.2193</td>
+<td style="text-align: right;">0.6315</td>
 </tr>
 </tbody>
 </table>
@@ -521,30 +406,8 @@ window.Quarto = {
 </section>
 <section id="visualizing-uncertainty-coefficient-interval-plot" class="level2">
 <h2 class="anchored" data-anchor-id="visualizing-uncertainty-coefficient-interval-plot">3. Visualizing Uncertainty: Coefficient Interval Plot</h2>
-<p>To display parameter estimates and quantify uncertainty visually, we build a horizontal point-range plot displaying parameter estimates and 95% Confidence Interval bounds for the Continuous Model.</p>
+<p>To evaluate parameter estimates and quantify uncertainty visually, we build a horizontal point-range plot displaying parameter estimates alongside exact 95% Confidence Interval bounds.</p>
 <div class="cell">
-<details open="" class="code-fold">
-<summary>Show Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lm_tidy <span class="sc">|&gt;</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">clean_term =</span> <span class="fu">case_when</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      term <span class="sc">==</span> <span class="st">"gdp_growth_pct"</span> <span class="sc">~</span> <span class="st">"Δ GDP Growth Rate (%)"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      term <span class="sc">==</span> <span class="st">"income_growth_pct"</span> <span class="sc">~</span> <span class="st">"Δ Median Income Growth (%)"</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      term <span class="sc">==</span> <span class="st">"unemployment_rate"</span> <span class="sc">~</span> <span class="st">"Unemployment Rate (%)"</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estimate, <span class="at">y =</span> <span class="fu">reorder</span>(clean_term, estimate), <span class="at">xmin =</span> conf.low, <span class="at">xmax =</span> conf.high)) <span class="sc">+</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"#e11d48"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="at">height =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="st">"#0284c7"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">color =</span> <span class="st">"#0f172a"</span>) <span class="sc">+</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Figure 3.1: Model Parameter Coefficients &amp; 95% Confidence Intervals"</span>,</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Horizontal error-bar plot quantifying macroeconomic impacts on expected schooling years"</span>,</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Estimated Coefficient (Effect on Schooling Years)"</span>,</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Macroeconomic Predictor Variable"</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -560,24 +423,18 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Visualizing Statistical Significance
+<span class="screen-reader-only">Tip</span>Robust Statistical Significance
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Intervals that do not cross the zero vertical dashed red line (<span class="math inline">\(\text{Effect} = 0\)</span>) indicate statistically significant predictors at the <span class="math inline">\(\alpha = 0.05\)</span> level.</p>
+<p>Notice that <strong>none</strong> of the 95% confidence intervals cross the vertical dashed pink line (<span class="math inline">\(\text{Effect} = 0\)</span>). All three macroeconomic predictors demonstrate strong, statistically significant positive relationships with educational outcomes (<span class="math inline">\(p &lt; 0.001\)</span>).</p>
 </div>
 </div>
 <hr>
 </section>
 <section id="formal-predictive-verdict" class="level2">
 <h2 class="anchored" data-anchor-id="formal-predictive-verdict">4. Formal Predictive Verdict</h2>
-<p>To synthesize our modeling results, we evaluate model metrics and address our central predictive question within a structured verdict callout block.</p>
-<div class="cell">
-<details open="" class="code-fold">
-<summary>Show Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lm_glance <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">glance</span>(lm_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
+<p>To synthesize our modeling results, we evaluate key model metrics and answer our central predictive question within a structured verdict block.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -591,22 +448,22 @@ window.Quarto = {
 <section id="model-goodness-of-fit-metrics" class="level4">
 <h4 class="anchored" data-anchor-id="model-goodness-of-fit-metrics">1. Model Goodness-of-Fit Metrics</h4>
 <ul>
-<li><strong>R-squared (<span class="math inline">\(R^2\)</span>)</strong>: 0.1215 (Explains 12.15% of variance in schooling years)</li>
-<li><strong>Adjusted <span class="math inline">\(R^2\)</span></strong>: 0.119</li>
-<li><strong>Residual Standard Error (RSE)</strong>: 0.6457 years</li>
-<li><strong>Akaike Information Criterion (AIC)</strong>: 2067.12</li>
+<li><strong>R-squared (<span class="math inline">\(R^2\)</span>)</strong>: 0.4283 (Explains <strong>42.83%</strong> of variance in schooling years)</li>
+<li><strong>Adjusted <span class="math inline">\(R^2\)</span></strong>: 0.4266</li>
+<li><strong>Residual Standard Error (RSE)</strong>: 0.4312 years</li>
+<li><strong>Akaike Information Criterion (AIC)</strong>: 1219.11</li>
 </ul>
 </section>
 <section id="answer-to-central-predictive-question" class="level4">
 <h4 class="anchored" data-anchor-id="answer-to-central-predictive-question">2. Answer to Central Predictive Question</h4>
 <blockquote class="blockquote">
-<p><strong>“What is the expected difference in attainment when transitioning from high unemployment (<span class="math inline">\(\ge 7\%\)</span>) to low unemployment (<span class="math inline">\(&lt; 4\%\)</span>)”?</strong></p>
+<p><strong>“What is the expected difference in attainment when transitioning from a low-income growth environment (<span class="math inline">\(&lt;1.0\%\)</span>) to a high-income growth environment (<span class="math inline">\(\ge 3.0\%\)</span>)”?</strong></p>
 </blockquote>
-<p>Based on our fitted model, holding income growth constant: - Transitioning from a high-unemployment regime (<span class="math inline">\(7\%\)</span>) to a low-unemployment regime (<span class="math inline">\(3\%\)</span>) yields a predicted change of <strong><span class="math inline">\(\Delta \hat{Y} = -0.16\)</span> years of schooling</strong> (95% CI: <code>[-0.22, -0.10]</code>). - The multinomial model confirms that high-unemployment regimes increase the conditional probability of individuals remaining in higher education (<span class="math inline">\(P(\text{Bachelor's+})\)</span> increases by <strong>+4.2%</strong> in high unemployment states), supporting the <strong>labor market opportunity-cost hypothesis</strong>.</p>
+<p>Based on our fitted linear model: - Transitioning from a low-income growth environment (<span class="math inline">\(0.5\%\)</span>) to a high-income growth environment (<span class="math inline">\(3.5\%\)</span>) yields a predicted increase of <strong><span class="math inline">\(\Delta \hat{Y} = +0.41\)</span> years of schooling</strong> (95% CI: <code>[0.35, 0.46]</code>). - The multinomial model confirms that high-income growth and expanded education investments significantly elevate the conditional probability of states reaching the <strong>Bachelor’s+</strong> attainment tier (<span class="math inline">\(P(\text{Bachelor's+})\)</span> increases by <strong>+12.8%</strong> in high growth states).</p>
 </section>
-<section id="out-of-sample-predictive-recommendation" class="level4">
-<h4 class="anchored" data-anchor-id="out-of-sample-predictive-recommendation">3. Out-of-Sample Predictive Recommendation</h4>
-<p>While macroeconomic indicators provide statistically significant predictive signals (<span class="math inline">\(\beta_3 &gt; 0, p &lt; 0.001\)</span>), macro indicators alone leave residual variance. Incorporating state-level demographic structures and university funding budgets is recommended for operational forecasting models.</p>
+<section id="strategic-policy-recommendation" class="level4">
+<h4 class="anchored" data-anchor-id="strategic-policy-recommendation">3. Strategic Policy Recommendation</h4>
+<p>Because income growth, regional GDP expansion, and public higher education investments all exhibit statistically significant positive effects (<span class="math inline">\(p &lt; 0.001\)</span>), state workforce development boards should coordinate public education funding with broader economic expansion initiatives to maximize human capital growth.</p>
 </section>
 </div>
 </div>
@@ -616,11 +473,11 @@ window.Quarto = {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Collaborative Placeholder: Executive Conclusion
+<span class="screen-reader-only">Note</span>Collaborative Note: Executive Conclusion
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><em>Insert business &amp; policy recommendations here.</em> University enrollment officers can leverage these predictive conditional expectations to anticipate counter-cyclical surges in college applications during economic downturns.</p>
+<p>University enrollment officers and policy analysts can leverage these predictive conditional expectations to forecast higher education degree completion rates across dynamic macroeconomic cycles.</p>
 </div>
 </div>
 

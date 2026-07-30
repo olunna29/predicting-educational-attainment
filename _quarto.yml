@@ -22,7 +22,9 @@ format:
     toc: true
     toc-depth: 3
     smooth-scroll: true
-    code-fold: show
-    code-summary: "Show Code"
-    code-overflow: wrap
     fig-cap-location: bottom
+
+execute:
+  echo: false
+  warning: false
+  message: false

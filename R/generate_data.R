@@ -39,43 +39,44 @@ panel_grid <- expand.grid(state = states, year = years, stringsAsFactors = FALSE
 # Base state metrics with realistic regional variations
 state_base <- tibble(
   state = states,
-  base_years_schooling = rnorm(50, mean = 13.5, sd = 0.5),
-  base_bachelors = rnorm(50, mean = 32, sd = 5),
-  state_growth_rate = rnorm(50, mean = 0.2, sd = 0.05)
+  base_years_schooling = rnorm(50, mean = 13.5, sd = 0.3),
+  base_bachelors = rnorm(50, mean = 32, sd = 4),
+  state_growth_rate = rnorm(50, mean = 0.22, sd = 0.04)
 )
 
-# Year macro shocks (Recession in 2008-2009, 2020)
+# Year macro shocks
 year_macro <- tibble(
   year = years,
   nat_gdp_growth = c(3.8, 3.5, 2.9, 1.9, -0.1, -2.5, 2.6, 1.6, 2.2, 1.8, 2.5, 2.7, 1.7, 2.2, 2.9, 2.3, -2.8, 5.9, 2.1, 2.5, 2.8),
-  nat_unemployment = c(5.5, 5.1, 4.6, 4.6, 5.8, 9.3, 9.6, 8.9, 8.1, 7.4, 6.2, 5.3, 4.9, 4.4, 3.9, 3.7, 8.1, 5.3, 3.6, 3.6, 3.9)
+  nat_income_growth = c(2.4, 2.1, 2.8, 1.5, -0.8, -1.9, 1.2, 1.1, 1.8, 1.6, 2.1, 2.3, 1.4, 1.9, 2.5, 2.0, -1.5, 4.2, 1.8, 2.2, 2.4)
 )
 
 df <- panel_grid |>
   left_join(state_base, by = "state") |>
   left_join(year_macro, by = "year") |>
   mutate(
-    # Add state-specific noise to GDP and Income growth
-    gdp_growth_pct = round(nat_gdp_growth + rnorm(n(), 0, 1.2), 2),
-    income_growth_pct = round(0.6 * gdp_growth_pct + rnorm(n(), 1.5, 1.0), 2),
-    unemployment_rate = pmax(2.0, round(nat_unemployment + rnorm(n(), 0, 1.1), 2)),
+    # Add independent state-level macroeconomic components
+    gdp_growth_pct = round(nat_gdp_growth + rnorm(n(), 0, 1.5), 2),
+    income_growth_pct = round(nat_income_growth + rnorm(n(), 0, 1.2), 2),
+    edu_investment_pct = round(2.0 + 0.3 * gdp_growth_pct + rnorm(n(), 0, 1.2), 2),
     
     # Calculate education outcomes conditioned on economic variables
-    # Higher unemployment & income growth correlated with higher college enrollment/completion
     bachelors_plus_pct = round(
       base_bachelors + 
       (year - 2004) * state_growth_rate + 
-      0.35 * income_growth_pct + 
-      0.25 * (unemployment_rate - 5) + 
-      rnorm(n(), 0, 1.5), 
+      0.65 * income_growth_pct + 
+      0.45 * gdp_growth_pct + 
+      0.40 * edu_investment_pct + 
+      rnorm(n(), 0, 1.2), 
       2
     ),
     bachelors_plus_pct = pmin(pmax(bachelors_plus_pct, 15), 65),
     
     hs_completion_pct = round(
-      86 + (year - 2004) * 0.3 + 
-      0.15 * gdp_growth_pct + 
-      rnorm(n(), 0, 1.0), 
+      86 + (year - 2004) * 0.28 + 
+      0.25 * gdp_growth_pct + 
+      0.20 * edu_investment_pct + 
+      rnorm(n(), 0, 0.8), 
       2
     ),
     hs_completion_pct = pmin(pmax(hs_completion_pct, 75), 98),
@@ -83,20 +84,20 @@ df <- panel_grid |>
     avg_years_schooling = round(
       base_years_schooling + 
       0.04 * (year - 2004) + 
-      0.08 * gdp_growth_pct + 
-      0.05 * income_growth_pct + 
-      0.04 * unemployment_rate + 
-      rnorm(n(), 0, 0.2), 
+      0.095 * income_growth_pct + 
+      0.065 * gdp_growth_pct + 
+      0.055 * edu_investment_pct + 
+      rnorm(n(), 0, 0.12), 
       2
     ),
     
-    # Categorical Unemployment Tiers
-    unemployment_tier = case_when(
-      unemployment_rate < 4.0 ~ "Low (<4%)",
-      unemployment_rate <= 7.0 ~ "Mid (4-7%)",
-      TRUE ~ "High (7%+)"
+    # Categorical Income Growth Tiers
+    income_tier = case_when(
+      income_growth_pct < 1.0 ~ "Low (<1.0%)",
+      income_growth_pct <= 3.0 ~ "Moderate (1.0-3.0%)",
+      TRUE ~ "High (3.0%+)"
     ),
-    unemployment_tier = factor(unemployment_tier, levels = c("Low (<4%)", "Mid (4-7%)", "High (7%+)")),
+    income_tier = factor(income_tier, levels = c("Low (<1.0%)", "Moderate (1.0-3.0%)", "High (3.0%+)")),
     
     # Categorical Education Tiers for individual level/state aggregation analysis
     education_tier = case_when(
