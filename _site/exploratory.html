@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Exploratory Data Analysis – Macro-Economic Dynamics &amp; Higher Education</title>
+<title>Exploratory Data Analysis – Predicting Educational Attainment</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -72,35 +72,6 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -113,7 +84,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Macro-Economic Dynamics &amp; Higher Education</span>
+    <span class="navbar-title">Predicting Educational Attainment</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -154,12 +125,13 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#median-household-income-growth-vs.-bachelors-degree-attainment" id="toc-median-household-income-growth-vs.-bachelors-degree-attainment" class="nav-link active" data-scroll-target="#median-household-income-growth-vs.-bachelors-degree-attainment">1. Median Household Income Growth vs.&nbsp;Bachelor’s Degree Attainment</a></li>
-  <li><a href="#real-income-growth-distributions-across-educational-attainment-tiers" id="toc-real-income-growth-distributions-across-educational-attainment-tiers" class="nav-link" data-scroll-target="#real-income-growth-distributions-across-educational-attainment-tiers">2. Real Income Growth Distributions Across Educational Attainment Tiers</a></li>
-  <li><a href="#regional-gdp-growth-dynamics-high-school-completion-over-time" id="toc-regional-gdp-growth-dynamics-high-school-completion-over-time" class="nav-link" data-scroll-target="#regional-gdp-growth-dynamics-high-school-completion-over-time">3. Regional GDP Growth Dynamics &amp; High School Completion Over Time</a></li>
-  <li><a href="#multi-decade-macroeconomic-predictors-vs.-educational-attainment" id="toc-multi-decade-macroeconomic-predictors-vs.-educational-attainment" class="nav-link" data-scroll-target="#multi-decade-macroeconomic-predictors-vs.-educational-attainment">4. Multi-Decade Macroeconomic Predictors vs.&nbsp;Educational Attainment</a></li>
-  <li><a href="#real-income-growth-spread-across-degree-attainment-regimes" id="toc-real-income-growth-spread-across-degree-attainment-regimes" class="nav-link" data-scroll-target="#real-income-growth-spread-across-degree-attainment-regimes">5. Real Income Growth Spread Across Degree Attainment Regimes</a></li>
-  <li><a href="#higher-education-investment-growth-vs.-degree-attainment-across-regions" id="toc-higher-education-investment-growth-vs.-degree-attainment-across-regions" class="nav-link" data-scroll-target="#higher-education-investment-growth-vs.-degree-attainment-across-regions">6. Higher Education Investment Growth vs.&nbsp;Degree Attainment Across Regions</a></li>
+  <li><a href="#intergenerational-educational-mobility-paeduc-maeduc" id="toc-intergenerational-educational-mobility-paeduc-maeduc" class="nav-link active" data-scroll-target="#intergenerational-educational-mobility-paeduc-maeduc">1. Intergenerational Educational Mobility (<code>paeduc</code> &amp; <code>maeduc</code>)</a></li>
+  <li><a href="#childhood-financial-status-relative-income-incom16" id="toc-childhood-financial-status-relative-income-incom16" class="nav-link" data-scroll-target="#childhood-financial-status-relative-income-incom16">2. Childhood Financial Status &amp; Relative Income (<code>incom16</code>)</a></li>
+  <li><a href="#family-structure-sibling-dynamics-at-age-16-family16-sibs" id="toc-family-structure-sibling-dynamics-at-age-16-family16-sibs" class="nav-link" data-scroll-target="#family-structure-sibling-dynamics-at-age-16-family16-sibs">3. Family Structure &amp; Sibling Dynamics at Age 16 (<code>family16</code> &amp; <code>sibs</code>)</a></li>
+  <li><a href="#urbanicity-geographic-community-origins-res16" id="toc-urbanicity-geographic-community-origins-res16" class="nav-link" data-scroll-target="#urbanicity-geographic-community-origins-res16">4. Urbanicity &amp; Geographic Community Origins (<code>res16</code>)</a></li>
+  <li><a href="#demographic-nativity-dimensions-sex-race-born-parborn" id="toc-demographic-nativity-dimensions-sex-race-born-parborn" class="nav-link" data-scroll-target="#demographic-nativity-dimensions-sex-race-born-parborn">5. Demographic &amp; Nativity Dimensions (<code>sex</code>, <code>race</code>, <code>born</code>, <code>parborn</code>)</a></li>
+  <li><a href="#life-course-demographics-multi-decade-generational-trends-age-childs-year" id="toc-life-course-demographics-multi-decade-generational-trends-age-childs-year" class="nav-link" data-scroll-target="#life-course-demographics-multi-decade-generational-trends-age-childs-year">6. Life-Course Demographics &amp; Multi-Decade Generational Trends (<code>age</code>, <code>childs</code>, <code>year</code>)</a></li>
+  <li><a href="#data-coverage-missingness-spotlight-agekdbrn" id="toc-data-coverage-missingness-spotlight-agekdbrn" class="nav-link" data-scroll-target="#data-coverage-missingness-spotlight-agekdbrn">7. Data Coverage &amp; Missingness Spotlight (<code>agekdbrn</code>)</a></li>
   </ul>
 </nav>
     </div>
@@ -169,7 +141,6 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Exploratory Data Analysis</h1>
-<p class="subtitle lead">Empirical Patterns in Macro-Economic Dynamics &amp; Educational Attainment</p>
 </div>
 
 
@@ -189,95 +160,110 @@ window.Quarto = {
 <section id="exploratory-data-analysis-eda" class="level1 unlisted hero-banner">
 <h1 class="unlisted">Exploratory Data Analysis (EDA)</h1>
 <p class="hero-subtitle">
-Visualizing Interdependencies Across Macroeconomic Growth Drivers &amp; Higher Education Outcomes
+Empirical Analysis Across 14 Background Covariates &amp; Educational Attainment (GSS 1972–2024)
 </p>
 </section>
-<p>In this section, we examine empirical relationships in our macroeconomic panel dataset through 6 distinct visualizations. All data operations strictly follow modern tidyverse R standards using the native R pipe (<code>|&gt;</code>).</p>
+<p>In this section, we systematically explore the empirical relationships between respondent educational attainment (<code>educ</code>) and all 14 candidate socio-demographic covariates using 7 publication-ready visualizations. Data transformations follow modern tidyverse R standards using the native R pipe (<code>|&gt;</code>).</p>
 <hr>
-<section id="median-household-income-growth-vs.-bachelors-degree-attainment" class="level2">
-<h2 class="anchored" data-anchor-id="median-household-income-growth-vs.-bachelors-degree-attainment">1. Median Household Income Growth vs.&nbsp;Bachelor’s Degree Attainment</h2>
-<p>Evaluating how real median household income expansion tracks with 4-year college degree completion rates across US state economies.</p>
+<section id="intergenerational-educational-mobility-paeduc-maeduc" class="level2">
+<h2 class="anchored" data-anchor-id="intergenerational-educational-mobility-paeduc-maeduc">1. Intergenerational Educational Mobility (<code>paeduc</code> &amp; <code>maeduc</code>)</h2>
+<p>Evaluating how father’s educational attainment (<code>paeduc</code>) and mother’s educational attainment (<code>maeduc</code>) track with respondent educational outcome (<code>educ</code>).</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-1-1.png" class="img-fluid figure-img" width="864"></p>
-<figcaption>Figure 1: Co-movement between annual state median income growth and college completion rates (2004–2024). Source: U.S. Census Bureau (Tables A-1, A-2).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-1-1.png" class="img-fluid figure-img" width="912"></p>
+<figcaption>Figure 1: Intergenerational Educational Mobility. Respondent mean completed schooling years plotted against Father’s (paeduc) and Mother’s (maeduc) educational attainment. Source: General Social Survey (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="real-income-growth-distributions-across-educational-attainment-tiers" class="level2">
-<h2 class="anchored" data-anchor-id="real-income-growth-distributions-across-educational-attainment-tiers">2. Real Income Growth Distributions Across Educational Attainment Tiers</h2>
-<p>Examining how annual state median income growth varies across defined educational attainment brackets (<em>High School or Less</em>, <em>Some College</em>, <em>Bachelor’s+</em>).</p>
+<section id="childhood-financial-status-relative-income-incom16" class="level2">
+<h2 class="anchored" data-anchor-id="childhood-financial-status-relative-income-incom16">2. Childhood Financial Status &amp; Relative Income (<code>incom16</code>)</h2>
+<p>Examining how family income level at age 16 (<code>incom16</code>) conditions the distribution of respondent educational attainment tiers.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-2-1.png" class="img-fluid figure-img" width="864"></p>
-<figcaption>Figure 2: Distribution of real median income growth across educational attainment tiers. Source: U.S. Census Bureau (Table A-2).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-2-1.png" class="img-fluid figure-img" width="912"></p>
+<figcaption>Figure 2: Distribution of Educational Attainment Tiers by Childhood Relative Income (incom16). Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="regional-gdp-growth-dynamics-high-school-completion-over-time" class="level2">
-<h2 class="anchored" data-anchor-id="regional-gdp-growth-dynamics-high-school-completion-over-time">3. Regional GDP Growth Dynamics &amp; High School Completion Over Time</h2>
-<p>Tracking annual economic expansion (<span class="math inline">\(\Delta\text{GDP}\)</span>) overlaid against average high school completion rates across 4 US Census regions over two decades.</p>
+<section id="family-structure-sibling-dynamics-at-age-16-family16-sibs" class="level2">
+<h2 class="anchored" data-anchor-id="family-structure-sibling-dynamics-at-age-16-family16-sibs">3. Family Structure &amp; Sibling Dynamics at Age 16 (<code>family16</code> &amp; <code>sibs</code>)</h2>
+<p>Evaluating completed schooling years across living arrangements at age 16 (<code>family16</code>) and number of siblings (<code>sibs</code>).</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-3-1.png" class="img-fluid figure-img" width="864"></p>
-<figcaption>Figure 3: Heatmap of annual GDP growth overlaid with mean regional high school completion rates. Source: Macrotrends &amp; U.S. Census Bureau (Table A-1).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-3-1.png" class="img-fluid figure-img" width="912"></p>
+<figcaption>Figure 3: Respondent Completed Schooling Years by Family Structure (family16) and Sibling Count (sibs). Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="multi-decade-macroeconomic-predictors-vs.-educational-attainment" class="level2">
-<h2 class="anchored" data-anchor-id="multi-decade-macroeconomic-predictors-vs.-educational-attainment">4. Multi-Decade Macroeconomic Predictors vs.&nbsp;Educational Attainment</h2>
-<p>Tracking multi-decade trajectories of macroeconomic growth drivers (<span class="math inline">\(\Delta\text{Income}\)</span>, <span class="math inline">\(\Delta\text{GDP}\)</span>, <span class="math inline">\(\Delta\text{Edu Investment}\)</span>) alongside college degree completion trends.</p>
+<section id="urbanicity-geographic-community-origins-res16" class="level2">
+<h2 class="anchored" data-anchor-id="urbanicity-geographic-community-origins-res16">4. Urbanicity &amp; Geographic Community Origins (<code>res16</code>)</h2>
+<p>Tracking higher education attainment rates across different community types lived in at age 16 (<code>res16</code>).</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-4-1.png" class="img-fluid figure-img" width="864"></p>
-<figcaption>Figure 4: Faceted multi-decade tracking of annual national state means (2004–2024). Source: U.S. Census Bureau, Macrotrends &amp; Simulated Metrics.</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-4-1.png" class="img-fluid figure-img" width="912"></p>
+<figcaption>Figure 4: Post-Secondary Degree Rates by Type of Place Lived in at Age 16 (res16). Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="real-income-growth-spread-across-degree-attainment-regimes" class="level2">
-<h2 class="anchored" data-anchor-id="real-income-growth-spread-across-degree-attainment-regimes">5. Real Income Growth Spread Across Degree Attainment Regimes</h2>
-<p>Displaying overlapping empirical probability distributions of annual state median income growth, stratified by whether degree attainment is above or below the national median.</p>
+<section id="demographic-nativity-dimensions-sex-race-born-parborn" class="level2">
+<h2 class="anchored" data-anchor-id="demographic-nativity-dimensions-sex-race-born-parborn">5. Demographic &amp; Nativity Dimensions (<code>sex</code>, <code>race</code>, <code>born</code>, <code>parborn</code>)</h2>
+<p>Decomposing degree attainment rates across gender (<code>sex</code>), race (<code>race</code>), respondent nativity (<code>born</code>), and parental nativity (<code>parborn</code>).</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-5-1.png" class="img-fluid figure-img" width="864"></p>
-<figcaption>Figure 5: Overlapping probability density of real income growth by attainment regime. Source: U.S. Census Bureau (Tables A-1, A-2).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-5-1.png" class="img-fluid figure-img" width="912"></p>
+<figcaption>Figure 5: Bachelor’s Degree+ Attainment Rates by Sex, Race, Respondent Nativity (born), and Parental Nativity (parborn). Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="higher-education-investment-growth-vs.-degree-attainment-across-regions" class="level2">
-<h2 class="anchored" data-anchor-id="higher-education-investment-growth-vs.-degree-attainment-across-regions">6. Higher Education Investment Growth vs.&nbsp;Degree Attainment Across Regions</h2>
-<p>Evaluating the relationship between state higher education investment growth (<span class="math inline">\(\Delta\text{Edu Investment}\)</span>) and college completion rates broken down across US Census Regions.</p>
+<section id="life-course-demographics-multi-decade-generational-trends-age-childs-year" class="level2">
+<h2 class="anchored" data-anchor-id="life-course-demographics-multi-decade-generational-trends-age-childs-year">6. Life-Course Demographics &amp; Multi-Decade Generational Trends (<code>age</code>, <code>childs</code>, <code>year</code>)</h2>
+<p>Tracking multi-decade trajectories of degree completion across survey years (1972–2024) by age cohorts (<code>age</code>) and fertility (<code>childs</code>).</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-6-1.png" class="img-fluid figure-img" width="864"></p>
-<figcaption>Figure 6: Regional faceted linear fits comparing higher education investment and degree completion. Source: U.S. Census Bureau &amp; Simulated Investment Metrics.</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-6-1.png" class="img-fluid figure-img" width="912"></p>
+<figcaption>Figure 6: Longitudinal Trends in Bachelor’s+ Attainment (1972–2024) Stratified by Age Groups (age) and Number of Children (childs). Source: GSS (1972–2024).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="data-coverage-missingness-spotlight-agekdbrn" class="level2">
+<h2 class="anchored" data-anchor-id="data-coverage-missingness-spotlight-agekdbrn">7. Data Coverage &amp; Missingness Spotlight (<code>agekdbrn</code>)</h2>
+<p>Visualizing data availability for <code>agekdbrn</code> (age when first child was born) compared to other covariates across GSS survey decades.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="exploratory_files/figure-html/graphic-7-1.png" class="img-fluid figure-img" width="912"></p>
+<figcaption>Figure 7: Data Non-Response / Missingness Comparison Across Covariates (Highlighting agekdbrn). Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>

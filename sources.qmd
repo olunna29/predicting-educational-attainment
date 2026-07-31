@@ -8,34 +8,53 @@ format:
 
 ::: {.hero-banner}
 # Data Sources & References {.unlisted}
-<p class="hero-subtitle">Comprehensive APA 7th Edition Citations for Primary Macroeconomic Datasets and Census Surveys</p>
+<p class="hero-subtitle">Comprehensive APA 7th Edition Citations for the General Social Survey (GSS) and Methodology</p>
 :::
 
-## 1. Primary Empirical Data Sources
+## 1. Primary Empirical Data Source
 
-The empirical framework and macro panel metrics draw upon data from federal statistical agencies and historical economic repositories. Below are the formal APA 7th Edition reference citations for each dataset:
+The empirical analysis in this project is based on data from the **General Social Survey (GSS)**, conducted by **NORC at the University of Chicago**.
 
-### U.S. Gross Domestic Product (GDP) Data
+### General Social Survey (NORC at the University of Chicago)
 
 - **Reference List Citation**:
-  > Macrotrends. (n.d.). *U.S. gross domestic product 1960–2026*. Retrieved July 30, 2026, from [https://www.macrotrends.net/datasets/global-metrics/countries/usa/united-states/gdp-gross-domestic-product](https://www.macrotrends.net/datasets/global-metrics/countries/usa/united-states/gdp-gross-domestic-product)
+  > Davern, M., Bautista, R., Freese, J., Herd, P., & Morgan, S. L. (2024). *General Social Survey 1972–2024 (Release 3)* [Data set]. NORC at the University of Chicago. [https://gssdataexplorer.norc.org](https://gssdataexplorer.norc.org)
+
+- **In-Text Citation**:
+  > (Davern et al., 2024)
+
+- **Dataset Scope & Methodology**:
+  The General Social Survey (GSS) is one of the nation's most authoritative, long-running social science research studies. Since 1972, the GSS has monitored societal trends and demographic transformations across the adult, non-institutionalized population of the United States using nationally representative probability sampling.
 
 ---
 
-### U.S. Census Bureau (Table A-2: Household Median Income)
+## 2. Variable Codebook & Descriptions
 
-- **Reference List Citation**:
-  > Kollar, M., & Scherer, Z. (2025). *Income in the United States: 2024* (Current Population Reports No. P60-286). U.S. Census Bureau. [https://www.census.gov/library/publications/2025/demo/p60-286.html](https://www.census.gov/library/publications/2025/demo/p60-286.html)
+Below are the official GSS codebook definitions for all 15 variables analyzed in this study:
+
+| Variable Name | GSS Label | Description & Coding Scheme |
+| :--- | :--- | :--- |
+| **`educ`** | Respondent Educational Attainment | Highest grade of school completed (0–20 years). Recoded into 4 tiers: *High School or Less*, *Some College*, *Bachelor Degree*, *Graduate Degree*. |
+| **`paeduc`** | Father's Educational Attainment | Highest grade of school completed by respondent's father (0–20 years). |
+| **`maeduc`** | Mother's Educational Attainment | Highest grade of school completed by respondent's mother (0–20 years). |
+| **`incom16`** | Relative Family Income at Age 16 | Family income at age 16 relative to American families: 1 = Far Below Average, 2 = Below Average, 3 = Average, 4 = Above Average, 5 = Far Above Average. |
+| **`family16`** | Family Structure at Age 16 | Living arrangement at age 16: *Both Own Parents*, *Single Parent*, *Stepparent*, *Other Relative/Arrangement*. |
+| **`res16`** | Residence Type at Age 16 | Type of place lived in at age 16: *Farm*, *Country Non-Farm*, *Town <50k*, *50k to 250k*, *Big-City Suburb*, *City >250k*. |
+| **`sex`** | Respondent's Sex | Sex assigned at interview: *Female*, *Male*. |
+| **`race`** | Respondent's Race | Race of respondent: *White*, *Black*, *Other*. |
+| **`born`** | Respondent Born in U.S. | Was the respondent born in the United States? *Yes*, *No*. |
+| **`parborn`** | Parents Born in U.S. | Were respondent's parents born in the U.S.? *Both U.S.*, *One U.S.*, *Neither U.S.* |
+| **`sibs`** | Number of Siblings | Total number of brothers and sisters (0 to 6+). |
+| **`childs`** | Number of Children | Ever had children / total number of children (0 to 8+). |
+| **`age`** | Respondent's Age | Age at time of interview (18 to 89 years). |
+| **`year`** | Survey Administration Year | Calendar year of survey round (1972 through 2024). |
+| **`agekdbrn`** | Age at First Child's Birth | Age when respondent's first child was born. (Excluded from final predictive model due to 62.1% missingness/inapplicability across historical survey rounds). |
 
 ---
 
-### U.S. Census Bureau (Table A-1: Educational Attainment / CPS Historical Series)
+## 3. Academic & Methodological References
 
-- **Reference List Citation**:
-  > U.S. Census Bureau. (2025). *CPS historical time series tables: Table A-1. Years of school completed by people 15 years old and over, by age and sex: 1940 to 2024*. U.S. Department of Commerce. [https://www.census.gov/data/tables/time-series/demo/educational-attainment/cps-historical-time-series.html](https://www.census.gov/data/tables/time-series/demo/educational-attainment/cps-historical-time-series.html)
-
----
-
-## 2. State Higher Education Investment Metric
-
-The state higher education investment variable (`edu_investment_pct`) is a **synthetically modeled panel metric** generated via the project's data generation script (`R/generate_data.R`). It models annual state higher education appropriations and research investment growth rates centered around macro GDP expansion ($2.0\% + 0.3 \times \Delta \text{GDP} + \varepsilon$).
+- **Agresti, A.** (2013). *Categorical Data Analysis* (3rd ed.). John Wiley & Sons.
+- **Breen, R., & Jonsson, J. O.** (2005). Inequality of opportunity in comparative perspective: Recent research on educational attainment and social mobility. *Annual Review of Sociology*, 31(1), 223–243.
+- **Venables, W. N., & Ripley, B. D.** (2002). *Modern Applied Statistics with S* (4th ed.). Springer. [Multinomial Logistic Modeling via `nnet` R Package].
+- **Wickham, H., et al.** (2019). Welcome to the Tidyverse. *Journal of Open Source Software*, 4(43), 1686.

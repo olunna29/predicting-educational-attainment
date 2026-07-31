@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Our Question and Our Data – Macro-Economic Dynamics &amp; Higher Education</title>
+<title>Our Question and Our Data – Predictors of Educational Attainment</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -113,7 +113,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Macro-Economic Dynamics &amp; Higher Education</span>
+    <span class="navbar-title">Predictors of Educational Attainment</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -154,9 +154,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#executive-motivation-context" id="toc-executive-motivation-context" class="nav-link active" data-scroll-target="#executive-motivation-context">1. Executive Motivation &amp; Context</a></li>
+  <li><a href="#the-context" id="toc-the-context" class="nav-link active" data-scroll-target="#the-context">1. The Context</a></li>
   <li><a href="#central-predictive-research-question" id="toc-central-predictive-research-question" class="nav-link" data-scroll-target="#central-predictive-research-question">2. Central Predictive Research Question</a></li>
-  <li><a href="#dataset-architecture-summary" id="toc-dataset-architecture-summary" class="nav-link" data-scroll-target="#dataset-architecture-summary">3. Dataset Architecture &amp; Summary</a></li>
+  <li><a href="#dataset-architecture" id="toc-dataset-architecture" class="nav-link" data-scroll-target="#dataset-architecture">3. Dataset Architecture</a></li>
   </ul>
 </nav>
     </div>
@@ -182,34 +182,21 @@ window.Quarto = {
 </header>
 
 
-<section id="macroeconomic-dynamics-educational-attainment" class="level1 unlisted hero-banner">
-<h1 class="unlisted">Macroeconomic Dynamics &amp; Educational Attainment</h1>
+<section id="socio-demographic-drivers-of-educational-attainment" class="level1 unlisted hero-banner">
+<h1 class="unlisted">Socio-Demographic Drivers of Educational Attainment</h1>
 <p class="hero-subtitle">
-Does a better economic environment lead to higher proportions of people pursuing further?
+How parental background, childhood economic environment, family structure, geography, and birth cohorts shape individual educational outcomes (1972–2024)
 </p>
 </section>
-<section id="executive-motivation-context" class="level2">
-<h2 class="anchored" data-anchor-id="executive-motivation-context">1. Executive Motivation &amp; Context</h2>
-<p>Understanding how macroeconomic momentum and public policy investment influence educational attainment is essential for state policymakers, academic leaders, and workforce planners. During periods of robust macroeconomic expansion, rising real median household incomes (<span class="math inline">\(\Delta \text{Income}\)</span>) and expanding regional economic output (<span class="math inline">\(\Delta \text{GDP}\)</span>) provide families and state budgets with greater financial liquidity to invest in human capital. Simultaneously, targeted state investments in higher education (<span class="math inline">\(\Delta \text{Edu Investment}\)</span>) expand capacity and subsidize tuition costs.</p>
-<p>Rather than asserting causal mechanisms—which require strict counterfactual identification assumptions—this data science framework focuses on <strong>predictive modeling</strong> and <strong>conditional expected values</strong>. We aim to forecast expected educational outcomes given observable macroeconomic indicators.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Collaborative Note: Strategic Domain Context
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>State workforce development boards and university system enrollment managers can utilize these predictive conditional expectations for long-term budget allocation, facility planning, and tuition assistance strategy during shifting macroeconomic growth regimes.</p>
-</div>
-</div>
+<section id="the-context" class="level2">
+<h2 class="anchored" data-anchor-id="the-context">1. The Context</h2>
+<p>Educational attainment (<span class="math inline">\(\text{educ}\)</span>) is one of the most vital determinants of individual socio-economic mobility, health outcomes, and lifelong earnings trajectory in modern society. Over the past five decades, access to post-secondary education has expanded dramatically across the United States. However, individual educational trajectories remain deeply embedded within socio-demographic origins, parental academic background, childhood economic resources, family structures, urbanicity, and generational cohort shifts.</p>
+<p>Understanding how these background factors jointly influence educational attainment enables workforce policy planners, academic leaders, and sociologists to quantify intergenerational mobility and identify structural barriers to higher education. While traditional analyses often isolate single factors like parental income, a comprehensive predictive approach evaluates how multiple interacting covariates condition the probability of reaching key educational milestones—from high school completion through post-graduate education.</p>
 <hr>
 </section>
 <section id="central-predictive-research-question" class="level2">
 <h2 class="anchored" data-anchor-id="central-predictive-research-question">2. Central Predictive Research Question</h2>
-<p>To establish a quantitative data science framework, we formulate our core predictive research question centered on conditional expectations and statistically significant economic growth drivers:</p>
+<p>To establish a quantitative data science framework, we formulate our core predictive research question centered on conditional multinomial expectations and statistically significant background factors from the General Social Survey (GSS):</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -221,88 +208,130 @@ Does a better economic environment lead to higher proportions of people pursuing
 </div>
 <div class="callout-body-container callout-body">
 <blockquote class="blockquote">
-<p><strong>“What is the expected increase in a state’s population attaining a 4-year college degree when moving from a low-income growth environment (<span class="math inline">\(&lt; 1.0\%\)</span>) to a high-income growth environment (<span class="math inline">\(\ge 3.0\%\)</span>), controlling for regional economic growth (<span class="math inline">\(\Delta \text{GDP}\)</span>) and state higher education investment (<span class="math inline">\(\Delta \text{Edu Investment}\)</span>)?”</strong></p>
+<p><strong>“To what extent do parental educational background (<span class="math inline">\(\text{paeduc}, \text{maeduc}\)</span>), childhood financial status (<span class="math inline">\(\text{incom16}\)</span>), family structure (<span class="math inline">\(\text{family16}\)</span>), geographic origin (<span class="math inline">\(\text{res16}\)</span>), demographic characteristics (<span class="math inline">\(\text{sex}, \text{race}, \text{born}, \text{parborn}\)</span>), family size (<span class="math inline">\(\text{sibs}, \text{childs}\)</span>), and temporal birth cohorts (<span class="math inline">\(\text{year}, \text{age}\)</span>) jointly predict whether an individual achieves a High School degree or less, Some College, a Bachelor’s degree, or a Graduate degree in the United States?”</strong></p>
 </blockquote>
 </div>
 </div>
 <section id="predictive-vs.-causal-framing" class="level3">
 <h3 class="anchored" data-anchor-id="predictive-vs.-causal-framing">Predictive vs.&nbsp;Causal Framing</h3>
 <ul>
-<li><strong>Causal Claim (Avoided)</strong>: <em>“Higher median income growth directly causes state populations to obtain college degrees.”</em></li>
-<li><strong>Predictive Conditional Expectation (Adopted)</strong>: <em>“Given that an economy transitions into a high-income growth regime (<span class="math inline">\(\ge 3.0\%\)</span>), what is the updated expected value <span class="math inline">\(\mathbb{E}[Y_{\text{degree}} \mid \Delta \text{Income} \ge 3.0\%, \Delta \text{GDP}, \Delta \text{Edu Investment}]\)</span> compared to a low-growth baseline?”</em></li>
+<li><strong>Causal Claim (Avoided)</strong>: <em>“Higher parental education directly causes an individual to obtain a graduate degree.”</em></li>
+<li><strong>Predictive Conditional Expectation (Adopted)</strong>: <em>“Given an individual’s vector of observable socio-demographic background traits <span class="math inline">\(\mathbf{X}\)</span>, what is the updated conditional probability distribution <span class="math inline">\(P(Y_{\text{educ}} = k \mid \mathbf{X})\)</span> across educational attainment tiers <span class="math inline">\(k \in \{\text{High School or Less}, \text{Some College}, \text{Bachelor Degree}, \text{Graduate Degree}\}\)</span>?”</em></li>
 </ul>
 <hr>
 </section>
 </section>
-<section id="dataset-architecture-summary" class="level2">
-<h2 class="anchored" data-anchor-id="dataset-architecture-summary">3. Dataset Architecture &amp; Summary</h2>
-<p>The predictive framework draws upon a panel dataset spanning <strong>50 US States</strong> over <strong>21 years (2004–2024)</strong>, capturing macroeconomic growth indicators alongside state-level educational attainment statistics.</p>
+<section id="dataset-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-architecture">3. Dataset Architecture</h2>
+<p>The predictive framework draws upon the national <strong>General Social Survey (GSS)</strong> panel spanning <strong>52 years (1972–2024)</strong> with <strong><span class="math inline">\(N = 75,699\)</span> respondent observations</strong>, capturing individual educational attainment alongside comprehensive socio-demographic and developmental background variables.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>Table 1.1: Macroeconomic and Educational Panel Dataset Specification (2004–2024)</caption>
+<caption>Table 1.1: General Social Survey (GSS) Variable Specification &amp; Data Coverage (1972–2024)</caption>
 <colgroup>
-<col style="width: 16%">
-<col style="width: 15%">
-<col style="width: 56%">
-<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 20%">
+<col style="width: 60%">
+<col style="width: 10%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Variable</th>
-<th style="text-align: left;">Variable Type</th>
+<th style="text-align: left;">Variable Name</th>
+<th style="text-align: left;">Variable Role &amp; Type</th>
 <th style="text-align: left;">Description</th>
-<th style="text-align: left;">Range</th>
+<th style="text-align: left;">Valid Observations</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">income_growth_pct</td>
-<td style="text-align: left;">Continuous (%)</td>
-<td style="text-align: left;">Year-over-Year Real Median Household Income Growth (%)</td>
-<td style="text-align: left;">[-4.58, 6.89]</td>
+<td style="text-align: left;">educ (Outcome)</td>
+<td style="text-align: left;">Primary Target (Categorical/Ordinal)</td>
+<td style="text-align: left;">Respondent’s Highest Educational Attainment Tier (High School or Less, Some College, Bachelor’s, Graduate)</td>
+<td style="text-align: left;">75413 (99.6%)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">gdp_growth_pct</td>
-<td style="text-align: left;">Continuous (%)</td>
-<td style="text-align: left;">Year-over-Year Gross Domestic Product Growth (%)</td>
-<td style="text-align: left;">[-6.24, 10.74]</td>
+<td style="text-align: left;">paeduc</td>
+<td style="text-align: left;">Covariate (Ordinal/Years)</td>
+<td style="text-align: left;">Father’s Educational Attainment (Years 0–20)</td>
+<td style="text-align: left;">53806 (70.6%)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">edu_investment_pct</td>
-<td style="text-align: left;">Continuous (%)</td>
-<td style="text-align: left;">Year-over-Year State Higher Education &amp; Research Investment Growth (%)</td>
-<td style="text-align: left;">[-2.21, 6.49]</td>
+<td style="text-align: left;">maeduc</td>
+<td style="text-align: left;">Covariate (Ordinal/Years)</td>
+<td style="text-align: left;">Mother’s Educational Attainment (Years 0–20)</td>
+<td style="text-align: left;">63314 (88.3%)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">bachelors_plus_pct</td>
-<td style="text-align: left;">Continuous (%)</td>
-<td style="text-align: left;">Percentage of Population holding Bachelor’s Degree or Higher</td>
-<td style="text-align: left;">[18.26, 52.29]</td>
+<td style="text-align: left;">incom16</td>
+<td style="text-align: left;">Covariate (Ordinal 1-5)</td>
+<td style="text-align: left;">Family Relative Income at Age 16 (Far Below Average to Far Above Average)</td>
+<td style="text-align: left;">61736 (82.1%)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">hs_completion_pct</td>
-<td style="text-align: left;">Continuous (%)</td>
-<td style="text-align: left;">Percentage of Population completing High School</td>
-<td style="text-align: left;">[84.69, 96.21]</td>
+<td style="text-align: left;">family16</td>
+<td style="text-align: left;">Covariate (Categorical)</td>
+<td style="text-align: left;">Living Arrangement / Family Structure at Age 16 (Both Parents, Single Parent, Stepparent, Other)</td>
+<td style="text-align: left;">73869 (97.9%)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">avg_years_schooling</td>
-<td style="text-align: left;">Continuous (Years)</td>
-<td style="text-align: left;">Average Estimated Years of Formally Completed Schooling</td>
-<td style="text-align: left;">[12.23, 16.05]</td>
+<td style="text-align: left;">res16</td>
+<td style="text-align: left;">Covariate (Categorical)</td>
+<td style="text-align: left;">Type of Place Lived in at Age 16 (Farm, Town &lt;50k, Suburb, City &gt;250k)</td>
+<td style="text-align: left;">73777 (97.9%)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">income_tier</td>
-<td style="text-align: left;">Categorical</td>
-<td style="text-align: left;">Income Growth Regime: Low (&lt;1.0%), Moderate (1.0-3.0%), High (3.0%+)</td>
-<td style="text-align: left;">3 Levels</td>
+<td style="text-align: left;">sex</td>
+<td style="text-align: left;">Covariate (Binary)</td>
+<td style="text-align: left;">Respondent’s Sex (Female, Male)</td>
+<td style="text-align: left;">75338 (99.8%)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">education_tier</td>
-<td style="text-align: left;">Categorical</td>
-<td style="text-align: left;">Educational Attainment Tier: HS or Less, Some College, Bachelor’s+</td>
-<td style="text-align: left;">3 Levels</td>
+<td style="text-align: left;">race</td>
+<td style="text-align: left;">Covariate (Categorical)</td>
+<td style="text-align: left;">Respondent’s Race (White, Black, Other)</td>
+<td style="text-align: left;">75243 (99.8%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">born</td>
+<td style="text-align: left;">Covariate (Binary)</td>
+<td style="text-align: left;">Was Respondent Born in the United States? (Yes, No)</td>
+<td style="text-align: left;">66153 (87.6%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">parborn</td>
+<td style="text-align: left;">Covariate (Categorical)</td>
+<td style="text-align: left;">Were Respondent’s Parents Born in the United States? (Both U.S., One U.S., Neither U.S.)</td>
+<td style="text-align: left;">65961 (87.6%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sibs</td>
+<td style="text-align: left;">Covariate (Discrete Count)</td>
+<td style="text-align: left;">Number of Brothers and Sisters / Siblings (0 to 6+)</td>
+<td style="text-align: left;">73645 (97.7%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">childs</td>
+<td style="text-align: left;">Covariate (Discrete Count)</td>
+<td style="text-align: left;">Number of Children (0 to 8+)</td>
+<td style="text-align: left;">75166 (99.6%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">Covariate (Continuous Years)</td>
+<td style="text-align: left;">Respondent’s Age at Time of Survey (18 to 89)</td>
+<td style="text-align: left;">74192 (99.7%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">Covariate (Continuous Year)</td>
+<td style="text-align: left;">Survey Administration Year (1972 to 2024)</td>
+<td style="text-align: left;">75413 (100.0%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">agekdbrn</td>
+<td style="text-align: left;">Covariate (Continuous Years)</td>
+<td style="text-align: left;">Age When First Child Was Born (High Missingness / Inapplicable in older rounds)</td>
+<td style="text-align: left;">30906 (37.9%)</td>
 </tr>
 </tbody>
 </table>
@@ -314,14 +343,14 @@ Does a better economic environment lead to higher proportions of people pursuing
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Key Data Takeaways
+<span class="screen-reader-only">Tip</span>Key Dataset Takeaways
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><strong>Spatial Coverage</strong>: 50 U.S. States across 4 Geographic Regions (Northeast, Midwest, South, West).</li>
-<li><strong>Temporal Depth</strong>: Annual panel from 2004 through 2024 (<span class="math inline">\(N = 1,050\)</span> total state-year observations).</li>
-<li><strong>Outcome Variables</strong>: Continuous degree completion percentage (<code>bachelors_plus_pct</code>), average schooling years (<code>avg_years_schooling</code>), and ordinal attainment tiers (<code>education_tier</code>).</li>
+<li><strong>Sample Breadth</strong>: <span class="math inline">\(N = 75,699\)</span> representative U.S. adult respondents spanning 34 biennial/annual survey rounds from 1972 through 2024.</li>
+<li><strong>Multidimensional Covariates</strong>: Covers 14 background factors spanning intergenerational education (<code>paeduc</code>, <code>maeduc</code>), childhood economy (<code>incom16</code>), family structure (<code>family16</code>), geography (<code>res16</code>), demographics (<code>sex</code>, <code>race</code>, <code>born</code>, <code>parborn</code>), fertility/family size (<code>sibs</code>, <code>childs</code>), and temporal cohorts (<code>year</code>, <code>age</code>).</li>
+<li><strong>Data Selection Rationale</strong>: Variable <code>agekdbrn</code> is tracked and visualized in EDA for completeness but is excluded from the final predictive model due to high missingness (62.1% missing/inapplicable), maximizing model sample size (<span class="math inline">\(N = 48,360\)</span> complete cases across all primary covariates).</li>
 </ul>
 </div>
 </div>

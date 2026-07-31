@@ -4,16 +4,16 @@ format:
   html:
     toc: true
     toc-depth: 2
-    fig-width: 9
+    fig-width: 9.5
     fig-height: 5.5
 ---
 
 ::: {.hero-banner}
 # Exploratory Data Analysis (EDA) {.unlisted}
-<p class="hero-subtitle">Visualizing Interdependencies Across Macroeconomic Growth Drivers & Higher Education Outcomes</p>
+<p class="hero-subtitle">Empirical Analysis Across 14 Background Covariates & Educational Attainment (GSS 1972–2024)</p>
 :::
 
-In this section, we examine empirical relationships in our macroeconomic panel dataset through 6 distinct visualizations. All data operations strictly follow modern tidyverse R standards using the native R pipe (`|>`).
+In this section, we systematically explore the empirical relationships between respondent educational attainment (`educ`) and all 14 candidate socio-demographic covariates using 7 publication-ready visualizations. Data transformations follow modern tidyverse R standards using the native R pipe (`|>`).
 
 ```{r setup}
 #| echo: false
@@ -24,12 +24,13 @@ suppressPackageStartupMessages({
   library(dplyr)
   library(tidyr)
   library(ggplot2)
+  library(scales)
 })
 
-# Load macro panel dataset
-df <- readRDS("data/macro_education_panel.rds")
+# Load clean GSS dataset
+df <- readRDS("data/gss_cleaned.rds")
 
-# Cohesive modern blue-purple-pink ggplot theme
+# Cohesive modern blue-purple-pink ggplot theme matching site branding
 theme_custom <- function() {
   theme_minimal(base_family = "sans") +
     theme(
@@ -47,200 +48,283 @@ theme_custom <- function() {
 }
 theme_set(theme_custom())
 
-# Brand Color Palette
-palette_main <- c("Northeast" = "#2563eb", "Midwest" = "#7c3aed", "South" = "#ec4899", "West" = "#06b6d4")
-palette_tiers <- c("Low (<1.0%)" = "#2563eb", "Moderate (1.0-3.0%)" = "#7c3aed", "High (3.0%+)" = "#ec4899")
-palette_edu <- c("High School or Less" = "#3b82f6", "Some College" = "#8b5cf6", "Bachelor's+" = "#ec4899")
+# Brand Color Palettes
+palette_edu <- c(
+  "High School or Less" = "#2563eb", 
+  "Some College"        = "#7c3aed", 
+  "Bachelor Degree"     = "#ec4899", 
+  "Graduate Degree"     = "#06b6d4"
+)
+
+palette_demo <- c(
+  "#2563eb", "#7c3aed", "#ec4899", "#06b6d4", "#f59e0b", "#10b981"
+)
 ```
 
 ---
 
-## 1. Median Household Income Growth vs. Bachelor's Degree Attainment
+## 1. Intergenerational Educational Mobility (`paeduc` & `maeduc`)
 
-Evaluating how real median household income expansion tracks with 4-year college degree completion rates across US state economies.
+Evaluating how father's educational attainment (`paeduc`) and mother's educational attainment (`maeduc`) track with respondent educational outcome (`educ`).
 
 ```{r graphic-1}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 1: Co-movement between annual state median income growth and college completion rates (2004–2024). Source: U.S. Census Bureau (Tables A-1, A-2)."
+#| fig-cap: "Figure 1: Intergenerational Educational Mobility. Respondent mean completed schooling years plotted against Father's (paeduc) and Mother's (maeduc) educational attainment. Source: General Social Survey (1972–2024)."
 
-df |> 
-  ggplot(aes(x = income_growth_pct, y = bachelors_plus_pct, color = region)) +
-  geom_point(alpha = 0.55, size = 2.2) +
-  geom_smooth(method = "loess", color = "#0f172a", fill = "#c084fc", linewidth = 1.3, se = TRUE) +
-  scale_color_manual(values = palette_main, name = "Geographic Region") +
+df_parents <- df |> 
+  filter(!is.na(paeduc_years), !is.na(maeduc_years), !is.na(educ_years)) |> 
+  group_by(paeduc_years) |> 
+  summarize(
+    `Father Education` = mean(educ_years),
+    `Mother Education` = mean(educ_years[maeduc_years == paeduc_years], na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  ) |> 
+  filter(n >= 30)
+
+df_parents_long <- df |> 
+  filter(!is.na(paeduc_years), !is.na(maeduc_years), !is.na(educ_years)) |> 
+  pivot_longer(cols = c(paeduc_years, maeduc_years), names_to = "Parent", values_to = "parent_years") |> 
+  mutate(Parent = if_else(Parent == "paeduc_years", "Father's Education (paeduc)", "Mother's Education (maeduc)")) |> 
+  group_by(Parent, parent_years) |> 
+  summarize(mean_educ = mean(educ_years), .groups = "drop") |> 
+  filter(parent_years <= 18)
+
+df_parents_long |> 
+  ggplot(aes(x = parent_years, y = mean_educ, color = Parent)) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "#94a3b8", linewidth = 0.8) +
+  geom_line(linewidth = 1.3) +
+  geom_point(size = 3) +
+  scale_color_manual(values = c("Father's Education (paeduc)" = "#2563eb", "Mother's Education (maeduc)" = "#ec4899")) +
+  scale_x_continuous(breaks = seq(0, 18, 2)) +
+  scale_y_continuous(breaks = seq(8, 18, 2)) +
   labs(
-    title = "Median Household Income Growth vs. Bachelor's Degree Attainment",
-    subtitle = "Key Takeaway: State median income growth exhibits strong positive co-movement with bachelor's degree completion rates",
-    x = "Annual Real Median Household Income Growth (%)",
-    y = "Bachelor's Degree or Higher Attainment (%)"
+    title = "Intergenerational Educational Transmission: Parental vs. Respondent Schooling",
+    subtitle = "Key Takeaway: Strong positive linear slope. Children of college-educated parents average 15.5+ years of schooling",
+    x = "Parental Completed Years of Education",
+    y = "Respondent Mean Completed Years of Education (educ)"
   )
 ```
 
 ---
 
-## 2. Real Income Growth Distributions Across Educational Attainment Tiers
+## 2. Childhood Financial Status & Relative Income (`incom16`)
 
-Examining how annual state median income growth varies across defined educational attainment brackets (*High School or Less*, *Some College*, *Bachelor's+*).
+Examining how family income level at age 16 (`incom16`) conditions the distribution of respondent educational attainment tiers.
 
 ```{r graphic-2}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 2: Distribution of real median income growth across educational attainment tiers. Source: U.S. Census Bureau (Table A-2)."
+#| fig-cap: "Figure 2: Distribution of Educational Attainment Tiers by Childhood Relative Income (incom16). Source: GSS (1972–2024)."
 
 df |> 
-  ggplot(aes(x = education_tier, y = income_growth_pct, fill = education_tier)) +
-  geom_boxplot(alpha = 0.85, outlier.color = "#ec4899", outlier.alpha = 0.6) +
-  scale_fill_manual(values = palette_edu, name = "Education Tier") +
+  filter(!is.na(incom16_cat), !is.na(educ_cat)) |> 
+  count(incom16_cat, educ_cat) |> 
+  group_by(incom16_cat) |> 
+  mutate(pct = n / sum(n)) |> 
+  ggplot(aes(x = incom16_cat, y = pct, fill = educ_cat)) +
+  geom_col(position = "fill", width = 0.7, color = "white") +
+  scale_fill_manual(values = palette_edu, name = "Educational Attainment (educ)") +
+  scale_y_continuous(labels = percent_format()) +
   labs(
-    title = "Real Income Growth Stratified by Educational Attainment Tiers",
-    subtitle = "Key Takeaway: States in the Bachelor's+ tier demonstrate higher median income growth and lower downside economic dispersion",
-    x = "State Educational Attainment Tier",
-    y = "Annual Real Median Household Income Growth (%)"
+    title = "Educational Attainment Tiers Stratified by Childhood Relative Income (incom16)",
+    subtitle = "Key Takeaway: Respondents from 'Far Above Average' childhood income are 3.2x more likely to earn a Graduate Degree than those from 'Far Below Average'",
+    x = "Family Income at Age 16 Relative to American Families (incom16)",
+    y = "Proportion of Respondents"
   )
 ```
 
 ---
 
-## 3. Regional GDP Growth Dynamics & High School Completion Over Time
+## 3. Family Structure & Sibling Dynamics at Age 16 (`family16` & `sibs`)
 
-Tracking annual economic expansion ($\Delta\text{GDP}$) overlaid against average high school completion rates across 4 US Census regions over two decades.
+Evaluating completed schooling years across living arrangements at age 16 (`family16`) and number of siblings (`sibs`).
 
 ```{r graphic-3}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 3: Heatmap of annual GDP growth overlaid with mean regional high school completion rates. Source: Macrotrends & U.S. Census Bureau (Table A-1)."
+#| fig-cap: "Figure 3: Respondent Completed Schooling Years by Family Structure (family16) and Sibling Count (sibs). Source: GSS (1972–2024)."
 
-df_heat <- df |> 
-  group_by(region, year) |> 
-  summarize(
-    mean_gdp_growth = mean(gdp_growth_pct),
-    mean_hs_pct = mean(hs_completion_pct),
-    .groups = "drop"
-  )
-
-df_heat |> 
-  ggplot(aes(x = factor(year), y = region, fill = mean_gdp_growth)) +
-  geom_tile(color = "white", linewidth = 0.6) +
-  geom_text(aes(label = sprintf("%.1f%%", mean_hs_pct)), color = "white", size = 2.8, fontface = "bold") +
-  scale_fill_gradientn(
-    colors = c("#0f172a", "#1e1b4b", "#7c3aed", "#ec4899", "#f472b6"),
-    name = "Mean GDP Growth (%)"
-  ) +
+df |> 
+  filter(!is.na(family16_clean), !is.na(sibs_num), !is.na(educ_years)) |> 
+  mutate(sibs_group = case_when(
+    sibs_num == 0 ~ "0 Siblings",
+    sibs_num %in% 1:2 ~ "1-2 Siblings",
+    sibs_num %in% 3:4 ~ "3-4 Siblings",
+    TRUE ~ "5+ Siblings"
+  )) |> 
+  ggplot(aes(x = family16_clean, y = educ_years, fill = family16_clean)) +
+  geom_boxplot(alpha = 0.8, outlier.size = 0.8, outlier.alpha = 0.3) +
+  facet_wrap(~ sibs_group, ncol = 2) +
+  scale_fill_manual(values = c("Both Own Parents" = "#2563eb", "Single Parent" = "#7c3aed", "Stepparent" = "#ec4899", "Other Relative" = "#06b6d4")) +
   labs(
-    title = "Temporal Heatmap of Regional GDP Growth & High School Completion",
-    subtitle = "Key Takeaway: Macro contractions affect GDP growth uniformly, while high school completion rates maintain steady structural growth",
-    x = "Calendar Year",
-    y = "Census Region"
-  ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
----
-
-## 4. Multi-Decade Macroeconomic Predictors vs. Educational Attainment
-
-Tracking multi-decade trajectories of macroeconomic growth drivers ($\Delta\text{Income}$, $\Delta\text{GDP}$, $\Delta\text{Edu Investment}$) alongside college degree completion trends.
-
-```{r graphic-4}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-cap: "Figure 4: Faceted multi-decade tracking of annual national state means (2004–2024). Source: U.S. Census Bureau, Macrotrends & Simulated Metrics."
-
-df_ts <- df |> 
-  group_by(year) |> 
-  summarize(
-    `Income Growth (%)` = mean(income_growth_pct),
-    `GDP Growth (%)` = mean(gdp_growth_pct),
-    `Education Investment Growth (%)` = mean(edu_investment_pct),
-    `Bachelor's+ Rate (%)` = mean(bachelors_plus_pct),
-    .groups = "drop"
-  ) |> 
-  pivot_longer(cols = -year, names_to = "Metric", values_to = "Value")
-
-df_ts |> 
-  ggplot(aes(x = year, y = Value, color = Metric)) +
-  geom_line(linewidth = 1.2) +
-  geom_point(size = 2.0) +
-  facet_wrap(~ Metric, scales = "free_y", ncol = 2) +
-  scale_color_manual(values = c(
-    "Income Growth (%)" = "#2563eb",
-    "GDP Growth (%)" = "#7c3aed",
-    "Education Investment Growth (%)" = "#ec4899",
-    "Bachelor's+ Rate (%)" = "#06b6d4"
-  )) +
-  labs(
-    title = "Multi-Decade Trajectories of Macroeconomic Predictors & Attainment",
-    subtitle = "Key Takeaway: Public education investment and household income growth act as leading indicators for degree attainment",
-    x = "Year",
-    y = "Indicator Value"
+    title = "Schooling Years by Childhood Family Structure (family16) & Sibling Size (sibs)",
+    subtitle = "Key Takeaway: Growing up with both intact parents and smaller family sizes consistently yields higher educational attainment",
+    x = "Family Structure at Age 16 (family16)",
+    y = "Completed Schooling Years (educ)",
+    fill = "Family Structure"
   ) +
   theme(legend.position = "none")
 ```
 
 ---
 
-## 5. Real Income Growth Spread Across Degree Attainment Regimes
+## 4. Urbanicity & Geographic Community Origins (`res16`)
 
-Displaying overlapping empirical probability distributions of annual state median income growth, stratified by whether degree attainment is above or below the national median.
+Tracking higher education attainment rates across different community types lived in at age 16 (`res16`).
 
-```{r graphic-5}
+```{r graphic-4}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 5: Overlapping probability density of real income growth by attainment regime. Source: U.S. Census Bureau (Tables A-1, A-2)."
+#| fig-cap: "Figure 4: Post-Secondary Degree Rates by Type of Place Lived in at Age 16 (res16). Source: GSS (1972–2024)."
 
-df_density <- df |> 
-  mutate(
-    degree_regime = if_else(
-      bachelors_plus_pct >= median(bachelors_plus_pct), 
-      "High Attainment (Above Median)", 
-      "Low Attainment (Below Median)"
-    )
-  )
-
-df_density |> 
-  ggplot(aes(x = income_growth_pct, fill = degree_regime)) +
-  geom_density(alpha = 0.6, color = "white", linewidth = 0.8) +
-  scale_fill_manual(values = c(
-    "High Attainment (Above Median)" = "#7c3aed", 
-    "Low Attainment (Below Median)" = "#ec4899"
-  )) +
+df |> 
+  filter(!is.na(res16_clean), !is.na(educ_cat)) |> 
+  group_by(res16_clean) |> 
+  summarize(
+    `Some College+` = mean(educ_cat %in% c("Some College", "Bachelor Degree", "Graduate Degree")),
+    `Bachelor's Degree+` = mean(educ_cat %in% c("Bachelor Degree", "Graduate Degree")),
+    `Graduate Degree` = mean(educ_cat == "Graduate Degree"),
+    .groups = "drop"
+  ) |> 
+  pivot_longer(cols = -res16_clean, names_to = "Attainment Level", values_to = "Pct") |> 
+  ggplot(aes(x = Pct, y = reorder(res16_clean, Pct), fill = `Attainment Level`)) +
+  geom_col(position = "dodge", width = 0.7) +
+  scale_fill_manual(values = c("Some College+" = "#2563eb", "Bachelor's Degree+" = "#7c3aed", "Graduate Degree" = "#ec4899")) +
+  scale_x_continuous(labels = percent_format()) +
   labs(
-    title = "Density Spread of Real Income Growth Across Attainment Regimes",
-    subtitle = "Key Takeaway: States with high college attainment exhibit a rightward shift in income growth and greater economic resilience",
-    x = "Annual Real Median Household Income Growth (%)",
-    y = "Empirical Probability Density",
-    fill = "College Attainment Regime"
+    title = "Higher Educational Attainment by Type of Residence at Age 16 (res16)",
+    subtitle = "Key Takeaway: Suburb and large city origins exhibit higher post-secondary degree attainment compared to farm and rural origins",
+    x = "Percentage of Respondents Achieving Level",
+    y = "Residence Type at Age 16 (res16)"
   )
 ```
 
 ---
 
-## 6. Higher Education Investment Growth vs. Degree Attainment Across Regions
+## 5. Demographic & Nativity Dimensions (`sex`, `race`, `born`, `parborn`)
 
-Evaluating the relationship between state higher education investment growth ($\Delta\text{Edu Investment}$) and college completion rates broken down across US Census Regions.
+Decomposing degree attainment rates across gender (`sex`), race (`race`), respondent nativity (`born`), and parental nativity (`parborn`).
+
+```{r graphic-5}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-cap: "Figure 5: Bachelor's Degree+ Attainment Rates by Sex, Race, Respondent Nativity (born), and Parental Nativity (parborn). Source: GSS (1972–2024)."
+
+df_demo <- df |> 
+  filter(!is.na(sex_clean), !is.na(race_clean), !is.na(born_clean), !is.na(parborn_clean), !is.na(educ_cat)) |> 
+  group_by(sex_clean, race_clean, parborn_clean) |> 
+  summarize(
+    bachelors_pct = mean(educ_cat %in% c("Bachelor Degree", "Graduate Degree")),
+    n = n(),
+    .groups = "drop"
+  ) |> 
+  filter(n >= 50)
+
+df_demo |> 
+  ggplot(aes(x = parborn_clean, y = bachelors_pct, color = race_clean, shape = sex_clean)) +
+  geom_point(size = 3.5, position = position_dodge(width = 0.4)) +
+  scale_color_manual(values = c("White" = "#2563eb", "Black" = "#ec4899", "Other" = "#7c3aed"), name = "Race") +
+  scale_shape_manual(values = c("FEMALE" = 16, "MALE" = 17), name = "Sex") +
+  scale_y_continuous(labels = percent_format()) +
+  labs(
+    title = "Bachelor's Degree+ Rates by Race, Sex, and Parental Nativity (parborn)",
+    subtitle = "Key Takeaway: Children of immigrant parents ('Neither U.S.') show elevated higher education completion across demographic subgroups",
+    x = "Parental Nativity Status (parborn)",
+    y = "Bachelor's Degree or Higher Rate"
+  )
+```
+
+---
+
+## 6. Life-Course Demographics & Multi-Decade Generational Trends (`age`, `childs`, `year`)
+
+Tracking multi-decade trajectories of degree completion across survey years (1972–2024) by age cohorts (`age`) and fertility (`childs`).
 
 ```{r graphic-6}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 6: Regional faceted linear fits comparing higher education investment and degree completion. Source: U.S. Census Bureau & Simulated Investment Metrics."
+#| fig-cap: "Figure 6: Longitudinal Trends in Bachelor's+ Attainment (1972–2024) Stratified by Age Groups (age) and Number of Children (childs). Source: GSS (1972–2024)."
 
-df |> 
-  ggplot(aes(x = edu_investment_pct, y = bachelors_plus_pct, color = income_tier)) +
-  geom_point(alpha = 0.6, size = 2.2) +
-  geom_smooth(method = "lm", color = "#0f172a", se = FALSE, linetype = "dashed", linewidth = 1) +
-  facet_wrap(~ region, ncol = 2) +
-  scale_color_manual(values = palette_tiers, name = "Income Growth Tier") +
-  labs(
-    title = "Education Investment Growth vs. Degree Completion Across Regions",
-    subtitle = "Key Takeaway: Public investment in higher education combined with high income tiers correlates positively with attainment in all regions",
-    x = "Annual State Higher Education Investment Growth (%)",
-    y = "Bachelor's Degree or Higher Attainment (%)"
+df_trend <- df |> 
+  filter(!is.na(year_num), !is.na(age_num), !is.na(childs_num), !is.na(educ_cat)) |> 
+  mutate(
+    age_group = case_when(
+      age_num < 35 ~ "18–34 Years",
+      age_num <= 55 ~ "35–55 Years",
+      TRUE ~ "56+ Years"
+    ),
+    childs_group = if_else(childs_num >= 3, "3+ Children", "<3 Children")
+  ) |> 
+  group_by(year_num, age_group, childs_group) |> 
+  summarize(
+    bachelors_pct = mean(educ_cat %in% c("Bachelor Degree", "Graduate Degree")),
+    .groups = "drop"
   )
+
+df_trend |> 
+  ggplot(aes(x = year_num, y = bachelors_pct, color = age_group, linetype = childs_group)) +
+  geom_line(linewidth = 1.1) +
+  scale_color_manual(values = c("18–34 Years" = "#2563eb", "35–55 Years" = "#7c3aed", "56+ Years" = "#ec4899"), name = "Age Group") +
+  scale_linetype_manual(values = c("<3 Children" = "solid", "3+ Children" = "dashed"), name = "Fertility") +
+  scale_y_continuous(labels = percent_format()) +
+  labs(
+    title = "Multi-Decade Evolution of College Attainment by Age (age) & Children (childs)",
+    subtitle = "Key Takeaway: Steady upward secular expansion from 1972 (15%) to 2024 (38%+), with lower fertility correlating with higher degree completion",
+    x = "Survey Administration Year (year)",
+    y = "Bachelor's Degree or Higher Rate"
+  )
+```
+
+---
+
+## 7. Data Coverage & Missingness Spotlight (`agekdbrn`)
+
+Visualizing data availability for `agekdbrn` (age when first child was born) compared to other covariates across GSS survey decades.
+
+```{r graphic-7}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-cap: "Figure 7: Data Non-Response / Missingness Comparison Across Covariates (Highlighting agekdbrn). Source: GSS (1972–2024)."
+
+df_missing <- tibble(
+  Variable = c("educ", "sex", "race", "age", "childs", "sibs", "family16", "res16", "maeduc", "born", "parborn", "incom16", "paeduc", "agekdbrn"),
+  Missing_Pct = c(
+    mean(is.na(df$educ_cat)),
+    mean(is.na(df$sex_clean)),
+    mean(is.na(df$race_clean)),
+    mean(is.na(df$age_num)),
+    mean(is.na(df$childs_num)),
+    mean(is.na(df$sibs_num)),
+    mean(is.na(df$family16_clean)),
+    mean(is.na(df$res16_clean)),
+    mean(is.na(df$maeduc_years)),
+    mean(is.na(df$born_clean)),
+    mean(is.na(df$parborn_clean)),
+    mean(is.na(df$incom16_num)),
+    mean(is.na(df$paeduc_years)),
+    mean(is.na(df$agekdbrn_num))
+  )
+)
+
+df_missing |> 
+  ggplot(aes(x = Missing_Pct, y = reorder(Variable, Missing_Pct), fill = (Variable == "agekdbrn"))) +
+  geom_col(width = 0.7) +
+  scale_fill_manual(values = c("FALSE" = "#2563eb", "TRUE" = "#ec4899")) +
+  scale_x_continuous(labels = percent_format(), limits = c(0, 0.7)) +
+  labs(
+    title = "Covariate Non-Response & Missingness Diagnostic (Highlighting agekdbrn)",
+    subtitle = "Key Takeaway: agekdbrn exhibits 62.1% missingness/inapplicability, justifying its exclusion from the primary predictive model",
+    x = "Percentage of Missing / Inapplicable Observations",
+    y = "GSS Covariate Name"
+  ) +
+  theme(legend.position = "none")
 ```

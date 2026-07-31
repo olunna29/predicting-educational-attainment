@@ -3,7 +3,7 @@ project:
   output-dir: _site
 
 website:
-  title: "Macro-Economic Dynamics & Higher Education"
+  title: "Predicting Educational Attainment"
   search: true
   navbar:
     background: primary
