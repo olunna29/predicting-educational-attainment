@@ -1,36 +1,20 @@
----
-title: "Our Question and Our Data"
-format:
-  html:
-    toc: true
-    toc-depth: 2
----
 
 ::: {.hero-banner}
-# Socio-Demographic Drivers of Educational Attainment {.unlisted}
-<p class="hero-subtitle">How parental background, childhood economic environment, family structure, geography, and birth cohorts shape individual educational outcomes (1972–2024)</p>
+# Our Question and Our Data {.unlisted}
+<p class="hero-subtitle">How parental background, childhood economic environment, family structure, geography, and birth cohorts shape individual educational outcomes.</p>
 :::
 
 ## 1. The Context
 
-Educational attainment ($\text{educ}$) is one of the most vital determinants of individual socio-economic mobility, health outcomes, and lifelong earnings trajectory in modern society. Over the past five decades, access to post-secondary education has expanded dramatically across the United States. However, individual educational trajectories remain deeply embedded within socio-demographic origins, parental academic background, childhood economic resources, family structures, urbanicity, and generational cohort shifts.
+Educational attainment is one of the most vital determinants of individual socio-economic mobility, health outcomes, and lifelong earnings trajectory in modern society. Over the past five decades, access to post-secondary education has expanded dramatically across the United States. However, individual educational trajectories remain deeply embedded within socio-demographic origins, parental academic background, and so much more.
 
-Understanding how these background factors jointly influence educational attainment enables workforce policy planners, academic leaders, and sociologists to quantify intergenerational mobility and identify structural barriers to higher education. While traditional analyses often isolate single factors like parental income, a comprehensive predictive approach evaluates how multiple interacting covariates condition the probability of reaching key educational milestones—from high school completion through post-graduate education.
+Understanding how these background factors jointly influence educational attainment enables workforce policy planners, academic leaders, and sociologists to quantify intergenerational mobility and identify structural barriers to higher education.
 
 ---
 
 ## 2. Central Predictive Research Question
 
-To establish a quantitative data science framework, we formulate our core predictive research question centered on conditional multinomial expectations and statistically significant background factors from the General Social Survey (GSS):
-
-::: {.callout-important}
-### Central Predictive Question
-> **"To what extent do parental educational background ($\text{paeduc}, \text{maeduc}$), childhood financial status ($\text{incom16}$), family structure ($\text{family16}$), geographic origin ($\text{res16}$), demographic characteristics ($\text{sex}, \text{race}, \text{born}, \text{parborn}$), family size ($\text{sibs}, \text{childs}$), and temporal birth cohorts ($\text{year}, \text{age}$) jointly predict whether an individual achieves a High School degree or less, Some College, a Bachelor's degree, or a Graduate degree in the United States?"**
-:::
-
-### Predictive vs. Causal Framing
-- **Causal Claim (Avoided)**: *"Higher parental education directly causes an individual to obtain a graduate degree."*
-- **Predictive Conditional Expectation (Adopted)**: *"Given an individual's vector of observable socio-demographic background traits $\mathbf{X}$, what is the updated conditional probability distribution $P(Y_{\text{educ}} = k \mid \mathbf{X})$ across educational attainment tiers $k \in \{\text{High School or Less}, \text{Some College}, \text{Bachelor Degree}, \text{Graduate Degree}\}$?"*
+To what extent do parental educational background ($\text{paeduc}, \text{maeduc}$), childhood financial status ($\text{incom16}$), family structure ($\text{family16}$), geographic origin ($\text{res16}$), demographic characteristics ($\text{sex}, \text{race}, \text{born}, \text{parborn}$), family size ($\text{sibs}, \text{childs}$), and temporal birth cohorts ($\text{year}, \text{age}$) jointly predict whether an individual achieves a High School degree or less, Some College, a Bachelor's degree, or a Graduate degree in the United States?
 
 ---
 
@@ -60,8 +44,8 @@ summary_table <- tibble(
     "sibs", "childs", "age", "year", "agekdbrn"
   ),
   `Variable Role & Type` = c(
-    "Primary Target (Categorical/Ordinal)", "Covariate (Ordinal/Years)", "Covariate (Ordinal/Years)", 
-    "Covariate (Ordinal 1-5)", "Covariate (Categorical)", "Covariate (Categorical)", 
+    "Primary Target (Categorical)", "Covariate (Years)", "Covariate (Years)", 
+    "Covariate (Categorical)", "Covariate (Categorical)", "Covariate (Categorical)", 
     "Covariate (Binary)", "Covariate (Categorical)", "Covariate (Binary)", 
     "Covariate (Categorical)", "Covariate (Discrete Count)", "Covariate (Discrete Count)", 
     "Covariate (Continuous Years)", "Covariate (Continuous Year)", "Covariate (Continuous Years)"
@@ -81,34 +65,9 @@ summary_table <- tibble(
     "Number of Children (0 to 8+)",
     "Respondent's Age at Time of Survey (18 to 89)",
     "Survey Administration Year (1972 to 2024)",
-    "Age When First Child Was Born (High Missingness / Inapplicable in older rounds)"
-  ),
-  `Valid Observations` = c(
-    paste0(sum(!is.na(df$educ_cat)), " (99.6%)"),
-    paste0(sum(!is.na(df$paeduc_years)), " (70.6%)"),
-    paste0(sum(!is.na(df$maeduc_years)), " (88.3%)"),
-    paste0(sum(!is.na(df$incom16_num)), " (82.1%)"),
-    paste0(sum(!is.na(df$family16_clean)), " (97.9%)"),
-    paste0(sum(!is.na(df$res16_clean)), " (97.9%)"),
-    paste0(sum(!is.na(df$sex_clean)), " (99.8%)"),
-    paste0(sum(!is.na(df$race_clean)), " (99.8%)"),
-    paste0(sum(!is.na(df$born_clean)), " (87.6%)"),
-    paste0(sum(!is.na(df$parborn_clean)), " (87.6%)"),
-    paste0(sum(!is.na(df$sibs_num)), " (97.7%)"),
-    paste0(sum(!is.na(df$childs_num)), " (99.6%)"),
-    paste0(sum(!is.na(df$age_num)), " (99.7%)"),
-    paste0(sum(!is.na(df$year_num)), " (100.0%)"),
-    paste0(sum(!is.na(df$agekdbrn_num)), " (37.9%)")
-  )
-)
+    "Age When First Child Was Born"
+  ))
 
 summary_table |> 
   kable(caption = "Table 1.1: General Social Survey (GSS) Variable Specification & Data Coverage (1972–2024)")
 ```
-
-::: {.callout-tip}
-### Key Dataset Takeaways
-- **Sample Breadth**: $N = 75,699$ representative U.S. adult respondents spanning 34 biennial/annual survey rounds from 1972 through 2024.
-- **Multidimensional Covariates**: Covers 14 background factors spanning intergenerational education (`paeduc`, `maeduc`), childhood economy (`incom16`), family structure (`family16`), geography (`res16`), demographics (`sex`, `race`, `born`, `parborn`), fertility/family size (`sibs`, `childs`), and temporal cohorts (`year`, `age`).
-- **Data Selection Rationale**: Variable `agekdbrn` is tracked and visualized in EDA for completeness but is excluded from the final predictive model due to high missingness (62.1% missing/inapplicable), maximizing model sample size ($N = 48,360$ complete cases across all primary covariates).
-:::

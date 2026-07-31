@@ -8,11 +8,11 @@ website:
   navbar:
     background: primary
     left:
-      - text: "Executive Summary"
+      - text: "Introduction"
         href: index.qmd
-      - text: "Exploratory EDA"
+      - text: "Visualization"
         href: exploratory.qmd
-      - text: "Predictive Modeling & DGM"
+      - text: "DGM & Predictive Model"
         href: model.qmd
       - text: "Sources"
         href: sources.qmd

@@ -1,15 +1,6 @@
----
-title: "Data Generating Mechanism & Predictive Modeling"
-format:
-  html:
-    toc: true
-    toc-depth: 2
-    fig-width: 9.5
-    fig-height: 6
----
 
 ::: {.hero-banner}
-# Predictive Statistical Modeling & DGM {.unlisted}
+# Our Verdict {.unlisted}
 <p class="hero-subtitle">Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Intervals & Empirical Verdict</p>
 :::
 
@@ -77,44 +68,9 @@ $$Y_{\text{years}} = \beta_0 + \boldsymbol{\beta}^T \mathbf{X} + \varepsilon, \q
 
 ---
 
-## 2. Feature Selection & Statistical Significance Analysis
+## 2. Model Estimation & 95% Confidence Intervals
 
-To identify the most statistically significant covariates for inclusion in the final model, we perform **Likelihood Ratio Tests (LRT)** comparing full and nested multinomial specifications ($N = 48,360$).
-
-```{r lrt-table}
-#| echo: false
-#| message: false
-#| warning: false
-
-lrt_summary <- tibble(
-  `Covariate Name` = c(
-    "Parental Education (parent_educ_avg)", "Respondent Age (age_num)", 
-    "Sibling Count (sibs_num)", "Family Structure at Age 16 (family16)", 
-    "Survey Year (year_num)", "Number of Children (childs_num)", 
-    "Residence Type at Age 16 (res16)", "Race (race_clean)", 
-    "Parental Nativity (parborn_clean)", "Childhood Income (incom16_num)", 
-    "Respondent Nativity (born_clean)", "Sex (sex_clean)"
-  ),
-  `Likelihood Ratio χ²` = c(4877.38, 885.89, 583.24, 533.19, 483.57, 431.68, 377.61, 121.39, 107.35, 87.19, 27.74, 27.32),
-  `Degrees of Freedom` = c(3, 3, 3, 9, 3, 3, 15, 6, 6, 3, 3, 3),
-  `p-value` = c("< 0.001", "< 0.001", "< 0.001", "< 0.001", "< 0.001", "< 0.001", "< 0.001", "< 0.001", "< 0.001", "< 0.001", "< 0.001", "< 0.001"),
-  `Selected into Final Model` = rep("Yes (Statistically Significant)", 12)
-)
-
-lrt_summary |> 
-  kable(caption = "Table 3.1: Likelihood Ratio Test (LRT) Ranking for Covariate Inclusion (Ref: High School or Less)")
-```
-
-::: {.callout-note}
-### Feature Selection Verdict
-All 12 primary covariates achieve robust statistical significance at $p < 0.001$. **Parental Education** ($\chi^2 = 4,877.38$) exhibits the strongest single predictive contribution, followed by **Age**, **Sibling Count**, **Family Structure**, and **Survey Cohort Year**.
-:::
-
----
-
-## 3. Model Estimation & 95% Confidence Intervals
-
-### 3.1 Final Multinomial Logistic Model Parameter Estimates & Odds Ratios
+### 2.1 Final Multinomial Logistic Model Parameter Estimates & Odds Ratios
 
 We estimate multinomial parameters and calculate Odds Ratios ($\text{OR} = \exp(\beta)$) with exact 95% Confidence Intervals using `broom::tidy(conf.int = TRUE, exponentiate = TRUE)`.
 
@@ -169,7 +125,7 @@ multi_table |>
 
 ---
 
-### 3.2 OLS Baseline Model Estimates for Schooling Years
+### 2.2 OLS Baseline Model Estimates for Schooling Years
 
 ```{r fit-ols-table}
 #| echo: false
@@ -228,7 +184,7 @@ ols_tidy |>
 
 ---
 
-## 4. Visualizing Uncertainty: Odds Ratio Forest Plot
+## 3. Visualizing Uncertainty: Odds Ratio Forest Plot
 
 To evaluate parameter estimates and quantify uncertainty visually, we build a point-range error-bar plot displaying multinomial Odds Ratios ($\text{OR} = \exp(\beta)$) alongside exact 95% Confidence Interval bounds for predicting **Bachelor Degree** and **Graduate Degree** attainment relative to High School baseline.
 
@@ -268,55 +224,8 @@ multi_tidy |>
 
 ---
 
-## 5. Out-of-Sample Performance Evaluation
+## 4. Formal Predictive Verdict
 
-We evaluate model predictive performance using an 80/20 train/test cross-validation split ($N_{\text{train}} = 38,688$, $N_{\text{test}} = 9,672$).
-
-```{r eval-performance}
-#| echo: false
-#| message: false
-#| warning: false
-
-set.seed(123)
-train_idx <- sample(seq_len(nrow(m_data)), size = 0.8 * nrow(m_data))
-train_df <- m_data[train_idx, ]
-test_df  <- m_data[-train_idx, ]
-
-fit_eval <- multinom(
-  educ_cat ~ parent_educ_avg + incom16_num + sibs_num + childs_num + 
-    age_num + year_num + sex_clean + race_clean + res16_clean + family16_clean + born_clean + parborn_clean,
-  data = train_df,
-  trace = FALSE
-)
-
-preds <- predict(fit_eval, newdata = test_df)
-acc <- mean(preds == test_df$educ_cat)
-baseline_acc <- max(table(test_df$educ_cat)) / nrow(test_df)
-
-cm <- table(Actual = test_df$educ_cat, Predicted = preds)
-```
-
-```{r cm-table}
-#| echo: false
-#| message: false
-#| warning: false
-
-cm |> 
-  knitr::kable(caption = "Table 3.4: Out-of-Sample Confusion Matrix (Test N = 9,672)")
-```
-
-::: {.callout-tip}
-### Out-of-Sample Accuracy Summary
-- **Model Test Accuracy**: **`r round(acc * 100, 2)`%**
-- **Baseline Majority Accuracy**: **`r round(baseline_acc * 100, 2)`%** (High School or Less)
-- **Accuracy Improvement**: **+`r round((acc - baseline_acc) * 100, 2)` percentage points** over naive baseline ($p < 0.001$).
-:::
-
----
-
-## 6. Formal Predictive Verdict
-
-::: {.callout-important}
 ### 📊 Predictive Modeling Verdict & Key Summary
 #### 1. Goodness-of-Fit Metrics
 - **Multinomial Model Deviance**: `r round(deviance(multi_fit), 1)`
@@ -333,4 +242,4 @@ cm |>
 
 #### 3. Strategic Policy Recommendation
 Because parental education and childhood economic status exert strong conditional effects on educational outcomes, state policy initiatives should combine targeted higher education tuition subsidies with family support programs to foster intergenerational socio-economic mobility.
-:::
+

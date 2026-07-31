@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Our Question and Our Data – Predictors of Educational Attainment</title>
+<title>Predicting Educational Attainment</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -113,7 +113,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Predictors of Educational Attainment</span>
+    <span class="navbar-title">Predicting Educational Attainment</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -124,15 +124,15 @@ window.Quarto = {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Executive Summary</span></a>
+<span class="menu-text">Introduction</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./exploratory.html"> 
-<span class="menu-text">Exploratory EDA</span></a>
+<span class="menu-text">Visualization</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./model.html"> 
-<span class="menu-text">Predictive Modeling &amp; DGM</span></a>
+<span class="menu-text">DGM &amp; Predictive Model</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./sources.html"> 
@@ -161,65 +161,27 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Our Question and Our Data</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="socio-demographic-drivers-of-educational-attainment" class="level1 unlisted hero-banner">
-<h1 class="unlisted">Socio-Demographic Drivers of Educational Attainment</h1>
+<section id="our-question-and-our-data" class="level1 unlisted hero-banner">
+<h1 class="unlisted">Our Question and Our Data</h1>
 <p class="hero-subtitle">
-How parental background, childhood economic environment, family structure, geography, and birth cohorts shape individual educational outcomes (1972–2024)
+How parental background, childhood economic environment, family structure, geography, and birth cohorts shape individual educational outcomes.
 </p>
 </section>
 <section id="the-context" class="level2">
 <h2 class="anchored" data-anchor-id="the-context">1. The Context</h2>
-<p>Educational attainment (<span class="math inline">\(\text{educ}\)</span>) is one of the most vital determinants of individual socio-economic mobility, health outcomes, and lifelong earnings trajectory in modern society. Over the past five decades, access to post-secondary education has expanded dramatically across the United States. However, individual educational trajectories remain deeply embedded within socio-demographic origins, parental academic background, childhood economic resources, family structures, urbanicity, and generational cohort shifts.</p>
-<p>Understanding how these background factors jointly influence educational attainment enables workforce policy planners, academic leaders, and sociologists to quantify intergenerational mobility and identify structural barriers to higher education. While traditional analyses often isolate single factors like parental income, a comprehensive predictive approach evaluates how multiple interacting covariates condition the probability of reaching key educational milestones—from high school completion through post-graduate education.</p>
+<p>Educational attainment is one of the most vital determinants of individual socio-economic mobility, health outcomes, and lifelong earnings trajectory in modern society. Over the past five decades, access to post-secondary education has expanded dramatically across the United States. However, individual educational trajectories remain deeply embedded within socio-demographic origins, parental academic background, and so much more.</p>
+<p>Understanding how these background factors jointly influence educational attainment enables workforce policy planners, academic leaders, and sociologists to quantify intergenerational mobility and identify structural barriers to higher education.</p>
 <hr>
 </section>
 <section id="central-predictive-research-question" class="level2">
 <h2 class="anchored" data-anchor-id="central-predictive-research-question">2. Central Predictive Research Question</h2>
-<p>To establish a quantitative data science framework, we formulate our core predictive research question centered on conditional multinomial expectations and statistically significant background factors from the General Social Survey (GSS):</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Central Predictive Question
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<blockquote class="blockquote">
-<p><strong>“To what extent do parental educational background (<span class="math inline">\(\text{paeduc}, \text{maeduc}\)</span>), childhood financial status (<span class="math inline">\(\text{incom16}\)</span>), family structure (<span class="math inline">\(\text{family16}\)</span>), geographic origin (<span class="math inline">\(\text{res16}\)</span>), demographic characteristics (<span class="math inline">\(\text{sex}, \text{race}, \text{born}, \text{parborn}\)</span>), family size (<span class="math inline">\(\text{sibs}, \text{childs}\)</span>), and temporal birth cohorts (<span class="math inline">\(\text{year}, \text{age}\)</span>) jointly predict whether an individual achieves a High School degree or less, Some College, a Bachelor’s degree, or a Graduate degree in the United States?”</strong></p>
-</blockquote>
-</div>
-</div>
-<section id="predictive-vs.-causal-framing" class="level3">
-<h3 class="anchored" data-anchor-id="predictive-vs.-causal-framing">Predictive vs.&nbsp;Causal Framing</h3>
-<ul>
-<li><strong>Causal Claim (Avoided)</strong>: <em>“Higher parental education directly causes an individual to obtain a graduate degree.”</em></li>
-<li><strong>Predictive Conditional Expectation (Adopted)</strong>: <em>“Given an individual’s vector of observable socio-demographic background traits <span class="math inline">\(\mathbf{X}\)</span>, what is the updated conditional probability distribution <span class="math inline">\(P(Y_{\text{educ}} = k \mid \mathbf{X})\)</span> across educational attainment tiers <span class="math inline">\(k \in \{\text{High School or Less}, \text{Some College}, \text{Bachelor Degree}, \text{Graduate Degree}\}\)</span>?”</em></li>
-</ul>
+<p>To what extent do parental educational background (<span class="math inline">\(\text{paeduc}, \text{maeduc}\)</span>), childhood financial status (<span class="math inline">\(\text{incom16}\)</span>), family structure (<span class="math inline">\(\text{family16}\)</span>), geographic origin (<span class="math inline">\(\text{res16}\)</span>), demographic characteristics (<span class="math inline">\(\text{sex}, \text{race}, \text{born}, \text{parborn}\)</span>), family size (<span class="math inline">\(\text{sibs}, \text{childs}\)</span>), and temporal birth cohorts (<span class="math inline">\(\text{year}, \text{age}\)</span>) jointly predict whether an individual achieves a High School degree or less, Some College, a Bachelor’s degree, or a Graduate degree in the United States?</p>
 <hr>
-</section>
 </section>
 <section id="dataset-architecture" class="level2">
 <h2 class="anchored" data-anchor-id="dataset-architecture">3. Dataset Architecture</h2>
@@ -229,129 +191,95 @@ How parental background, childhood economic environment, family structure, geogr
 <table class="caption-top table table-sm table-striped small">
 <caption>Table 1.1: General Social Survey (GSS) Variable Specification &amp; Data Coverage (1972–2024)</caption>
 <colgroup>
-<col style="width: 8%">
-<col style="width: 20%">
-<col style="width: 60%">
-<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 19%">
+<col style="width: 70%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Variable Name</th>
 <th style="text-align: left;">Variable Role &amp; Type</th>
 <th style="text-align: left;">Description</th>
-<th style="text-align: left;">Valid Observations</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">educ (Outcome)</td>
-<td style="text-align: left;">Primary Target (Categorical/Ordinal)</td>
+<td style="text-align: left;">Primary Target (Categorical)</td>
 <td style="text-align: left;">Respondent’s Highest Educational Attainment Tier (High School or Less, Some College, Bachelor’s, Graduate)</td>
-<td style="text-align: left;">75413 (99.6%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">paeduc</td>
-<td style="text-align: left;">Covariate (Ordinal/Years)</td>
+<td style="text-align: left;">Covariate (Years)</td>
 <td style="text-align: left;">Father’s Educational Attainment (Years 0–20)</td>
-<td style="text-align: left;">53806 (70.6%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">maeduc</td>
-<td style="text-align: left;">Covariate (Ordinal/Years)</td>
+<td style="text-align: left;">Covariate (Years)</td>
 <td style="text-align: left;">Mother’s Educational Attainment (Years 0–20)</td>
-<td style="text-align: left;">63314 (88.3%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">incom16</td>
-<td style="text-align: left;">Covariate (Ordinal 1-5)</td>
+<td style="text-align: left;">Covariate (Categorical)</td>
 <td style="text-align: left;">Family Relative Income at Age 16 (Far Below Average to Far Above Average)</td>
-<td style="text-align: left;">61736 (82.1%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">family16</td>
 <td style="text-align: left;">Covariate (Categorical)</td>
 <td style="text-align: left;">Living Arrangement / Family Structure at Age 16 (Both Parents, Single Parent, Stepparent, Other)</td>
-<td style="text-align: left;">73869 (97.9%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">res16</td>
 <td style="text-align: left;">Covariate (Categorical)</td>
 <td style="text-align: left;">Type of Place Lived in at Age 16 (Farm, Town &lt;50k, Suburb, City &gt;250k)</td>
-<td style="text-align: left;">73777 (97.9%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">sex</td>
 <td style="text-align: left;">Covariate (Binary)</td>
 <td style="text-align: left;">Respondent’s Sex (Female, Male)</td>
-<td style="text-align: left;">75338 (99.8%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">race</td>
 <td style="text-align: left;">Covariate (Categorical)</td>
 <td style="text-align: left;">Respondent’s Race (White, Black, Other)</td>
-<td style="text-align: left;">75243 (99.8%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">born</td>
 <td style="text-align: left;">Covariate (Binary)</td>
 <td style="text-align: left;">Was Respondent Born in the United States? (Yes, No)</td>
-<td style="text-align: left;">66153 (87.6%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">parborn</td>
 <td style="text-align: left;">Covariate (Categorical)</td>
 <td style="text-align: left;">Were Respondent’s Parents Born in the United States? (Both U.S., One U.S., Neither U.S.)</td>
-<td style="text-align: left;">65961 (87.6%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">sibs</td>
 <td style="text-align: left;">Covariate (Discrete Count)</td>
 <td style="text-align: left;">Number of Brothers and Sisters / Siblings (0 to 6+)</td>
-<td style="text-align: left;">73645 (97.7%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">childs</td>
 <td style="text-align: left;">Covariate (Discrete Count)</td>
 <td style="text-align: left;">Number of Children (0 to 8+)</td>
-<td style="text-align: left;">75166 (99.6%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age</td>
 <td style="text-align: left;">Covariate (Continuous Years)</td>
 <td style="text-align: left;">Respondent’s Age at Time of Survey (18 to 89)</td>
-<td style="text-align: left;">74192 (99.7%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">year</td>
 <td style="text-align: left;">Covariate (Continuous Year)</td>
 <td style="text-align: left;">Survey Administration Year (1972 to 2024)</td>
-<td style="text-align: left;">75413 (100.0%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">agekdbrn</td>
 <td style="text-align: left;">Covariate (Continuous Years)</td>
-<td style="text-align: left;">Age When First Child Was Born (High Missingness / Inapplicable in older rounds)</td>
-<td style="text-align: left;">30906 (37.9%)</td>
+<td style="text-align: left;">Age When First Child Was Born</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Key Dataset Takeaways
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>Sample Breadth</strong>: <span class="math inline">\(N = 75,699\)</span> representative U.S. adult respondents spanning 34 biennial/annual survey rounds from 1972 through 2024.</li>
-<li><strong>Multidimensional Covariates</strong>: Covers 14 background factors spanning intergenerational education (<code>paeduc</code>, <code>maeduc</code>), childhood economy (<code>incom16</code>), family structure (<code>family16</code>), geography (<code>res16</code>), demographics (<code>sex</code>, <code>race</code>, <code>born</code>, <code>parborn</code>), fertility/family size (<code>sibs</code>, <code>childs</code>), and temporal cohorts (<code>year</code>, <code>age</code>).</li>
-<li><strong>Data Selection Rationale</strong>: Variable <code>agekdbrn</code> is tracked and visualized in EDA for completeness but is excluded from the final predictive model due to high missingness (62.1% missing/inapplicable), maximizing model sample size (<span class="math inline">\(N = 48,360\)</span> complete cases across all primary covariates).</li>
-</ul>
 </div>
 </div>
 

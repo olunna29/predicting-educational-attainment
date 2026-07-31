@@ -1,19 +1,8 @@
----
-title: "Exploratory Data Analysis"
-format:
-  html:
-    toc: true
-    toc-depth: 2
-    fig-width: 9.5
-    fig-height: 5.5
----
 
 ::: {.hero-banner}
-# Exploratory Data Analysis (EDA) {.unlisted}
+# Data Visualization {.unlisted}
 <p class="hero-subtitle">Empirical Analysis Across 14 Background Covariates & Educational Attainment (GSS 1972–2024)</p>
 :::
-
-In this section, we systematically explore the empirical relationships between respondent educational attainment (`educ`) and all 14 candidate socio-demographic covariates using 7 publication-ready visualizations. Data transformations follow modern tidyverse R standards using the native R pipe (`|>`).
 
 ```{r setup}
 #| echo: false
@@ -63,15 +52,13 @@ palette_demo <- c(
 
 ---
 
-## 1. Intergenerational Educational Mobility (`paeduc` & `maeduc`)
-
-Evaluating how father's educational attainment (`paeduc`) and mother's educational attainment (`maeduc`) track with respondent educational outcome (`educ`).
-
+## 1. Parental Education
+Is one's education level correlated to their parent's education level?
 ```{r graphic-1}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 1: Intergenerational Educational Mobility. Respondent mean completed schooling years plotted against Father's (paeduc) and Mother's (maeduc) educational attainment. Source: General Social Survey (1972–2024)."
+#| fig-cap: "Figure 1: Respondent mean completed schooling years plotted against Father's (paeduc) and Mother's (maeduc) educational attainment. Source: General Social Survey (1972–2024)."
 
 df_parents <- df |> 
   filter(!is.na(paeduc_years), !is.na(maeduc_years), !is.na(educ_years)) |> 
@@ -110,15 +97,13 @@ df_parents_long |>
 
 ---
 
-## 2. Childhood Financial Status & Relative Income (`incom16`)
-
-Examining how family income level at age 16 (`incom16`) conditions the distribution of respondent educational attainment tiers.
-
+## 2. Childhood Financial Status 
+Is a child's financial status a good indicator of future years of schooling?
 ```{r graphic-2}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 2: Distribution of Educational Attainment Tiers by Childhood Relative Income (incom16). Source: GSS (1972–2024)."
+#| fig-cap: "Figure 2: Distribution of Educational Attainment Tiers by Childhood Relative Income. Source: GSS (1972–2024)."
 
 df |> 
   filter(!is.na(incom16_cat), !is.na(educ_cat)) |> 
@@ -139,15 +124,13 @@ df |>
 
 ---
 
-## 3. Family Structure & Sibling Dynamics at Age 16 (`family16` & `sibs`)
-
-Evaluating completed schooling years across living arrangements at age 16 (`family16`) and number of siblings (`sibs`).
-
+## 3. Family Structure & Sibling Dynamics 
+Does number of siblings and family structure correlate to education levels?
 ```{r graphic-3}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 3: Respondent Completed Schooling Years by Family Structure (family16) and Sibling Count (sibs). Source: GSS (1972–2024)."
+#| fig-cap: "Figure 3: Respondent Completed Schooling Years by Family Structure and Sibling Count. Source: GSS (1972–2024)."
 
 df |> 
   filter(!is.na(family16_clean), !is.na(sibs_num), !is.na(educ_years)) |> 
@@ -173,15 +156,13 @@ df |>
 
 ---
 
-## 4. Urbanicity & Geographic Community Origins (`res16`)
-
-Tracking higher education attainment rates across different community types lived in at age 16 (`res16`).
-
+## 4. Geographic Environment
+How good is city/town environment as a predictor of education level?
 ```{r graphic-4}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 4: Post-Secondary Degree Rates by Type of Place Lived in at Age 16 (res16). Source: GSS (1972–2024)."
+#| fig-cap: "Figure 4: Post-Secondary Degree Rates by Type of Place Lived in at Age 16. Source: GSS (1972–2024)."
 
 df |> 
   filter(!is.na(res16_clean), !is.na(educ_cat)) |> 
@@ -207,15 +188,13 @@ df |>
 
 ---
 
-## 5. Demographic & Nativity Dimensions (`sex`, `race`, `born`, `parborn`)
-
-Decomposing degree attainment rates across gender (`sex`), race (`race`), respondent nativity (`born`), and parental nativity (`parborn`).
-
+## 5. Demographics & Nativity
+Are race/gender demographics and parent nativity good indicators of education level?
 ```{r graphic-5}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 5: Bachelor's Degree+ Attainment Rates by Sex, Race, Respondent Nativity (born), and Parental Nativity (parborn). Source: GSS (1972–2024)."
+#| fig-cap: "Figure 5: Bachelor's Degree+ Attainment Rates by Sex, Race, Respondent Nativity, and Parental Nativity. Source: GSS (1972–2024)."
 
 df_demo <- df |> 
   filter(!is.na(sex_clean), !is.na(race_clean), !is.na(born_clean), !is.na(parborn_clean), !is.na(educ_cat)) |> 
@@ -243,15 +222,13 @@ df_demo |>
 
 ---
 
-## 6. Life-Course Demographics & Multi-Decade Generational Trends (`age`, `childs`, `year`)
-
-Tracking multi-decade trajectories of degree completion across survey years (1972–2024) by age cohorts (`age`) and fertility (`childs`).
-
+## 6. Multi-Decade Generational Trends & Parental Status
+How did educational attainment change over time and did having children change this rate?
 ```{r graphic-6}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 6: Longitudinal Trends in Bachelor's+ Attainment (1972–2024) Stratified by Age Groups (age) and Number of Children (childs). Source: GSS (1972–2024)."
+#| fig-cap: "Figure 6: Longitudinal Trends in Bachelor's+ Attainment (1972–2024) Stratified by Age Groups and Number of Children. Source: GSS (1972–2024)."
 
 df_trend <- df |> 
   filter(!is.na(year_num), !is.na(age_num), !is.na(childs_num), !is.na(educ_cat)) |> 
@@ -283,48 +260,3 @@ df_trend |>
   )
 ```
 
----
-
-## 7. Data Coverage & Missingness Spotlight (`agekdbrn`)
-
-Visualizing data availability for `agekdbrn` (age when first child was born) compared to other covariates across GSS survey decades.
-
-```{r graphic-7}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-cap: "Figure 7: Data Non-Response / Missingness Comparison Across Covariates (Highlighting agekdbrn). Source: GSS (1972–2024)."
-
-df_missing <- tibble(
-  Variable = c("educ", "sex", "race", "age", "childs", "sibs", "family16", "res16", "maeduc", "born", "parborn", "incom16", "paeduc", "agekdbrn"),
-  Missing_Pct = c(
-    mean(is.na(df$educ_cat)),
-    mean(is.na(df$sex_clean)),
-    mean(is.na(df$race_clean)),
-    mean(is.na(df$age_num)),
-    mean(is.na(df$childs_num)),
-    mean(is.na(df$sibs_num)),
-    mean(is.na(df$family16_clean)),
-    mean(is.na(df$res16_clean)),
-    mean(is.na(df$maeduc_years)),
-    mean(is.na(df$born_clean)),
-    mean(is.na(df$parborn_clean)),
-    mean(is.na(df$incom16_num)),
-    mean(is.na(df$paeduc_years)),
-    mean(is.na(df$agekdbrn_num))
-  )
-)
-
-df_missing |> 
-  ggplot(aes(x = Missing_Pct, y = reorder(Variable, Missing_Pct), fill = (Variable == "agekdbrn"))) +
-  geom_col(width = 0.7) +
-  scale_fill_manual(values = c("FALSE" = "#2563eb", "TRUE" = "#ec4899")) +
-  scale_x_continuous(labels = percent_format(), limits = c(0, 0.7)) +
-  labs(
-    title = "Covariate Non-Response & Missingness Diagnostic (Highlighting agekdbrn)",
-    subtitle = "Key Takeaway: agekdbrn exhibits 62.1% missingness/inapplicability, justifying its exclusion from the primary predictive model",
-    x = "Percentage of Missing / Inapplicable Observations",
-    y = "GSS Covariate Name"
-  ) +
-  theme(legend.position = "none")
-```

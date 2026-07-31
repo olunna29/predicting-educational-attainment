@@ -8,7 +8,7 @@ format:
 
 ::: {.hero-banner}
 # Data Sources & References {.unlisted}
-<p class="hero-subtitle">Comprehensive APA 7th Edition Citations for the General Social Survey (GSS) and Methodology</p>
+<p class="hero-subtitle">Comprehensive APA 7th Edition Citations</p>
 :::
 
 ## 1. Primary Empirical Data Source
@@ -19,9 +19,6 @@ The empirical analysis in this project is based on data from the **General Socia
 
 - **Reference List Citation**:
   > Davern, M., Bautista, R., Freese, J., Herd, P., & Morgan, S. L. (2024). *General Social Survey 1972–2024 (Release 3)* [Data set]. NORC at the University of Chicago. [https://gssdataexplorer.norc.org](https://gssdataexplorer.norc.org)
-
-- **In-Text Citation**:
-  > (Davern et al., 2024)
 
 - **Dataset Scope & Methodology**:
   The General Social Survey (GSS) is one of the nation's most authoritative, long-running social science research studies. Since 1972, the GSS has monitored societal trends and demographic transformations across the adult, non-institutionalized population of the United States using nationally representative probability sampling.

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Generating Mechanism &amp; Predictive Modeling – Predictors of Educational Attainment</title>
+<title>model – Predicting Educational Attainment</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -113,7 +113,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Predictors of Educational Attainment</span>
+    <span class="navbar-title">Predicting Educational Attainment</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -124,15 +124,15 @@ window.Quarto = {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Executive Summary</span></a>
+<span class="menu-text">Introduction</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./exploratory.html"> 
-<span class="menu-text">Exploratory EDA</span></a>
+<span class="menu-text">Visualization</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./model.html" aria-current="page"> 
-<span class="menu-text">Predictive Modeling &amp; DGM</span></a>
+<span class="menu-text">DGM &amp; Predictive Model</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./sources.html"> 
@@ -155,38 +155,20 @@ window.Quarto = {
    
   <ul class="collapse">
   <li><a href="#data-generating-mechanism-dgm-formulations" id="toc-data-generating-mechanism-dgm-formulations" class="nav-link active" data-scroll-target="#data-generating-mechanism-dgm-formulations">1. Data Generating Mechanism (DGM) Formulations</a></li>
-  <li><a href="#feature-selection-statistical-significance-analysis" id="toc-feature-selection-statistical-significance-analysis" class="nav-link" data-scroll-target="#feature-selection-statistical-significance-analysis">2. Feature Selection &amp; Statistical Significance Analysis</a></li>
-  <li><a href="#model-estimation-95-confidence-intervals" id="toc-model-estimation-95-confidence-intervals" class="nav-link" data-scroll-target="#model-estimation-95-confidence-intervals">3. Model Estimation &amp; 95% Confidence Intervals</a></li>
-  <li><a href="#visualizing-uncertainty-odds-ratio-forest-plot" id="toc-visualizing-uncertainty-odds-ratio-forest-plot" class="nav-link" data-scroll-target="#visualizing-uncertainty-odds-ratio-forest-plot">4. Visualizing Uncertainty: Odds Ratio Forest Plot</a></li>
-  <li><a href="#out-of-sample-performance-evaluation" id="toc-out-of-sample-performance-evaluation" class="nav-link" data-scroll-target="#out-of-sample-performance-evaluation">5. Out-of-Sample Performance Evaluation</a></li>
-  <li><a href="#formal-predictive-verdict" id="toc-formal-predictive-verdict" class="nav-link" data-scroll-target="#formal-predictive-verdict">6. Formal Predictive Verdict</a></li>
+  <li><a href="#model-estimation-95-confidence-intervals" id="toc-model-estimation-95-confidence-intervals" class="nav-link" data-scroll-target="#model-estimation-95-confidence-intervals">2. Model Estimation &amp; 95% Confidence Intervals</a></li>
+  <li><a href="#visualizing-uncertainty-odds-ratio-forest-plot" id="toc-visualizing-uncertainty-odds-ratio-forest-plot" class="nav-link" data-scroll-target="#visualizing-uncertainty-odds-ratio-forest-plot">3. Visualizing Uncertainty: Odds Ratio Forest Plot</a></li>
+  <li><a href="#formal-predictive-verdict" id="toc-formal-predictive-verdict" class="nav-link" data-scroll-target="#formal-predictive-verdict">4. Formal Predictive Verdict</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Data Generating Mechanism &amp; Predictive Modeling</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="predictive-statistical-modeling-dgm" class="level1 unlisted hero-banner">
-<h1 class="unlisted">Predictive Statistical Modeling &amp; DGM</h1>
+<section id="our-verdict" class="level1 unlisted hero-banner">
+<h1 class="unlisted">Our Verdict</h1>
 <p class="hero-subtitle">
 Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Intervals &amp; Empirical Verdict
 </p>
@@ -212,137 +194,10 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <hr>
 </section>
 </section>
-<section id="feature-selection-statistical-significance-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="feature-selection-statistical-significance-analysis">2. Feature Selection &amp; Statistical Significance Analysis</h2>
-<p>To identify the most statistically significant covariates for inclusion in the final model, we perform <strong>Likelihood Ratio Tests (LRT)</strong> comparing full and nested multinomial specifications (<span class="math inline">\(N = 48,360\)</span>).</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Table 3.1: Likelihood Ratio Test (LRT) Ranking for Covariate Inclusion (Ref: High School or Less)</caption>
-<colgroup>
-<col style="width: 32%">
-<col style="width: 17%">
-<col style="width: 16%">
-<col style="width: 6%">
-<col style="width: 27%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Covariate Name</th>
-<th style="text-align: right;">Likelihood Ratio χ²</th>
-<th style="text-align: right;">Degrees of Freedom</th>
-<th style="text-align: left;">p-value</th>
-<th style="text-align: left;">Selected into Final Model</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Parental Education (parent_educ_avg)</td>
-<td style="text-align: right;">4877.38</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Respondent Age (age_num)</td>
-<td style="text-align: right;">885.89</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Sibling Count (sibs_num)</td>
-<td style="text-align: right;">583.24</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Family Structure at Age 16 (family16)</td>
-<td style="text-align: right;">533.19</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Survey Year (year_num)</td>
-<td style="text-align: right;">483.57</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Number of Children (childs_num)</td>
-<td style="text-align: right;">431.68</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Residence Type at Age 16 (res16)</td>
-<td style="text-align: right;">377.61</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Race (race_clean)</td>
-<td style="text-align: right;">121.39</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Parental Nativity (parborn_clean)</td>
-<td style="text-align: right;">107.35</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Childhood Income (incom16_num)</td>
-<td style="text-align: right;">87.19</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Respondent Nativity (born_clean)</td>
-<td style="text-align: right;">27.74</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Sex (sex_clean)</td>
-<td style="text-align: right;">27.32</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: left;">Yes (Statistically Significant)</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Feature Selection Verdict
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>All 12 primary covariates achieve robust statistical significance at <span class="math inline">\(p &lt; 0.001\)</span>. <strong>Parental Education</strong> (<span class="math inline">\(\chi^2 = 4,877.38\)</span>) exhibits the strongest single predictive contribution, followed by <strong>Age</strong>, <strong>Sibling Count</strong>, <strong>Family Structure</strong>, and <strong>Survey Cohort Year</strong>.</p>
-</div>
-</div>
-<hr>
-</section>
 <section id="model-estimation-95-confidence-intervals" class="level2">
-<h2 class="anchored" data-anchor-id="model-estimation-95-confidence-intervals">3. Model Estimation &amp; 95% Confidence Intervals</h2>
+<h2 class="anchored" data-anchor-id="model-estimation-95-confidence-intervals">2. Model Estimation &amp; 95% Confidence Intervals</h2>
 <section id="final-multinomial-logistic-model-parameter-estimates-odds-ratios" class="level3">
-<h3 class="anchored" data-anchor-id="final-multinomial-logistic-model-parameter-estimates-odds-ratios">3.1 Final Multinomial Logistic Model Parameter Estimates &amp; Odds Ratios</h3>
+<h3 class="anchored" data-anchor-id="final-multinomial-logistic-model-parameter-estimates-odds-ratios">2.1 Final Multinomial Logistic Model Parameter Estimates &amp; Odds Ratios</h3>
 <p>We estimate multinomial parameters and calculate Odds Ratios (<span class="math inline">\(\text{OR} = \exp(\beta)\)</span>) with exact 95% Confidence Intervals using <code>broom::tidy(conf.int = TRUE, exponentiate = TRUE)</code>.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -518,7 +373,7 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <hr>
 </section>
 <section id="ols-baseline-model-estimates-for-schooling-years" class="level3">
-<h3 class="anchored" data-anchor-id="ols-baseline-model-estimates-for-schooling-years">3.2 OLS Baseline Model Estimates for Schooling Years</h3>
+<h3 class="anchored" data-anchor-id="ols-baseline-model-estimates-for-schooling-years">2.2 OLS Baseline Model Estimates for Schooling Years</h3>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -704,13 +559,13 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </section>
 </section>
 <section id="visualizing-uncertainty-odds-ratio-forest-plot" class="level2">
-<h2 class="anchored" data-anchor-id="visualizing-uncertainty-odds-ratio-forest-plot">4. Visualizing Uncertainty: Odds Ratio Forest Plot</h2>
+<h2 class="anchored" data-anchor-id="visualizing-uncertainty-odds-ratio-forest-plot">3. Visualizing Uncertainty: Odds Ratio Forest Plot</h2>
 <p>To evaluate parameter estimates and quantify uncertainty visually, we build a point-range error-bar plot displaying multinomial Odds Ratios (<span class="math inline">\(\text{OR} = \exp(\beta)\)</span>) alongside exact 95% Confidence Interval bounds for predicting <strong>Bachelor Degree</strong> and <strong>Graduate Degree</strong> attainment relative to High School baseline.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="model_files/figure-html/forest-plot-1.png" class="img-fluid figure-img" width="912"></p>
+<p><img src="model_files/figure-html/forest-plot-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>Figure 3.1: Multinomial Logistic Model Odds Ratios &amp; 95% Confidence Intervals for Bachelor’s and Graduate Degrees (Ref: High School or Less).</figcaption>
 </figure>
 </div>
@@ -718,93 +573,10 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </div>
 <hr>
 </section>
-<section id="out-of-sample-performance-evaluation" class="level2">
-<h2 class="anchored" data-anchor-id="out-of-sample-performance-evaluation">5. Out-of-Sample Performance Evaluation</h2>
-<p>We evaluate model predictive performance using an 80/20 train/test cross-validation split (<span class="math inline">\(N_{\text{train}} = 38,688\)</span>, <span class="math inline">\(N_{\text{test}} = 9,672\)</span>).</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Table 3.4: Out-of-Sample Confusion Matrix (Test N = 9,672)</caption>
-<colgroup>
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 15%">
-<col style="width: 18%">
-<col style="width: 18%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">High School or Less</th>
-<th style="text-align: right;">Some College</th>
-<th style="text-align: right;">Bachelor Degree</th>
-<th style="text-align: right;">Graduate Degree</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">High School or Less</td>
-<td style="text-align: right;">3585</td>
-<td style="text-align: right;">486</td>
-<td style="text-align: right;">77</td>
-<td style="text-align: right;">101</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: right;">1516</td>
-<td style="text-align: right;">611</td>
-<td style="text-align: right;">163</td>
-<td style="text-align: right;">164</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Bachelor Degree</td>
-<td style="text-align: right;">678</td>
-<td style="text-align: right;">410</td>
-<td style="text-align: right;">252</td>
-<td style="text-align: right;">284</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Graduate Degree</td>
-<td style="text-align: right;">548</td>
-<td style="text-align: right;">287</td>
-<td style="text-align: right;">202</td>
-<td style="text-align: right;">308</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Out-of-Sample Accuracy Summary
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>Model Test Accuracy</strong>: <strong>49.17%</strong></li>
-<li><strong>Baseline Majority Accuracy</strong>: <strong>43.93%</strong> (High School or Less)</li>
-<li><strong>Accuracy Improvement</strong>: <strong>+5.24 percentage points</strong> over naive baseline (<span class="math inline">\(p &lt; 0.001\)</span>).</li>
-</ul>
-</div>
-</div>
-<hr>
-</section>
 <section id="formal-predictive-verdict" class="level2">
-<h2 class="anchored" data-anchor-id="formal-predictive-verdict">6. Formal Predictive Verdict</h2>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>📊 Predictive Modeling Verdict &amp; Key Summary
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<h2 class="anchored" data-anchor-id="formal-predictive-verdict">4. Formal Predictive Verdict</h2>
+<section id="predictive-modeling-verdict-key-summary" class="level3">
+<h3 class="anchored" data-anchor-id="predictive-modeling-verdict-key-summary">📊 Predictive Modeling Verdict &amp; Key Summary</h3>
 <section id="goodness-of-fit-metrics" class="level4">
 <h4 class="anchored" data-anchor-id="goodness-of-fit-metrics">1. Goodness-of-Fit Metrics</h4>
 <ul>
@@ -828,11 +600,10 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <section id="strategic-policy-recommendation" class="level4">
 <h4 class="anchored" data-anchor-id="strategic-policy-recommendation">3. Strategic Policy Recommendation</h4>
 <p>Because parental education and childhood economic status exert strong conditional effects on educational outcomes, state policy initiatives should combine targeted higher education tuition subsidies with family support programs to foster intergenerational socio-economic mobility.</p>
+
+
 </section>
-</div>
-</div>
-
-
+</section>
 </section>
 
 </main> <!-- /main -->
