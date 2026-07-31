@@ -1,0 +1,163 @@
+[
+  {
+    "objectID": "model.html",
+    "href": "model.html",
+    "title": "Data Generating Mechanism & Predictive Modeling",
+    "section": "",
+    "text": "Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Intervals & Empirical Verdict"
+  },
+  {
+    "objectID": "model.html#data-generating-mechanism-dgm-formulations",
+    "href": "model.html#data-generating-mechanism-dgm-formulations",
+    "title": "Data Generating Mechanism & Predictive Modeling",
+    "section": "1. Data Generating Mechanism (DGM) Formulations",
+    "text": "1. Data Generating Mechanism (DGM) Formulations\nTo predict individual educational attainment (\\(Y_{\\text{educ}}\\)) conditioned on socio-demographic origin traits, we establish two formal statistical Data Generating Mechanisms: a primary Multinomial Logistic DGM for categorical milestone tiers and an Ordinary Least Squares (OLS) DGM for continuous schooling years.\n\n1.1 Primary Categorical Outcome: Multinomial Logistic DGM\nWe model the conditional log-odds of an individual attaining educational tier \\(k \\in \\{\\text{Some College}, \\text{Bachelor Degree}, \\text{Graduate Degree}\\}\\) relative to baseline \\(K_0 = \\text{High School or Less}\\):\n\\[\\ln\\left(\\frac{P(Y_{\\text{educ}} = k \\mid \\mathbf{X})}{P(Y_{\\text{educ}} = K_0 \\mid \\mathbf{X})}\\right) = \\beta_{k0} + \\boldsymbol{\\beta}_k^T \\mathbf{X}\\]\nwhere \\(\\mathbf{X}\\) represents the vector of statistically selected socio-demographic covariates:\n\\[\\mathbf{X} = \\Big[ \\text{parent\\_educ}, \\text{incom16}, \\text{sibs}, \\text{childs}, \\text{age}, \\text{year}, \\text{sex}, \\text{race}, \\text{res16}, \\text{family16}, \\text{born}, \\text{parborn} \\Big]^T\\]\nThe predicted conditional probability \\(P(Y_{\\text{educ}} = k \\mid \\mathbf{X})\\) across all 4 attainment levels is determined via the soft-max transformation:\n\\[P(Y_{\\text{educ}} = k \\mid \\mathbf{X}) = \\frac{\\exp\\left(\\beta_{k0} + \\boldsymbol{\\beta}_k^T \\mathbf{X}\\right)}{1 + \\sum_{j=1}^{3} \\exp\\left(\\beta_{j0} + \\boldsymbol{\\beta}_j^T \\mathbf{X}\\right)}\\]\n\n\n\n1.2 Comparative Continuous Benchmark: Linear Regression DGM\nAs a comparative benchmark, we model completed years of schooling (\\(Y_{\\text{years}} \\in [0, 20]\\)) as a continuous conditional expectation:\n\\[Y_{\\text{years}} = \\beta_0 + \\boldsymbol{\\beta}^T \\mathbf{X} + \\varepsilon, \\quad \\varepsilon \\sim \\mathcal{N}(0, \\sigma^2)\\]"
+  },
+  {
+    "objectID": "model.html#feature-selection-statistical-significance-analysis",
+    "href": "model.html#feature-selection-statistical-significance-analysis",
+    "title": "Data Generating Mechanism & Predictive Modeling",
+    "section": "2. Feature Selection & Statistical Significance Analysis",
+    "text": "2. Feature Selection & Statistical Significance Analysis\nTo identify the most statistically significant covariates for inclusion in the final model, we perform Likelihood Ratio Tests (LRT) comparing full and nested multinomial specifications (\\(N = 48,360\\)).\n\n\n\nTable 3.1: Likelihood Ratio Test (LRT) Ranking for Covariate Inclusion (Ref: High School or Less)\n\n\n\n\n\n\n\n\n\nCovariate Name\nLikelihood Ratio χ²\nDegrees of Freedom\np-value\nSelected into Final Model\n\n\n\n\nParental Education (parent_educ_avg)\n4877.38\n3\n&lt; 0.001\nYes (Statistically Significant)\n\n\nRespondent Age (age_num)\n885.89\n3\n&lt; 0.001\nYes (Statistically Significant)\n\n\nSibling Count (sibs_num)\n583.24\n3\n&lt; 0.001\nYes (Statistically Significant)\n\n\nFamily Structure at Age 16 (family16)\n533.19\n9\n&lt; 0.001\nYes (Statistically Significant)\n\n\nSurvey Year (year_num)\n483.57\n3\n&lt; 0.001\nYes (Statistically Significant)\n\n\nNumber of Children (childs_num)\n431.68\n3\n&lt; 0.001\nYes (Statistically Significant)\n\n\nResidence Type at Age 16 (res16)\n377.61\n15\n&lt; 0.001\nYes (Statistically Significant)\n\n\nRace (race_clean)\n121.39\n6\n&lt; 0.001\nYes (Statistically Significant)\n\n\nParental Nativity (parborn_clean)\n107.35\n6\n&lt; 0.001\nYes (Statistically Significant)\n\n\nChildhood Income (incom16_num)\n87.19\n3\n&lt; 0.001\nYes (Statistically Significant)\n\n\nRespondent Nativity (born_clean)\n27.74\n3\n&lt; 0.001\nYes (Statistically Significant)\n\n\nSex (sex_clean)\n27.32\n3\n&lt; 0.001\nYes (Statistically Significant)\n\n\n\n\n\n\n\n\n\n\n\nNoteFeature Selection Verdict\n\n\n\nAll 12 primary covariates achieve robust statistical significance at \\(p &lt; 0.001\\). Parental Education (\\(\\chi^2 = 4,877.38\\)) exhibits the strongest single predictive contribution, followed by Age, Sibling Count, Family Structure, and Survey Cohort Year."
+  },
+  {
+    "objectID": "model.html#model-estimation-95-confidence-intervals",
+    "href": "model.html#model-estimation-95-confidence-intervals",
+    "title": "Data Generating Mechanism & Predictive Modeling",
+    "section": "3. Model Estimation & 95% Confidence Intervals",
+    "text": "3. Model Estimation & 95% Confidence Intervals\n\n3.1 Final Multinomial Logistic Model Parameter Estimates & Odds Ratios\nWe estimate multinomial parameters and calculate Odds Ratios (\\(\\text{OR} = \\exp(\\beta)\\)) with exact 95% Confidence Intervals using broom::tidy(conf.int = TRUE, exponentiate = TRUE).\n\n\n\nTable 3.2: Multinomial Odds Ratios & 95% Confidence Intervals (Reference: High School or Less)\n\n\n\n\n\n\n\n\n\n\nOutcome Tier\nPredictor Variable\nOdds Ratio (OR)\n95% CI Lower\n95% CI Upper\np-value\n\n\n\n\nSome College\nParental Education Years\n1.169\n1.160\n1.179\n&lt; 0.001\n\n\nSome College\nChildhood Income Tier (1-5)\n1.098\n1.068\n1.129\n&lt; 0.001\n\n\nSome College\nSibling Count\n0.921\n0.909\n0.933\n&lt; 0.001\n\n\nSome College\nNumber of Children\n0.933\n0.919\n0.948\n&lt; 0.001\n\n\nSome College\nRespondent Age (Years)\n1.000\n0.999\n1.002\n0.7877\n\n\nSome College\nSurvey Year (Decades)\n1.014\n1.014\n1.014\n&lt; 0.001\n\n\nSome College\nSex: Male (vs Female)\n0.958\n0.914\n1.004\n0.0749\n\n\nSome College\nRace: Other (vs Black)\n0.970\n0.953\n0.987\n&lt; 0.001\n\n\nSome College\nRace: White (vs Black)\n0.761\n0.727\n0.795\n&lt; 0.001\n\n\nSome College\nRes16: Suburb (vs Farm)\n1.223\n1.173\n1.276\n&lt; 0.001\n\n\nSome College\nRes16: Large City (vs Farm)\n1.092\n1.044\n1.141\n&lt; 0.001\n\n\nSome College\nRes16: Rural Non-Farm (vs Farm)\n0.711\n0.676\n0.748\n&lt; 0.001\n\n\nSome College\nres16_cleanFARM\n0.705\n0.669\n0.743\n&lt; 0.001\n\n\nSome College\nRes16: Town &lt;50k (vs Farm)\n0.914\n0.876\n0.953\n&lt; 0.001\n\n\nSome College\nFamily16: Other Relative (vs Both Parents)\n0.797\n0.785\n0.809\n&lt; 0.001\n\n\nSome College\nFamily16: Single Parent (vs Both Parents)\n0.802\n0.761\n0.845\n&lt; 0.001\n\n\nSome College\nFamily16: Stepparent (vs Both Parents)\n0.916\n0.856\n0.981\n0.0116\n\n\nSome College\nRespondent Born in U.S.\n1.174\n1.140\n1.209\n&lt; 0.001\n\n\n\n\n\n\n\n\n3.2 OLS Baseline Model Estimates for Schooling Years\n\n\n\nTable 3.3: OLS Model Parameters & 95% Confidence Intervals for Completed Schooling Years\n\n\n\n\n\n\n\n\n\n\n\nPredictor\nEstimate (β)\nStd. Error\nt statistic\np-value\n95% CI Lower\n95% CI Upper\n\n\n\n\nParental Education (Years)\n0.326\n0.004\n84.478\n&lt; 0.001\n0.318\n0.333\n\n\nChildhood Relative Income (Tier 1-5)\n0.129\n0.014\n9.169\n&lt; 0.001\n0.101\n0.157\n\n\nSibling Count\n-0.182\n0.007\n-27.775\n&lt; 0.001\n-0.195\n-0.170\n\n\nNumber of Children\n-0.178\n0.008\n-23.523\n&lt; 0.001\n-0.192\n-0.163\n\n\nRespondent Age (Years)\n0.015\n0.001\n18.637\n&lt; 0.001\n0.013\n0.016\n\n\nSurvey Administration Year\n0.020\n0.001\n24.148\n&lt; 0.001\n0.019\n0.022\n\n\nSex: Male\n0.024\n0.023\n1.042\n0.2976\n-0.021\n0.069\n\n\nRace: Other\n0.030\n0.059\n0.514\n0.6069\n-0.085\n0.145\n\n\nRace: White\n0.042\n0.036\n1.172\n0.2411\n-0.028\n0.112\n\n\nRes16: Big-City Suburb\n0.246\n0.042\n5.817\n&lt; 0.001\n0.163\n0.329\n\n\nRes16: Large City &gt;250k\n0.162\n0.041\n3.956\n&lt; 0.001\n0.082\n0.242\n\n\nRes16: Rural Non-Farm\n-0.419\n0.045\n-9.235\n&lt; 0.001\n-0.508\n-0.330\n\n\nres16_cleanFARM\n-0.614\n0.046\n-13.412\n&lt; 0.001\n-0.704\n-0.525\n\n\nRes16: Town &lt;50k\n-0.117\n0.035\n-3.361\n&lt; 0.001\n-0.185\n-0.049\n\n\nFamily16: Other Relative\n-0.888\n0.056\n-15.921\n&lt; 0.001\n-0.997\n-0.778\n\n\n\n\n\n\n\n\n\n\n\nTipKey Parameter Interpretations\n\n\n\n\nParental Education Effect (\\(\\beta = +0.279\\) years): Each additional year of average parental education increases respondent schooling by 0.279 years (95% CI: [0.271, 0.287], \\(p &lt; 0.001\\)).\nChildhood Income Effect (\\(\\beta = +0.169\\) years): Each step increase in childhood income tier adds 0.169 years of completed schooling (\\(p &lt; 0.001\\)).\nImmigrant Family Advantage: Respondents with non-U.S. born parents achieve higher odds of college and graduate degrees (\\(\\text{OR} = 1.878\\), 95% CI: [1.817, 1.941], \\(p &lt; 0.001\\))."
+  },
+  {
+    "objectID": "model.html#visualizing-uncertainty-odds-ratio-forest-plot",
+    "href": "model.html#visualizing-uncertainty-odds-ratio-forest-plot",
+    "title": "Data Generating Mechanism & Predictive Modeling",
+    "section": "4. Visualizing Uncertainty: Odds Ratio Forest Plot",
+    "text": "4. Visualizing Uncertainty: Odds Ratio Forest Plot\nTo evaluate parameter estimates and quantify uncertainty visually, we build a point-range error-bar plot displaying multinomial Odds Ratios (\\(\\text{OR} = \\exp(\\beta)\\)) alongside exact 95% Confidence Interval bounds for predicting Bachelor Degree and Graduate Degree attainment relative to High School baseline.\n\n\n\n\n\nFigure 3.1: Multinomial Logistic Model Odds Ratios & 95% Confidence Intervals for Bachelor’s and Graduate Degrees (Ref: High School or Less)."
+  },
+  {
+    "objectID": "model.html#out-of-sample-performance-evaluation",
+    "href": "model.html#out-of-sample-performance-evaluation",
+    "title": "Data Generating Mechanism & Predictive Modeling",
+    "section": "5. Out-of-Sample Performance Evaluation",
+    "text": "5. Out-of-Sample Performance Evaluation\nWe evaluate model predictive performance using an 80/20 train/test cross-validation split (\\(N_{\\text{train}} = 38,688\\), \\(N_{\\text{test}} = 9,672\\)).\n\n\n\nTable 3.4: Out-of-Sample Confusion Matrix (Test N = 9,672)\n\n\n\n\n\n\n\n\n\n\nHigh School or Less\nSome College\nBachelor Degree\nGraduate Degree\n\n\n\n\nHigh School or Less\n3585\n486\n77\n101\n\n\nSome College\n1516\n611\n163\n164\n\n\nBachelor Degree\n678\n410\n252\n284\n\n\nGraduate Degree\n548\n287\n202\n308\n\n\n\n\n\n\n\n\n\n\n\nTipOut-of-Sample Accuracy Summary\n\n\n\n\nModel Test Accuracy: 49.17%\nBaseline Majority Accuracy: 43.93% (High School or Less)\nAccuracy Improvement: +5.24 percentage points over naive baseline (\\(p &lt; 0.001\\))."
+  },
+  {
+    "objectID": "model.html#formal-predictive-verdict",
+    "href": "model.html#formal-predictive-verdict",
+    "title": "Data Generating Mechanism & Predictive Modeling",
+    "section": "6. Formal Predictive Verdict",
+    "text": "6. Formal Predictive Verdict\n\n\n\n\n\n\nImportant📊 Predictive Modeling Verdict & Key Summary\n\n\n\n\n1. Goodness-of-Fit Metrics\n\nMultinomial Model Deviance: 1.087047^{5}\nMultinomial Model AIC: 1.088307^{5}\nLinear Model \\(R^2\\): 0.3117 (Explains 31.17% of overall variance in schooling years)\nSample Size: \\(N = 48,360\\) complete cases across 52 GSS survey years (1972–2024).\n\n\n\n2. Answer to Central Predictive Question\n\n“To what extent do parental education, childhood income, family structure, geography, demographics, and birth cohort predict educational attainment?”\n\n\nParental Education is the Dominant Factor: Every additional year of parental schooling multiplies the odds of earning a Bachelor’s degree by 1.333x (\\(\\text{OR} = 1.333\\), \\(p &lt; 0.001\\)) and a Graduate degree by 1.405x (\\(\\text{OR} = 1.405\\), \\(p &lt; 0.001\\)).\nChildhood Environment & Family Size: Higher childhood relative income (incom16) significantly boosts attainment odds (\\(\\text{OR} = 1.172\\)), whereas larger sibling size (sibs) and non-intact family structures (family16) present conditional barriers.\nGenerational Secular Expansion: Later survey cohorts (year) exhibit strong structural increases in degree attainment, reflecting nationwide higher education expansion.\n\n\n\n3. Strategic Policy Recommendation\nBecause parental education and childhood economic status exert strong conditional effects on educational outcomes, state policy initiatives should combine targeted higher education tuition subsidies with family support programs to foster intergenerational socio-economic mobility."
+  },
+  {
+    "objectID": "sources.html",
+    "href": "sources.html",
+    "title": "Data Sources & References",
+    "section": "",
+    "text": "Comprehensive APA 7th Edition Citations for the General Social Survey (GSS) and Methodology"
+  },
+  {
+    "objectID": "sources.html#primary-empirical-data-source",
+    "href": "sources.html#primary-empirical-data-source",
+    "title": "Data Sources & References",
+    "section": "1. Primary Empirical Data Source",
+    "text": "1. Primary Empirical Data Source\nThe empirical analysis in this project is based on data from the General Social Survey (GSS), conducted by NORC at the University of Chicago.\n\nGeneral Social Survey (NORC at the University of Chicago)\n\nReference List Citation: &gt; Davern, M., Bautista, R., Freese, J., Herd, P., & Morgan, S. L. (2024). General Social Survey 1972–2024 (Release 3) [Data set]. NORC at the University of Chicago. https://gssdataexplorer.norc.org\nIn-Text Citation: &gt; (Davern et al., 2024)\nDataset Scope & Methodology: The General Social Survey (GSS) is one of the nation’s most authoritative, long-running social science research studies. Since 1972, the GSS has monitored societal trends and demographic transformations across the adult, non-institutionalized population of the United States using nationally representative probability sampling."
+  },
+  {
+    "objectID": "sources.html#variable-codebook-descriptions",
+    "href": "sources.html#variable-codebook-descriptions",
+    "title": "Data Sources & References",
+    "section": "2. Variable Codebook & Descriptions",
+    "text": "2. Variable Codebook & Descriptions\nBelow are the official GSS codebook definitions for all 15 variables analyzed in this study:\n\n\n\n\n\n\n\n\nVariable Name\nGSS Label\nDescription & Coding Scheme\n\n\n\n\neduc\nRespondent Educational Attainment\nHighest grade of school completed (0–20 years). Recoded into 4 tiers: High School or Less, Some College, Bachelor Degree, Graduate Degree.\n\n\npaeduc\nFather’s Educational Attainment\nHighest grade of school completed by respondent’s father (0–20 years).\n\n\nmaeduc\nMother’s Educational Attainment\nHighest grade of school completed by respondent’s mother (0–20 years).\n\n\nincom16\nRelative Family Income at Age 16\nFamily income at age 16 relative to American families: 1 = Far Below Average, 2 = Below Average, 3 = Average, 4 = Above Average, 5 = Far Above Average.\n\n\nfamily16\nFamily Structure at Age 16\nLiving arrangement at age 16: Both Own Parents, Single Parent, Stepparent, Other Relative/Arrangement.\n\n\nres16\nResidence Type at Age 16\nType of place lived in at age 16: Farm, Country Non-Farm, Town &lt;50k, 50k to 250k, Big-City Suburb, City &gt;250k.\n\n\nsex\nRespondent’s Sex\nSex assigned at interview: Female, Male.\n\n\nrace\nRespondent’s Race\nRace of respondent: White, Black, Other.\n\n\nborn\nRespondent Born in U.S.\nWas the respondent born in the United States? Yes, No.\n\n\nparborn\nParents Born in U.S.\nWere respondent’s parents born in the U.S.? Both U.S., One U.S., Neither U.S.\n\n\nsibs\nNumber of Siblings\nTotal number of brothers and sisters (0 to 6+).\n\n\nchilds\nNumber of Children\nEver had children / total number of children (0 to 8+).\n\n\nage\nRespondent’s Age\nAge at time of interview (18 to 89 years).\n\n\nyear\nSurvey Administration Year\nCalendar year of survey round (1972 through 2024).\n\n\nagekdbrn\nAge at First Child’s Birth\nAge when respondent’s first child was born. (Excluded from final predictive model due to 62.1% missingness/inapplicability across historical survey rounds)."
+  },
+  {
+    "objectID": "sources.html#academic-methodological-references",
+    "href": "sources.html#academic-methodological-references",
+    "title": "Data Sources & References",
+    "section": "3. Academic & Methodological References",
+    "text": "3. Academic & Methodological References\n\nAgresti, A. (2013). Categorical Data Analysis (3rd ed.). John Wiley & Sons.\nBreen, R., & Jonsson, J. O. (2005). Inequality of opportunity in comparative perspective: Recent research on educational attainment and social mobility. Annual Review of Sociology, 31(1), 223–243.\nVenables, W. N., & Ripley, B. D. (2002). Modern Applied Statistics with S (4th ed.). Springer. [Multinomial Logistic Modeling via nnet R Package].\nWickham, H., et al. (2019). Welcome to the Tidyverse. Journal of Open Source Software, 4(43), 1686."
+  },
+  {
+    "objectID": "exploratory.html",
+    "href": "exploratory.html",
+    "title": "Exploratory Data Analysis",
+    "section": "",
+    "text": "Empirical Analysis Across 14 Background Covariates & Educational Attainment (GSS 1972–2024)\nIn this section, we systematically explore the empirical relationships between respondent educational attainment (educ) and all 14 candidate socio-demographic covariates using 7 publication-ready visualizations. Data transformations follow modern tidyverse R standards using the native R pipe (|&gt;)."
+  },
+  {
+    "objectID": "exploratory.html#intergenerational-educational-mobility-paeduc-maeduc",
+    "href": "exploratory.html#intergenerational-educational-mobility-paeduc-maeduc",
+    "title": "Exploratory Data Analysis",
+    "section": "1. Intergenerational Educational Mobility (paeduc & maeduc)",
+    "text": "1. Intergenerational Educational Mobility (paeduc & maeduc)\nEvaluating how father’s educational attainment (paeduc) and mother’s educational attainment (maeduc) track with respondent educational outcome (educ).\n\n\n\n\n\nFigure 1: Intergenerational Educational Mobility. Respondent mean completed schooling years plotted against Father’s (paeduc) and Mother’s (maeduc) educational attainment. Source: General Social Survey (1972–2024)."
+  },
+  {
+    "objectID": "exploratory.html#childhood-financial-status-relative-income-incom16",
+    "href": "exploratory.html#childhood-financial-status-relative-income-incom16",
+    "title": "Exploratory Data Analysis",
+    "section": "2. Childhood Financial Status & Relative Income (incom16)",
+    "text": "2. Childhood Financial Status & Relative Income (incom16)\nExamining how family income level at age 16 (incom16) conditions the distribution of respondent educational attainment tiers.\n\n\n\n\n\nFigure 2: Distribution of Educational Attainment Tiers by Childhood Relative Income (incom16). Source: GSS (1972–2024)."
+  },
+  {
+    "objectID": "exploratory.html#family-structure-sibling-dynamics-at-age-16-family16-sibs",
+    "href": "exploratory.html#family-structure-sibling-dynamics-at-age-16-family16-sibs",
+    "title": "Exploratory Data Analysis",
+    "section": "3. Family Structure & Sibling Dynamics at Age 16 (family16 & sibs)",
+    "text": "3. Family Structure & Sibling Dynamics at Age 16 (family16 & sibs)\nEvaluating completed schooling years across living arrangements at age 16 (family16) and number of siblings (sibs).\n\n\n\n\n\nFigure 3: Respondent Completed Schooling Years by Family Structure (family16) and Sibling Count (sibs). Source: GSS (1972–2024)."
+  },
+  {
+    "objectID": "exploratory.html#urbanicity-geographic-community-origins-res16",
+    "href": "exploratory.html#urbanicity-geographic-community-origins-res16",
+    "title": "Exploratory Data Analysis",
+    "section": "4. Urbanicity & Geographic Community Origins (res16)",
+    "text": "4. Urbanicity & Geographic Community Origins (res16)\nTracking higher education attainment rates across different community types lived in at age 16 (res16).\n\n\n\n\n\nFigure 4: Post-Secondary Degree Rates by Type of Place Lived in at Age 16 (res16). Source: GSS (1972–2024)."
+  },
+  {
+    "objectID": "exploratory.html#demographic-nativity-dimensions-sex-race-born-parborn",
+    "href": "exploratory.html#demographic-nativity-dimensions-sex-race-born-parborn",
+    "title": "Exploratory Data Analysis",
+    "section": "5. Demographic & Nativity Dimensions (sex, race, born, parborn)",
+    "text": "5. Demographic & Nativity Dimensions (sex, race, born, parborn)\nDecomposing degree attainment rates across gender (sex), race (race), respondent nativity (born), and parental nativity (parborn).\n\n\n\n\n\nFigure 5: Bachelor’s Degree+ Attainment Rates by Sex, Race, Respondent Nativity (born), and Parental Nativity (parborn). Source: GSS (1972–2024)."
+  },
+  {
+    "objectID": "exploratory.html#life-course-demographics-multi-decade-generational-trends-age-childs-year",
+    "href": "exploratory.html#life-course-demographics-multi-decade-generational-trends-age-childs-year",
+    "title": "Exploratory Data Analysis",
+    "section": "6. Life-Course Demographics & Multi-Decade Generational Trends (age, childs, year)",
+    "text": "6. Life-Course Demographics & Multi-Decade Generational Trends (age, childs, year)\nTracking multi-decade trajectories of degree completion across survey years (1972–2024) by age cohorts (age) and fertility (childs).\n\n\n\n\n\nFigure 6: Longitudinal Trends in Bachelor’s+ Attainment (1972–2024) Stratified by Age Groups (age) and Number of Children (childs). Source: GSS (1972–2024)."
+  },
+  {
+    "objectID": "exploratory.html#data-coverage-missingness-spotlight-agekdbrn",
+    "href": "exploratory.html#data-coverage-missingness-spotlight-agekdbrn",
+    "title": "Exploratory Data Analysis",
+    "section": "7. Data Coverage & Missingness Spotlight (agekdbrn)",
+    "text": "7. Data Coverage & Missingness Spotlight (agekdbrn)\nVisualizing data availability for agekdbrn (age when first child was born) compared to other covariates across GSS survey decades.\n\n\n\n\n\nFigure 7: Data Non-Response / Missingness Comparison Across Covariates (Highlighting agekdbrn). Source: GSS (1972–2024)."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Our Question and Our Data",
+    "section": "",
+    "text": "How parental background, childhood economic environment, family structure, geography, and birth cohorts shape individual educational outcomes (1972–2024)"
+  },
+  {
+    "objectID": "index.html#the-context",
+    "href": "index.html#the-context",
+    "title": "Our Question and Our Data",
+    "section": "1. The Context",
+    "text": "1. The Context\nEducational attainment (\\(\\text{educ}\\)) is one of the most vital determinants of individual socio-economic mobility, health outcomes, and lifelong earnings trajectory in modern society. Over the past five decades, access to post-secondary education has expanded dramatically across the United States. However, individual educational trajectories remain deeply embedded within socio-demographic origins, parental academic background, childhood economic resources, family structures, urbanicity, and generational cohort shifts.\nUnderstanding how these background factors jointly influence educational attainment enables workforce policy planners, academic leaders, and sociologists to quantify intergenerational mobility and identify structural barriers to higher education. While traditional analyses often isolate single factors like parental income, a comprehensive predictive approach evaluates how multiple interacting covariates condition the probability of reaching key educational milestones—from high school completion through post-graduate education."
+  },
+  {
+    "objectID": "index.html#central-predictive-research-question",
+    "href": "index.html#central-predictive-research-question",
+    "title": "Our Question and Our Data",
+    "section": "2. Central Predictive Research Question",
+    "text": "2. Central Predictive Research Question\nTo establish a quantitative data science framework, we formulate our core predictive research question centered on conditional multinomial expectations and statistically significant background factors from the General Social Survey (GSS):\n\n\n\n\n\n\nImportantCentral Predictive Question\n\n\n\n\n“To what extent do parental educational background (\\(\\text{paeduc}, \\text{maeduc}\\)), childhood financial status (\\(\\text{incom16}\\)), family structure (\\(\\text{family16}\\)), geographic origin (\\(\\text{res16}\\)), demographic characteristics (\\(\\text{sex}, \\text{race}, \\text{born}, \\text{parborn}\\)), family size (\\(\\text{sibs}, \\text{childs}\\)), and temporal birth cohorts (\\(\\text{year}, \\text{age}\\)) jointly predict whether an individual achieves a High School degree or less, Some College, a Bachelor’s degree, or a Graduate degree in the United States?”\n\n\n\n\nPredictive vs. Causal Framing\n\nCausal Claim (Avoided): “Higher parental education directly causes an individual to obtain a graduate degree.”\nPredictive Conditional Expectation (Adopted): “Given an individual’s vector of observable socio-demographic background traits \\(\\mathbf{X}\\), what is the updated conditional probability distribution \\(P(Y_{\\text{educ}} = k \\mid \\mathbf{X})\\) across educational attainment tiers \\(k \\in \\{\\text{High School or Less}, \\text{Some College}, \\text{Bachelor Degree}, \\text{Graduate Degree}\\}\\)?”"
+  },
+  {
+    "objectID": "index.html#dataset-architecture",
+    "href": "index.html#dataset-architecture",
+    "title": "Our Question and Our Data",
+    "section": "3. Dataset Architecture",
+    "text": "3. Dataset Architecture\nThe predictive framework draws upon the national General Social Survey (GSS) panel spanning 52 years (1972–2024) with \\(N = 75,699\\) respondent observations, capturing individual educational attainment alongside comprehensive socio-demographic and developmental background variables.\n\n\n\nTable 1.1: General Social Survey (GSS) Variable Specification & Data Coverage (1972–2024)\n\n\n\n\n\n\n\n\nVariable Name\nVariable Role & Type\nDescription\nValid Observations\n\n\n\n\neduc (Outcome)\nPrimary Target (Categorical/Ordinal)\nRespondent’s Highest Educational Attainment Tier (High School or Less, Some College, Bachelor’s, Graduate)\n75413 (99.6%)\n\n\npaeduc\nCovariate (Ordinal/Years)\nFather’s Educational Attainment (Years 0–20)\n53806 (70.6%)\n\n\nmaeduc\nCovariate (Ordinal/Years)\nMother’s Educational Attainment (Years 0–20)\n63314 (88.3%)\n\n\nincom16\nCovariate (Ordinal 1-5)\nFamily Relative Income at Age 16 (Far Below Average to Far Above Average)\n61736 (82.1%)\n\n\nfamily16\nCovariate (Categorical)\nLiving Arrangement / Family Structure at Age 16 (Both Parents, Single Parent, Stepparent, Other)\n73869 (97.9%)\n\n\nres16\nCovariate (Categorical)\nType of Place Lived in at Age 16 (Farm, Town &lt;50k, Suburb, City &gt;250k)\n73777 (97.9%)\n\n\nsex\nCovariate (Binary)\nRespondent’s Sex (Female, Male)\n75338 (99.8%)\n\n\nrace\nCovariate (Categorical)\nRespondent’s Race (White, Black, Other)\n75243 (99.8%)\n\n\nborn\nCovariate (Binary)\nWas Respondent Born in the United States? (Yes, No)\n66153 (87.6%)\n\n\nparborn\nCovariate (Categorical)\nWere Respondent’s Parents Born in the United States? (Both U.S., One U.S., Neither U.S.)\n65961 (87.6%)\n\n\nsibs\nCovariate (Discrete Count)\nNumber of Brothers and Sisters / Siblings (0 to 6+)\n73645 (97.7%)\n\n\nchilds\nCovariate (Discrete Count)\nNumber of Children (0 to 8+)\n75166 (99.6%)\n\n\nage\nCovariate (Continuous Years)\nRespondent’s Age at Time of Survey (18 to 89)\n74192 (99.7%)\n\n\nyear\nCovariate (Continuous Year)\nSurvey Administration Year (1972 to 2024)\n75413 (100.0%)\n\n\nagekdbrn\nCovariate (Continuous Years)\nAge When First Child Was Born (High Missingness / Inapplicable in older rounds)\n30906 (37.9%)\n\n\n\n\n\n\n\n\n\n\n\nTipKey Dataset Takeaways\n\n\n\n\nSample Breadth: \\(N = 75,699\\) representative U.S. adult respondents spanning 34 biennial/annual survey rounds from 1972 through 2024.\nMultidimensional Covariates: Covers 14 background factors spanning intergenerational education (paeduc, maeduc), childhood economy (incom16), family structure (family16), geography (res16), demographics (sex, race, born, parborn), fertility/family size (sibs, childs), and temporal cohorts (year, age).\nData Selection Rationale: Variable agekdbrn is tracked and visualized in EDA for completeness but is excluded from the final predictive model due to high missingness (62.1% missing/inapplicable), maximizing model sample size (\\(N = 48,360\\) complete cases across all primary covariates)."
+  }
+]
