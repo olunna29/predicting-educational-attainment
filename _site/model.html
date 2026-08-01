@@ -197,12 +197,12 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </section>
 <section id="model-estimation-95-confidence-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="model-estimation-95-confidence-intervals">2. Model Estimation &amp; 95% Confidence Intervals</h2>
+<blockquote class="blockquote">
+<p><strong>Note</strong>: The following tables (3.2 &amp; 3.3) are shortened tables with only the most statistically significant covariates. The complete parameter table across all predictors and outcome tiers can be found in Section 4 of the <a href="./sources.html">Sources</a> tab.</p>
+</blockquote>
 <section id="final-multinomial-logistic-model-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="final-multinomial-logistic-model-parameters">2.1 Final Multinomial Logistic Model Parameters</h3>
 <p>We estimate multinomial parameters and calculate Odds Ratios (<span class="math inline">\(\text{OR} = \exp(\beta)\)</span>) with exact 95% Confidence Intervals using <code>broom::tidy(conf.int = TRUE, exponentiate = TRUE)</code>.</p>
-<blockquote class="blockquote">
-<p><strong>Note</strong>: Table 3.2 below is a shortened summary displaying primary predictors for Bachelor’s degree attainment. The complete parameter table across all predictors and outcome tiers can be found in Section 4 of the <a href="./sources.html">Data Sources &amp; References</a> tab.</p>
-</blockquote>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -278,13 +278,12 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </table>
 </div>
 </div>
+<p><strong>What the Numbers Mean:</strong> Each Odds Ratio (OR) measures the association between a covariate and an outcome. An OR &gt; 1 indicates a higher likelihood of the outcome (specifically, a <span class="math inline">\((OR - 1) \times 100\%\)</span> increase), while an OR &lt; 1 indicates a lower likelihood.</p>
+<p><strong>Example:</strong> In this table, each additional year of parental education is associated with a 33.3% higher chance of attaining a Bachelor’s degree.</p>
 <hr>
 </section>
 <section id="ols-baseline-model-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="ols-baseline-model-parameters">2.2 OLS Baseline Model Parameters</h3>
-<blockquote class="blockquote">
-<p><strong>Note</strong>: Table 3.3 below is a shortened summary of key parameters. The complete OLS model parameter table across all 19 background covariates can be found in Section 4 of the <a href="./sources.html">Data Sources &amp; References</a> tab.</p>
-</blockquote>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -352,12 +351,17 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </table>
 </div>
 </div>
+<p><strong>What the Numbers Mean:</strong> Each Estimate (<span class="math inline">\(\beta\)</span>) measures the slope between a covariate and the outcome. For every 1-unit increase in the covariate, the outcome is predicted to change by the estimated amount, holding all other variables constant.</p>
+<p><strong>Example:</strong> In this table, a 1-year increase in parental education is associated with 0.326 additional years of education.</p>
 <hr>
 </section>
 </section>
 <section id="visualizing-uncertainty" class="level2">
 <h2 class="anchored" data-anchor-id="visualizing-uncertainty">3. Visualizing Uncertainty</h2>
-<p>To evaluate parameter estimates and quantify uncertainty visually, we build a point-range error-bar plot displaying multinomial Odds Ratios (<span class="math inline">\(\text{OR} = \exp(\beta)\)</span>) alongside exact 95% Confidence Interval bounds for predicting <strong>Bachelor Degree</strong> and <strong>Graduate Degree</strong> attainment relative to High School baseline.</p>
+<p>To evaluate parameter estimates and quantify uncertainty visually, we construct point-range error-bar plots for both statistical models.</p>
+<section id="multinomial-logistic-model-uncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="multinomial-logistic-model-uncertainty">3.1 Multinomial Logistic Model Uncertainty</h3>
+<p>Figure 3.1 illustrates the Odds Ratios (<span class="math inline">\(\text{OR} = \exp(\beta)\)</span>) and exact 95% Confidence Intervals for predicting <strong>Bachelor Degree</strong> and <strong>Graduate Degree</strong> attainment relative to the High School baseline tier.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -370,6 +374,31 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </div>
 <hr>
 </section>
+<section id="ols-regression-model-uncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="ols-regression-model-uncertainty">3.2 OLS Regression Model Uncertainty</h3>
+<p>Figure 3.2 displays continuous linear parameter estimates (<span class="math inline">\(\beta\)</span>) and 95% Confidence Intervals for predicting total completed schooling years (<span class="math inline">\(Y_{\text{years}}\)</span>). In linear OLS regression, the null baseline hypothesis corresponds to <span class="math inline">\(\beta = 0\)</span> (no linear effect on total schooling years).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="model_files/figure-html/ols-forest-plot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 3.2: OLS Linear Regression Parameter Estimates (β) &amp; 95% Confidence Intervals for Completed Schooling Years.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="how-combining-factors-influences-estimation-prediction-uncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="how-combining-factors-influences-estimation-prediction-uncertainty">3.3 How Combining Factors Influences Estimation &amp; Prediction Uncertainty</h3>
+<ol type="1">
+<li><p><strong>Precision of OLS Continuous Parameters</strong>: Because our analysis utilizes a large national sample (<span class="math inline">\(N = 48,360\)</span>), individual linear slope parameters in the OLS model exhibit tight confidence bounds. This confirms that sampling noise is minimal and the direction of key socio-demographic effects is highly precise.</p></li>
+<li><p><strong>Multicollinearity &amp; Controlled Independent Effects</strong>: Socio-demographic origin traits are naturally correlated—parents with higher educational attainment also tend to earn higher relative household income and raise smaller families. By combining multiple factors simultaneously into a single multivariate specification, the model controls for confounding covariance.</p></li>
+<li><p><strong>Cumulative Prediction Uncertainty</strong>: When combining multiple predictors to generate individual point estimates (as demonstrated in Section 4), uncertainty accumulates across all model terms. While structural childhood variables account for significant macro-level educational inequality (achieving a <span class="math inline">\(72.3\%\)</span> degree classification accuracy), individual-level variance remains (<span class="math inline">\(\text{OLS } R^2 \approx 0.28\)</span>). This unaccounted variance represents unmeasured factors such as individual academic motivation, school quality, peer dynamics, and random life trajectory events.</p></li>
+</ol>
+<hr>
+</section>
+</section>
 <section id="the-dgm-in-action" class="level2">
 <h2 class="anchored" data-anchor-id="the-dgm-in-action">4. The DGM in Action</h2>
 <p>To demonstrate how our statistical model works in practice, we construct two contrasting individual profiles with different childhood socio-demographic backgrounds and use the multinomial model to predict their exact likelihood of achieving a Bachelor’s degree (and other degree tiers), alongside OLS continuous schooling predictions.</p>
@@ -378,9 +407,9 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <table class="caption-top table table-sm table-striped small">
 <caption>Table 3.4: Model-Predicted Educational Attainment Probabilities &amp; Expected Schooling Years for Two Individual Profiles</caption>
 <colgroup>
-<col style="width: 18%">
-<col style="width: 40%">
-<col style="width: 41%">
+<col style="width: 21%">
+<col style="width: 38%">
+<col style="width: 39%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -392,8 +421,8 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Childhood Background Characteristics</td>
-<td style="text-align: left;">College-educated parents (16 yrs), Income Far Above Avg (Tier 5), Two parents, Suburban, 1 Sibling</td>
-<td style="text-align: left;">Middle-school parents (9 yrs), Income Far Below Avg (Tier 1), Single parent, Farm origin, 4 Siblings</td>
+<td style="text-align: left;">College-educated parents, Income Far Above Avg, Two parents, Suburban, 1 Sibling</td>
+<td style="text-align: left;">Middle-school parents, Income Far Below Avg, Single parent, Farm origin, 4 Siblings</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">High School or Less (Multinomial Probability)</td>
@@ -425,8 +454,8 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </div>
 </div>
 <ul>
-<li><strong>Individual A (College-educated parents, Income Tier 5, Two parents, Suburban origin, 1 sibling)</strong>: Driven by high parental education (16 years) and economic stability, this individual has a <strong>39.7% chance</strong> of attaining a Bachelor’s degree, an overall <strong>67.9% chance</strong> of completing college (Bachelor’s or Graduate), and an expected <strong>16.7 total years of schooling</strong> from the OLS model.</li>
-<li><strong>Individual B (Middle-school parents, Income Tier 1, Single parent, Farm origin, 4 siblings)</strong>: Facing cumulative socio-economic headwinds, this individual has only a <strong>5.1% chance</strong> of attaining a Bachelor’s degree (<strong>70.4% chance</strong> of stopping at High School or less), and an expected <strong>11.9 total years of schooling</strong> from the OLS model.</li>
+<li><p><strong>Individual A</strong>: Driven by high parental education (16 years) and economic stability, this individual has a <strong>39.7% chance</strong> of attaining a Bachelor’s degree, an overall <strong>67.9% chance</strong> of completing college (Bachelor’s or Graduate), and an expected <strong>16.7 total years of schooling</strong> from the OLS model.</p></li>
+<li><p><strong>Individual B</strong>: Facing cumulative socio-economic headwinds, this individual has only a <strong>5.1% chance</strong> of attaining a Bachelor’s degree (<strong>70.4% chance</strong> of stopping at High School or less), and an expected <strong>11.9 total years of schooling</strong> from the OLS model.</p></li>
 </ul>
 <hr>
 </section>
@@ -439,7 +468,7 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <p>To evaluate how accurately our model predicts educational outcomes, we test its performance across the <span class="math inline">\(N = 48,360\)</span> survey respondents:</p>
 <ul>
 <li><strong>College Degree Prediction Accuracy (72.3%)</strong>: When predicting whether an individual will successfully earn a <strong>Bachelor’s degree or higher</strong> versus a non-college path, our model achieves <strong>72.3% overall accuracy</strong>.</li>
-<li><strong>What This Means in Plain English</strong>: Imagine taking a room of 100 people. By only looking at basic background information from their childhood—such as their parents’ education level, household income tier, family structure, and sibling count—our model correctly predicts whether <strong>72 out of 100 people</strong> will graduate from college. In social science, where human decisions and personal choices vary widely, a <strong>72.3% accuracy rate</strong> confirms that childhood background factors exert a dominant influence on lifetime educational attainment.</li>
+<li><strong>What This Means</strong>: Imagine taking a room of 100 people. By only looking at basic background information from their childhood—such as their parents’ education level, household income tier, family structure, and sibling count—our model correctly predicts whether <strong>72 out of 100 people</strong> will graduate from college. In social science, where human decisions and personal choices vary widely, a <strong>72.3% accuracy rate</strong> confirms that childhood background factors exert a dominant influence on lifetime educational attainment.</li>
 </ul>
 </section>
 <section id="answer-to-central-predictive-question" class="level4">
@@ -450,19 +479,19 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <ol type="1">
 <li><strong>Parental Education is the Single Strongest Predictor</strong>:
 <ul>
-<li><strong>Accuracy &amp; Effect Size</strong>: Every additional year of parental schooling increases an individual’s odds of earning a Bachelor’s degree by <strong>33.3%</strong> (<span class="math inline">\(\text{OR} = 1.333\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.319, 1.348]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and a Graduate degree by <strong>40.5%</strong> (<span class="math inline">\(\text{OR} = 1.405\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.388, 1.423]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
-<li><strong>Continuous Schooling Impact</strong>: In the OLS linear model, each additional year of parental education directly increases completed schooling by <strong>+0.326 years</strong> (<span class="math inline">\(95\%\text{ CI: }[0.318, 0.333]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Multinomial Degree Completion Odds</strong>: Every additional year of parental schooling increases an individual’s odds of earning a Bachelor’s degree by <strong>33.3%</strong> (<span class="math inline">\(\text{OR} = 1.333\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.319, 1.348]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and a Graduate degree by <strong>40.5%</strong> (<span class="math inline">\(\text{OR} = 1.405\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.388, 1.423]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>OLS Continuous Schooling Impact</strong>: In the linear model, each additional year of parental education directly increases completed schooling by <strong>+0.326 years</strong> (<span class="math inline">\(95\%\text{ CI: }[0.318, 0.333]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
 </ul></li>
 <li><strong>Childhood Household Income &amp; Family Dynamics</strong>:
 <ul>
-<li><strong>Relative Household Income</strong>: Higher childhood relative income (<code>incom16</code>) significantly increases Bachelor’s degree completion odds by <strong>16.8% per income tier</strong> (<span class="math inline">\(\text{OR} = 1.168\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.129, 1.209]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and adds <strong>+0.129 years</strong> of schooling (<span class="math inline">\(p &lt; 0.001\)</span>).</li>
-<li><strong>Single-Parent Family Structure</strong>: Growing up in a single-parent family reduces Bachelor’s degree odds by <strong>43.8%</strong> (<span class="math inline">\(\text{OR} = 0.562\)</span>, <span class="math inline">\(95\%\text{ CI: }[0.530, 0.596]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and reduces total completed schooling by <strong>-0.607 years</strong> (<span class="math inline">\(p &lt; 0.001\)</span>).</li>
-<li><strong>Sibling Size</strong>: Each additional sibling reduces Bachelor’s degree completion odds by <strong>14.6%</strong> (<span class="math inline">\(\text{OR} = 0.854\)</span>, <span class="math inline">\(95\%\text{ CI: }[0.840, 0.868]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and reduces schooling by <strong>-0.182 years per sibling</strong> (<span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Relative Household Income</strong>: Higher childhood relative income significantly increases Bachelor’s degree completion odds by <strong>16.8% per income tier</strong> (<span class="math inline">\(\text{OR} = 1.168\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.129, 1.209]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and adds <strong>+0.129 years</strong> of completed schooling (<span class="math inline">\(95\%\text{ CI: }[0.101, 0.157]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Single-Parent Family Structure</strong>: Growing up in a single-parent family reduces Bachelor’s degree completion odds by <strong>43.8%</strong> (<span class="math inline">\(\text{OR} = 0.562\)</span>, <span class="math inline">\(95\%\text{ CI: }[0.530, 0.596]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and reduces total completed schooling by <strong>-0.607 years</strong> (<span class="math inline">\(95\%\text{ CI: }[-0.672, -0.541]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Sibling Size</strong>: Each additional sibling reduces Bachelor’s degree completion odds by <strong>14.6%</strong> (<span class="math inline">\(\text{OR} = 0.854\)</span>, <span class="math inline">\(95\%\text{ CI: }[0.840, 0.868]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and reduces total schooling by <strong>-0.182 years per sibling</strong> (<span class="math inline">\(95\%\text{ CI: }[-0.195, -0.170]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
 </ul></li>
 <li><strong>Geographic &amp; Immigrant Origin Dynamics</strong>:
 <ul>
-<li><strong>Suburban &amp; Large City Origins</strong>: Growing up in a suburban environment increases Bachelor’s degree odds by <strong>41.7%</strong> compared to rural origins (<span class="math inline">\(\text{OR} = 1.417\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.358, 1.479]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and adds <strong>+0.246 years</strong> of completed schooling.</li>
-<li><strong>Parental Immigrant Status</strong>: Children of immigrant parents whose parents were not born in the U.S. exhibit <strong>77.1% higher odds</strong> of completing a Bachelor’s degree (<span class="math inline">\(\text{OR} = 1.771\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.714, 1.830]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and gain <strong>+0.508 years</strong> of total schooling.</li>
+<li><strong>Suburban &amp; Large City Origins</strong>: Growing up in a suburban environment increases Bachelor’s degree odds by <strong>41.7%</strong> compared to rural origins (<span class="math inline">\(\text{OR} = 1.417\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.358, 1.479]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and adds <strong>+0.246 years</strong> of completed schooling (<span class="math inline">\(95\%\text{ CI: }[0.163, 0.329]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Parental Immigrant Status</strong>: Children of immigrant parents whose parents were not born in the U.S. exhibit <strong>77.1% higher odds</strong> of completing a Bachelor’s degree (<span class="math inline">\(\text{OR} = 1.771\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.714, 1.830]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and gain <strong>+0.508 years</strong> of total schooling (<span class="math inline">\(95\%\text{ CI: }[0.401, 0.615]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
 </ul></li>
 </ol>
 </section>
