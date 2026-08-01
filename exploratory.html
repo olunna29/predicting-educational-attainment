@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Exploratory Data Analysis – Predicting Educational Attainment</title>
+<title>exploratory – Predicting Educational Attainment</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -95,15 +95,15 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Executive Summary</span></a>
+<span class="menu-text">Introduction</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./exploratory.html" aria-current="page"> 
-<span class="menu-text">Exploratory EDA</span></a>
+<span class="menu-text">Visualization</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./model.html"> 
-<span class="menu-text">Predictive Modeling &amp; DGM</span></a>
+<span class="menu-text">DGM &amp; Predictive Model</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./sources.html"> 
@@ -125,145 +125,112 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#intergenerational-educational-mobility-paeduc-maeduc" id="toc-intergenerational-educational-mobility-paeduc-maeduc" class="nav-link active" data-scroll-target="#intergenerational-educational-mobility-paeduc-maeduc">1. Intergenerational Educational Mobility (<code>paeduc</code> &amp; <code>maeduc</code>)</a></li>
-  <li><a href="#childhood-financial-status-relative-income-incom16" id="toc-childhood-financial-status-relative-income-incom16" class="nav-link" data-scroll-target="#childhood-financial-status-relative-income-incom16">2. Childhood Financial Status &amp; Relative Income (<code>incom16</code>)</a></li>
-  <li><a href="#family-structure-sibling-dynamics-at-age-16-family16-sibs" id="toc-family-structure-sibling-dynamics-at-age-16-family16-sibs" class="nav-link" data-scroll-target="#family-structure-sibling-dynamics-at-age-16-family16-sibs">3. Family Structure &amp; Sibling Dynamics at Age 16 (<code>family16</code> &amp; <code>sibs</code>)</a></li>
-  <li><a href="#urbanicity-geographic-community-origins-res16" id="toc-urbanicity-geographic-community-origins-res16" class="nav-link" data-scroll-target="#urbanicity-geographic-community-origins-res16">4. Urbanicity &amp; Geographic Community Origins (<code>res16</code>)</a></li>
-  <li><a href="#demographic-nativity-dimensions-sex-race-born-parborn" id="toc-demographic-nativity-dimensions-sex-race-born-parborn" class="nav-link" data-scroll-target="#demographic-nativity-dimensions-sex-race-born-parborn">5. Demographic &amp; Nativity Dimensions (<code>sex</code>, <code>race</code>, <code>born</code>, <code>parborn</code>)</a></li>
-  <li><a href="#life-course-demographics-multi-decade-generational-trends-age-childs-year" id="toc-life-course-demographics-multi-decade-generational-trends-age-childs-year" class="nav-link" data-scroll-target="#life-course-demographics-multi-decade-generational-trends-age-childs-year">6. Life-Course Demographics &amp; Multi-Decade Generational Trends (<code>age</code>, <code>childs</code>, <code>year</code>)</a></li>
-  <li><a href="#data-coverage-missingness-spotlight-agekdbrn" id="toc-data-coverage-missingness-spotlight-agekdbrn" class="nav-link" data-scroll-target="#data-coverage-missingness-spotlight-agekdbrn">7. Data Coverage &amp; Missingness Spotlight (<code>agekdbrn</code>)</a></li>
+  <li><a href="#parental-education" id="toc-parental-education" class="nav-link active" data-scroll-target="#parental-education">1. Parental Education</a></li>
+  <li><a href="#childhood-financial-status" id="toc-childhood-financial-status" class="nav-link" data-scroll-target="#childhood-financial-status">2. Childhood Financial Status</a></li>
+  <li><a href="#family-structure-sibling-dynamics" id="toc-family-structure-sibling-dynamics" class="nav-link" data-scroll-target="#family-structure-sibling-dynamics">3. Family Structure &amp; Sibling Dynamics</a></li>
+  <li><a href="#geographic-environment" id="toc-geographic-environment" class="nav-link" data-scroll-target="#geographic-environment">4. Geographic Environment</a></li>
+  <li><a href="#demographics-nativity" id="toc-demographics-nativity" class="nav-link" data-scroll-target="#demographics-nativity">5. Demographics &amp; Nativity</a></li>
+  <li><a href="#multi-decade-generational-trends-parental-status" id="toc-multi-decade-generational-trends-parental-status" class="nav-link" data-scroll-target="#multi-decade-generational-trends-parental-status">6. Multi-Decade Generational Trends &amp; Parental Status</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Exploratory Data Analysis</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="exploratory-data-analysis-eda" class="level1 unlisted hero-banner">
-<h1 class="unlisted">Exploratory Data Analysis (EDA)</h1>
+<section id="data-visualization" class="level1 unlisted hero-banner">
+<h1 class="unlisted">Data Visualization</h1>
 <p class="hero-subtitle">
 Empirical Analysis Across 14 Background Covariates &amp; Educational Attainment (GSS 1972–2024)
 </p>
 </section>
-<p>In this section, we systematically explore the empirical relationships between respondent educational attainment (<code>educ</code>) and all 14 candidate socio-demographic covariates using 7 publication-ready visualizations. Data transformations follow modern tidyverse R standards using the native R pipe (<code>|&gt;</code>).</p>
 <hr>
-<section id="intergenerational-educational-mobility-paeduc-maeduc" class="level2">
-<h2 class="anchored" data-anchor-id="intergenerational-educational-mobility-paeduc-maeduc">1. Intergenerational Educational Mobility (<code>paeduc</code> &amp; <code>maeduc</code>)</h2>
-<p>Evaluating how father’s educational attainment (<code>paeduc</code>) and mother’s educational attainment (<code>maeduc</code>) track with respondent educational outcome (<code>educ</code>).</p>
+<section id="parental-education" class="level2">
+<h2 class="anchored" data-anchor-id="parental-education">1. Parental Education</h2>
+<p>Is one’s education level correlated to their parent’s education level?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-1-1.png" class="img-fluid figure-img" width="912"></p>
-<figcaption>Figure 1: Intergenerational Educational Mobility. Respondent mean completed schooling years plotted against Father’s (paeduc) and Mother’s (maeduc) educational attainment. Source: General Social Survey (1972–2024).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 1: Respondent mean completed schooling years plotted against Father’s (paeduc) and Mother’s (maeduc) educational attainment. Source: General Social Survey (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="childhood-financial-status-relative-income-incom16" class="level2">
-<h2 class="anchored" data-anchor-id="childhood-financial-status-relative-income-incom16">2. Childhood Financial Status &amp; Relative Income (<code>incom16</code>)</h2>
-<p>Examining how family income level at age 16 (<code>incom16</code>) conditions the distribution of respondent educational attainment tiers.</p>
+<section id="childhood-financial-status" class="level2">
+<h2 class="anchored" data-anchor-id="childhood-financial-status">2. Childhood Financial Status</h2>
+<p>Is a child’s financial status a good indicator of future years of schooling?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-2-1.png" class="img-fluid figure-img" width="912"></p>
-<figcaption>Figure 2: Distribution of Educational Attainment Tiers by Childhood Relative Income (incom16). Source: GSS (1972–2024).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 2: Distribution of Educational Attainment Tiers by Childhood Relative Income. Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="family-structure-sibling-dynamics-at-age-16-family16-sibs" class="level2">
-<h2 class="anchored" data-anchor-id="family-structure-sibling-dynamics-at-age-16-family16-sibs">3. Family Structure &amp; Sibling Dynamics at Age 16 (<code>family16</code> &amp; <code>sibs</code>)</h2>
-<p>Evaluating completed schooling years across living arrangements at age 16 (<code>family16</code>) and number of siblings (<code>sibs</code>).</p>
+<section id="family-structure-sibling-dynamics" class="level2">
+<h2 class="anchored" data-anchor-id="family-structure-sibling-dynamics">3. Family Structure &amp; Sibling Dynamics</h2>
+<p>Does number of siblings and family structure correlate to education levels?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-3-1.png" class="img-fluid figure-img" width="912"></p>
-<figcaption>Figure 3: Respondent Completed Schooling Years by Family Structure (family16) and Sibling Count (sibs). Source: GSS (1972–2024).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 3: Respondent Completed Schooling Years by Family Structure and Sibling Count. Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="urbanicity-geographic-community-origins-res16" class="level2">
-<h2 class="anchored" data-anchor-id="urbanicity-geographic-community-origins-res16">4. Urbanicity &amp; Geographic Community Origins (<code>res16</code>)</h2>
-<p>Tracking higher education attainment rates across different community types lived in at age 16 (<code>res16</code>).</p>
+<section id="geographic-environment" class="level2">
+<h2 class="anchored" data-anchor-id="geographic-environment">4. Geographic Environment</h2>
+<p>How good is city/town environment as a predictor of education level?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-4-1.png" class="img-fluid figure-img" width="912"></p>
-<figcaption>Figure 4: Post-Secondary Degree Rates by Type of Place Lived in at Age 16 (res16). Source: GSS (1972–2024).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 4: Post-Secondary Degree Rates by Type of Place Lived in at Age 16. Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="demographic-nativity-dimensions-sex-race-born-parborn" class="level2">
-<h2 class="anchored" data-anchor-id="demographic-nativity-dimensions-sex-race-born-parborn">5. Demographic &amp; Nativity Dimensions (<code>sex</code>, <code>race</code>, <code>born</code>, <code>parborn</code>)</h2>
-<p>Decomposing degree attainment rates across gender (<code>sex</code>), race (<code>race</code>), respondent nativity (<code>born</code>), and parental nativity (<code>parborn</code>).</p>
+<section id="demographics-nativity" class="level2">
+<h2 class="anchored" data-anchor-id="demographics-nativity">5. Demographics &amp; Nativity</h2>
+<p>Are race/gender demographics and parent nativity good indicators of education level?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-5-1.png" class="img-fluid figure-img" width="912"></p>
-<figcaption>Figure 5: Bachelor’s Degree+ Attainment Rates by Sex, Race, Respondent Nativity (born), and Parental Nativity (parborn). Source: GSS (1972–2024).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-5-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 5: Bachelor’s Degree+ Attainment Rates by Sex, Race, Respondent Nativity, and Parental Nativity. Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="life-course-demographics-multi-decade-generational-trends-age-childs-year" class="level2">
-<h2 class="anchored" data-anchor-id="life-course-demographics-multi-decade-generational-trends-age-childs-year">6. Life-Course Demographics &amp; Multi-Decade Generational Trends (<code>age</code>, <code>childs</code>, <code>year</code>)</h2>
-<p>Tracking multi-decade trajectories of degree completion across survey years (1972–2024) by age cohorts (<code>age</code>) and fertility (<code>childs</code>).</p>
+<section id="multi-decade-generational-trends-parental-status" class="level2">
+<h2 class="anchored" data-anchor-id="multi-decade-generational-trends-parental-status">6. Multi-Decade Generational Trends &amp; Parental Status</h2>
+<p>How did educational attainment change over time and did having children change this rate?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-6-1.png" class="img-fluid figure-img" width="912"></p>
-<figcaption>Figure 6: Longitudinal Trends in Bachelor’s+ Attainment (1972–2024) Stratified by Age Groups (age) and Number of Children (childs). Source: GSS (1972–2024).</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<hr>
-</section>
-<section id="data-coverage-missingness-spotlight-agekdbrn" class="level2">
-<h2 class="anchored" data-anchor-id="data-coverage-missingness-spotlight-agekdbrn">7. Data Coverage &amp; Missingness Spotlight (<code>agekdbrn</code>)</h2>
-<p>Visualizing data availability for <code>agekdbrn</code> (age when first child was born) compared to other covariates across GSS survey decades.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="exploratory_files/figure-html/graphic-7-1.png" class="img-fluid figure-img" width="912"></p>
-<figcaption>Figure 7: Data Non-Response / Missingness Comparison Across Covariates (Highlighting agekdbrn). Source: GSS (1972–2024).</figcaption>
+<p><img src="exploratory_files/figure-html/graphic-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 6: Longitudinal Trends in Bachelor’s+ Attainment (1972–2024) Stratified by Age Groups and Number of Children. Source: GSS (1972–2024).</figcaption>
 </figure>
 </div>
 </div>
@@ -346,7 +313,7 @@ Empirical Analysis Across 14 Background Covariates &amp; Educational Attainment 
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/olunna29\.github\.io\/final-project\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

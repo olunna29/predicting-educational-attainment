@@ -72,6 +72,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -95,15 +124,15 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
-<span class="menu-text">Executive Summary</span></a>
+<span class="menu-text">Introduction</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./exploratory.html"> 
-<span class="menu-text">Exploratory EDA</span></a>
+<span class="menu-text">Visualization</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./model.html"> 
-<span class="menu-text">Predictive Modeling &amp; DGM</span></a>
+<span class="menu-text">DGM &amp; Predictive Model</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./sources.html" aria-current="page"> 
@@ -128,6 +157,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#primary-empirical-data-source" id="toc-primary-empirical-data-source" class="nav-link active" data-scroll-target="#primary-empirical-data-source">1. Primary Empirical Data Source</a></li>
   <li><a href="#variable-codebook-descriptions" id="toc-variable-codebook-descriptions" class="nav-link" data-scroll-target="#variable-codebook-descriptions">2. Variable Codebook &amp; Descriptions</a></li>
   <li><a href="#academic-methodological-references" id="toc-academic-methodological-references" class="nav-link" data-scroll-target="#academic-methodological-references">3. Academic &amp; Methodological References</a></li>
+  <li><a href="#appendix-complete-model-parameter-tables" id="toc-appendix-complete-model-parameter-tables" class="nav-link" data-scroll-target="#appendix-complete-model-parameter-tables">4. Appendix: Complete Model Parameter Tables</a></li>
   </ul>
 </nav>
     </div>
@@ -156,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="data-sources-references" class="level1 unlisted hero-banner">
 <h1 class="unlisted">Data Sources &amp; References</h1>
 <p class="hero-subtitle">
-Comprehensive APA 7th Edition Citations for the General Social Survey (GSS) and Methodology
+Comprehensive APA 7th Edition Citations
 </p>
 </section>
 <section id="primary-empirical-data-source" class="level2">
@@ -166,7 +196,6 @@ Comprehensive APA 7th Edition Citations for the General Social Survey (GSS) and 
 <h3 class="anchored" data-anchor-id="general-social-survey-norc-at-the-university-of-chicago">General Social Survey (NORC at the University of Chicago)</h3>
 <ul>
 <li><p><strong>Reference List Citation</strong>: &gt; Davern, M., Bautista, R., Freese, J., Herd, P., &amp; Morgan, S. L. (2024). <em>General Social Survey 1972–2024 (Release 3)</em> [Data set]. NORC at the University of Chicago. <a href="https://gssdataexplorer.norc.org">https://gssdataexplorer.norc.org</a></p></li>
-<li><p><strong>In-Text Citation</strong>: &gt; (Davern et al., 2024)</p></li>
 <li><p><strong>Dataset Scope &amp; Methodology</strong>: The General Social Survey (GSS) is one of the nation’s most authoritative, long-running social science research studies. Since 1972, the GSS has monitored societal trends and demographic transformations across the adult, non-institutionalized population of the United States using nationally representative probability sampling.</p></li>
 </ul>
 <hr>
@@ -276,8 +305,738 @@ Comprehensive APA 7th Edition Citations for the General Social Survey (GSS) and 
 <li><strong>Venables, W. N., &amp; Ripley, B. D.</strong> (2002). <em>Modern Applied Statistics with S</em> (4th ed.). Springer. [Multinomial Logistic Modeling via <code>nnet</code> R Package].</li>
 <li><strong>Wickham, H., et al.</strong> (2019). Welcome to the Tidyverse. <em>Journal of Open Source Software</em>, 4(43), 1686.</li>
 </ul>
+<hr>
+</section>
+<section id="appendix-complete-model-parameter-tables" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-complete-model-parameter-tables">4. Appendix: Complete Model Parameter Tables</h2>
+<p>Below are the complete, un-truncated parameter estimation tables for both statistical models fitted in this study.</p>
+<section id="full-multinomial-logistic-model-parameters-odds-ratios" class="level3">
+<h3 class="anchored" data-anchor-id="full-multinomial-logistic-model-parameters-odds-ratios">4.1 Full Multinomial Logistic Model Parameters &amp; Odds Ratios</h3>
+<p>Below is the complete table of estimated parameters, Odds Ratios (<span class="math inline">\(\text{OR} = \exp(\beta)\)</span>), and exact 95% Confidence Intervals for all background predictors across all three non-reference outcome tiers (<em>Some College</em>, <em>Bachelor Degree</em>, <em>Graduate Degree</em>, relative to baseline <em>High School or Less</em>).</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Table 4.1: Full Multinomial Logistic Model Parameters &amp; Odds Ratios across All Outcome Tiers</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 35%">
+<col style="width: 15%">
+<col style="width: 7%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Outcome Tier</th>
+<th style="text-align: left;">Predictor Variable</th>
+<th style="text-align: right;">Odds Ratio (OR)</th>
+<th style="text-align: left;">p-value</th>
+<th style="text-align: right;">95% CI Lower</th>
+<th style="text-align: right;">95% CI Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Parental Education (Per Year)</td>
+<td style="text-align: right;">1.169</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.160</td>
+<td style="text-align: right;">1.179</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Childhood Relative Income (Tier 1-5)</td>
+<td style="text-align: right;">1.098</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.068</td>
+<td style="text-align: right;">1.129</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Sibling Count</td>
+<td style="text-align: right;">0.921</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.909</td>
+<td style="text-align: right;">0.933</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Number of Children</td>
+<td style="text-align: right;">0.933</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.919</td>
+<td style="text-align: right;">0.948</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Respondent Age (Years)</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: left;">0.7877</td>
+<td style="text-align: right;">0.999</td>
+<td style="text-align: right;">1.002</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Survey Administration Year</td>
+<td style="text-align: right;">1.014</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.014</td>
+<td style="text-align: right;">1.014</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Sex: Male (vs Female)</td>
+<td style="text-align: right;">0.958</td>
+<td style="text-align: left;">0.0749</td>
+<td style="text-align: right;">0.914</td>
+<td style="text-align: right;">1.004</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Race: Other (vs Black)</td>
+<td style="text-align: right;">0.970</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.953</td>
+<td style="text-align: right;">0.987</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Race: White (vs Black)</td>
+<td style="text-align: right;">0.761</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.727</td>
+<td style="text-align: right;">0.795</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Residence: Big-City Suburb</td>
+<td style="text-align: right;">1.223</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.173</td>
+<td style="text-align: right;">1.276</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Residence: Large City &gt;250k</td>
+<td style="text-align: right;">1.092</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.044</td>
+<td style="text-align: right;">1.141</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Residence: Rural Non-Farm</td>
+<td style="text-align: right;">0.711</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.676</td>
+<td style="text-align: right;">0.748</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Residence: Farm</td>
+<td style="text-align: right;">0.705</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.669</td>
+<td style="text-align: right;">0.743</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Residence: Town &lt;50k</td>
+<td style="text-align: right;">0.914</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.876</td>
+<td style="text-align: right;">0.953</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Family Structure: Other Relative</td>
+<td style="text-align: right;">0.797</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.785</td>
+<td style="text-align: right;">0.809</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Family Structure: Single Parent</td>
+<td style="text-align: right;">0.802</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.761</td>
+<td style="text-align: right;">0.845</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Family Structure: Stepparent</td>
+<td style="text-align: right;">0.916</td>
+<td style="text-align: left;">0.0116</td>
+<td style="text-align: right;">0.856</td>
+<td style="text-align: right;">0.981</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Respondent U.S. Born</td>
+<td style="text-align: right;">1.174</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.140</td>
+<td style="text-align: right;">1.209</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Parents Nativity: Neither U.S.</td>
+<td style="text-align: right;">1.352</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.306</td>
+<td style="text-align: right;">1.400</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Some College</td>
+<td style="text-align: left;">Parents Nativity: One U.S.</td>
+<td style="text-align: right;">1.237</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.229</td>
+<td style="text-align: right;">1.245</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Parental Education (Per Year)</td>
+<td style="text-align: right;">1.333</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.318</td>
+<td style="text-align: right;">1.347</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Childhood Relative Income (Tier 1-5)</td>
+<td style="text-align: right;">1.172</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.132</td>
+<td style="text-align: right;">1.214</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Sibling Count</td>
+<td style="text-align: right;">0.854</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.840</td>
+<td style="text-align: right;">0.868</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Number of Children</td>
+<td style="text-align: right;">0.846</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.829</td>
+<td style="text-align: right;">0.864</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Respondent Age (Years)</td>
+<td style="text-align: right;">1.017</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.015</td>
+<td style="text-align: right;">1.019</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Survey Administration Year</td>
+<td style="text-align: right;">1.019</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.019</td>
+<td style="text-align: right;">1.019</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Sex: Male (vs Female)</td>
+<td style="text-align: right;">1.016</td>
+<td style="text-align: left;">0.5972</td>
+<td style="text-align: right;">0.959</td>
+<td style="text-align: right;">1.075</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Race: Other (vs Black)</td>
+<td style="text-align: right;">1.478</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.444</td>
+<td style="text-align: right;">1.512</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Race: White (vs Black)</td>
+<td style="text-align: right;">1.063</td>
+<td style="text-align: left;">0.0092</td>
+<td style="text-align: right;">1.015</td>
+<td style="text-align: right;">1.113</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Residence: Big-City Suburb</td>
+<td style="text-align: right;">1.420</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.362</td>
+<td style="text-align: right;">1.481</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Residence: Large City &gt;250k</td>
+<td style="text-align: right;">1.139</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.088</td>
+<td style="text-align: right;">1.193</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Residence: Rural Non-Farm</td>
+<td style="text-align: right;">0.615</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.594</td>
+<td style="text-align: right;">0.637</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Residence: Farm</td>
+<td style="text-align: right;">0.685</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.670</td>
+<td style="text-align: right;">0.700</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Residence: Town &lt;50k</td>
+<td style="text-align: right;">0.904</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.859</td>
+<td style="text-align: right;">0.952</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Family Structure: Other Relative</td>
+<td style="text-align: right;">0.368</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.367</td>
+<td style="text-align: right;">0.369</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Family Structure: Single Parent</td>
+<td style="text-align: right;">0.562</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.530</td>
+<td style="text-align: right;">0.596</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Family Structure: Stepparent</td>
+<td style="text-align: right;">0.578</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.565</td>
+<td style="text-align: right;">0.592</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Respondent U.S. Born</td>
+<td style="text-align: right;">1.005</td>
+<td style="text-align: left;">0.7536</td>
+<td style="text-align: right;">0.976</td>
+<td style="text-align: right;">1.034</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Parents Nativity: Neither U.S.</td>
+<td style="text-align: right;">1.770</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.713</td>
+<td style="text-align: right;">1.828</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Parents Nativity: One U.S.</td>
+<td style="text-align: right;">1.225</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.217</td>
+<td style="text-align: right;">1.233</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Parental Education (Per Year)</td>
+<td style="text-align: right;">1.405</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.388</td>
+<td style="text-align: right;">1.421</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Childhood Relative Income (Tier 1-5)</td>
+<td style="text-align: right;">1.090</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.051</td>
+<td style="text-align: right;">1.131</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Sibling Count</td>
+<td style="text-align: right;">0.829</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.814</td>
+<td style="text-align: right;">0.843</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Number of Children</td>
+<td style="text-align: right;">0.825</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.807</td>
+<td style="text-align: right;">0.843</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Respondent Age (Years)</td>
+<td style="text-align: right;">1.028</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.026</td>
+<td style="text-align: right;">1.030</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Survey Administration Year</td>
+<td style="text-align: right;">1.018</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.018</td>
+<td style="text-align: right;">1.018</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Sex: Male (vs Female)</td>
+<td style="text-align: right;">1.130</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.064</td>
+<td style="text-align: right;">1.202</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Race: Other (vs Black)</td>
+<td style="text-align: right;">1.329</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.303</td>
+<td style="text-align: right;">1.356</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Race: White (vs Black)</td>
+<td style="text-align: right;">1.127</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.085</td>
+<td style="text-align: right;">1.171</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Residence: Big-City Suburb</td>
+<td style="text-align: right;">1.368</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.313</td>
+<td style="text-align: right;">1.426</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Residence: Large City &gt;250k</td>
+<td style="text-align: right;">1.148</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.098</td>
+<td style="text-align: right;">1.199</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Residence: Rural Non-Farm</td>
+<td style="text-align: right;">0.690</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.668</td>
+<td style="text-align: right;">0.712</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Residence: Farm</td>
+<td style="text-align: right;">0.725</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.712</td>
+<td style="text-align: right;">0.738</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Residence: Town &lt;50k</td>
+<td style="text-align: right;">0.862</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.817</td>
+<td style="text-align: right;">0.911</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Family Structure: Other Relative</td>
+<td style="text-align: right;">0.402</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.401</td>
+<td style="text-align: right;">0.404</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Family Structure: Single Parent</td>
+<td style="text-align: right;">0.481</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.459</td>
+<td style="text-align: right;">0.504</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Family Structure: Stepparent</td>
+<td style="text-align: right;">0.590</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.581</td>
+<td style="text-align: right;">0.598</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Respondent U.S. Born</td>
+<td style="text-align: right;">0.770</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.748</td>
+<td style="text-align: right;">0.794</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Parents Nativity: Neither U.S.</td>
+<td style="text-align: right;">1.878</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.817</td>
+<td style="text-align: right;">1.941</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Graduate Degree</td>
+<td style="text-align: left;">Parents Nativity: One U.S.</td>
+<td style="text-align: right;">1.224</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.218</td>
+<td style="text-align: right;">1.230</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="full-ols-baseline-model-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="full-ols-baseline-model-parameters">4.2 Full OLS Baseline Model Parameters</h3>
+<p>Below is the complete table of all estimated parameters from the Ordinary Least Squares (OLS) linear regression model for completed schooling years (<span class="math inline">\(Y_{\text{years}}\)</span>).</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Table 4.2: Full OLS Model Parameters &amp; 95% Confidence Intervals for Completed Schooling Years</caption>
+<colgroup>
+<col style="width: 34%">
+<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 7%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Predictor</th>
+<th style="text-align: right;">Estimate (β)</th>
+<th style="text-align: right;">Std. Error</th>
+<th style="text-align: right;">t statistic</th>
+<th style="text-align: left;">p-value</th>
+<th style="text-align: right;">95% CI Lower</th>
+<th style="text-align: right;">95% CI Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Parental Education (Per Year)</td>
+<td style="text-align: right;">0.326</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">84.478</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.318</td>
+<td style="text-align: right;">0.333</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Childhood Relative Income (Tier 1-5)</td>
+<td style="text-align: right;">0.129</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">9.169</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.101</td>
+<td style="text-align: right;">0.157</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sibling Count</td>
+<td style="text-align: right;">-0.182</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">-27.775</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">-0.195</td>
+<td style="text-align: right;">-0.170</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of Children</td>
+<td style="text-align: right;">-0.178</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">-23.523</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">-0.192</td>
+<td style="text-align: right;">-0.163</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Respondent Age (Years)</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">18.637</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.016</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Survey Administration Year</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">24.148</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">0.022</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex: Male</td>
+<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">1.042</td>
+<td style="text-align: left;">0.2976</td>
+<td style="text-align: right;">-0.021</td>
+<td style="text-align: right;">0.069</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Race: Other</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">0.514</td>
+<td style="text-align: left;">0.6069</td>
+<td style="text-align: right;">-0.085</td>
+<td style="text-align: right;">0.145</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Race: White</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.036</td>
+<td style="text-align: right;">1.172</td>
+<td style="text-align: left;">0.2411</td>
+<td style="text-align: right;">-0.028</td>
+<td style="text-align: right;">0.112</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residence Origin: Big-City Suburb</td>
+<td style="text-align: right;">0.246</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">5.817</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.163</td>
+<td style="text-align: right;">0.329</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Residence Origin: Large City &gt;250k</td>
+<td style="text-align: right;">0.162</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">3.956</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.082</td>
+<td style="text-align: right;">0.242</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residence Origin: Rural Non-Farm</td>
+<td style="text-align: right;">-0.419</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">-9.235</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">-0.508</td>
+<td style="text-align: right;">-0.330</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Residence Origin: Farm</td>
+<td style="text-align: right;">-0.614</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">-13.412</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">-0.704</td>
+<td style="text-align: right;">-0.525</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residence Origin: Town &lt;50k</td>
+<td style="text-align: right;">-0.117</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">-3.361</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">-0.185</td>
+<td style="text-align: right;">-0.049</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Family Structure: Other Relative</td>
+<td style="text-align: right;">-0.888</td>
+<td style="text-align: right;">0.056</td>
+<td style="text-align: right;">-15.921</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">-0.997</td>
+<td style="text-align: right;">-0.778</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Family Structure: Single Parent</td>
+<td style="text-align: right;">-0.607</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">-18.183</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">-0.672</td>
+<td style="text-align: right;">-0.541</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Family Structure: Stepparent</td>
+<td style="text-align: right;">-0.506</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">-11.290</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">-0.594</td>
+<td style="text-align: right;">-0.419</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Respondent U.S. Born</td>
+<td style="text-align: right;">0.342</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">5.743</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.225</td>
+<td style="text-align: right;">0.459</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Parents Nativity: Neither U.S.</td>
+<td style="text-align: right;">0.508</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">9.304</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.401</td>
+<td style="text-align: right;">0.615</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Parents Nativity: One U.S.</td>
+<td style="text-align: right;">0.222</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">4.454</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.124</td>
+<td style="text-align: right;">0.320</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -354,7 +1113,7 @@ Comprehensive APA 7th Edition Citations for the General Social Survey (GSS) and 
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/olunna29\.github\.io\/final-project\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
