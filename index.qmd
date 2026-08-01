@@ -14,7 +14,7 @@ Understanding how these background factors jointly influence educational attainm
 
 ## 2. Central Predictive Research Question
 
-To what extent do parental educational background ($\text{paeduc}, \text{maeduc}$), childhood financial status ($\text{incom16}$), family structure ($\text{family16}$), geographic origin ($\text{res16}$), demographic characteristics ($\text{sex}, \text{race}, \text{born}, \text{parborn}$), family size ($\text{sibs}, \text{childs}$), and temporal birth cohorts ($\text{year}, \text{age}$) jointly predict whether an individual achieves a High School degree or less, Some College, a Bachelor's degree, or a Graduate degree in the United States?
+To what extent do social, economic, and demographic factors jointly predict whether an individual achieves a specific education level such as a Bachelor's degree in the United States?
 
 ---
 

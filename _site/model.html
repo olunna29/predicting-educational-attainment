@@ -156,8 +156,9 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#data-generating-mechanism-dgm-formulations" id="toc-data-generating-mechanism-dgm-formulations" class="nav-link active" data-scroll-target="#data-generating-mechanism-dgm-formulations">1. Data Generating Mechanism (DGM) Formulations</a></li>
   <li><a href="#model-estimation-95-confidence-intervals" id="toc-model-estimation-95-confidence-intervals" class="nav-link" data-scroll-target="#model-estimation-95-confidence-intervals">2. Model Estimation &amp; 95% Confidence Intervals</a></li>
-  <li><a href="#visualizing-uncertainty-odds-ratio-forest-plot" id="toc-visualizing-uncertainty-odds-ratio-forest-plot" class="nav-link" data-scroll-target="#visualizing-uncertainty-odds-ratio-forest-plot">3. Visualizing Uncertainty: Odds Ratio Forest Plot</a></li>
-  <li><a href="#formal-predictive-verdict" id="toc-formal-predictive-verdict" class="nav-link" data-scroll-target="#formal-predictive-verdict">4. Formal Predictive Verdict</a></li>
+  <li><a href="#visualizing-uncertainty" id="toc-visualizing-uncertainty" class="nav-link" data-scroll-target="#visualizing-uncertainty">3. Visualizing Uncertainty</a></li>
+  <li><a href="#the-dgm-in-action" id="toc-the-dgm-in-action" class="nav-link" data-scroll-target="#the-dgm-in-action">4. The DGM in Action</a></li>
+  <li><a href="#formal-predictive-verdict" id="toc-formal-predictive-verdict" class="nav-link" data-scroll-target="#formal-predictive-verdict">5. Formal Predictive Verdict</a></li>
   </ul>
 </nav>
     </div>
@@ -177,8 +178,8 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <section id="data-generating-mechanism-dgm-formulations" class="level2">
 <h2 class="anchored" data-anchor-id="data-generating-mechanism-dgm-formulations">1. Data Generating Mechanism (DGM) Formulations</h2>
 <p>To predict individual educational attainment (<span class="math inline">\(Y_{\text{educ}}\)</span>) conditioned on socio-demographic origin traits, we establish two formal statistical Data Generating Mechanisms: a primary <strong>Multinomial Logistic DGM</strong> for categorical milestone tiers and an <strong>Ordinary Least Squares (OLS) DGM</strong> for continuous schooling years.</p>
-<section id="primary-categorical-outcome-multinomial-logistic-dgm" class="level3">
-<h3 class="anchored" data-anchor-id="primary-categorical-outcome-multinomial-logistic-dgm">1.1 Primary Categorical Outcome: Multinomial Logistic DGM</h3>
+<section id="multinomial-logistic-dgm" class="level3">
+<h3 class="anchored" data-anchor-id="multinomial-logistic-dgm">1.1 Multinomial Logistic DGM</h3>
 <p>We model the conditional log-odds of an individual attaining educational tier <span class="math inline">\(k \in \{\text{Some College}, \text{Bachelor Degree}, \text{Graduate Degree}\}\)</span> relative to baseline <span class="math inline">\(K_0 = \text{High School or Less}\)</span>:</p>
 <p><span class="math display">\[\ln\left(\frac{P(Y_{\text{educ}} = k \mid \mathbf{X})}{P(Y_{\text{educ}} = K_0 \mid \mathbf{X})}\right) = \beta_{k0} + \boldsymbol{\beta}_k^T \mathbf{X}\]</span></p>
 <p>where <span class="math inline">\(\mathbf{X}\)</span> represents the vector of statistically selected socio-demographic covariates:</p>
@@ -187,8 +188,8 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <p><span class="math display">\[P(Y_{\text{educ}} = k \mid \mathbf{X}) = \frac{\exp\left(\beta_{k0} + \boldsymbol{\beta}_k^T \mathbf{X}\right)}{1 + \sum_{j=1}^{3} \exp\left(\beta_{j0} + \boldsymbol{\beta}_j^T \mathbf{X}\right)}\]</span></p>
 <hr>
 </section>
-<section id="comparative-continuous-benchmark-linear-regression-dgm" class="level3">
-<h3 class="anchored" data-anchor-id="comparative-continuous-benchmark-linear-regression-dgm">1.2 Comparative Continuous Benchmark: Linear Regression DGM</h3>
+<section id="linear-regression-dgm" class="level3">
+<h3 class="anchored" data-anchor-id="linear-regression-dgm">1.2 Linear Regression DGM</h3>
 <p>As a comparative benchmark, we model completed years of schooling (<span class="math inline">\(Y_{\text{years}} \in [0, 20]\)</span>) as a continuous conditional expectation:</p>
 <p><span class="math display">\[Y_{\text{years}} = \beta_0 + \boldsymbol{\beta}^T \mathbf{X} + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, \sigma^2)\]</span></p>
 <hr>
@@ -196,175 +197,82 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </section>
 <section id="model-estimation-95-confidence-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="model-estimation-95-confidence-intervals">2. Model Estimation &amp; 95% Confidence Intervals</h2>
-<section id="final-multinomial-logistic-model-parameter-estimates-odds-ratios" class="level3">
-<h3 class="anchored" data-anchor-id="final-multinomial-logistic-model-parameter-estimates-odds-ratios">2.1 Final Multinomial Logistic Model Parameter Estimates &amp; Odds Ratios</h3>
+<section id="final-multinomial-logistic-model-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="final-multinomial-logistic-model-parameters">2.1 Final Multinomial Logistic Model Parameters</h3>
 <p>We estimate multinomial parameters and calculate Odds Ratios (<span class="math inline">\(\text{OR} = \exp(\beta)\)</span>) with exact 95% Confidence Intervals using <code>broom::tidy(conf.int = TRUE, exponentiate = TRUE)</code>.</p>
+<blockquote class="blockquote">
+<p><strong>Note</strong>: Table 3.2 below is a shortened summary displaying primary predictors for Bachelor’s degree attainment. The complete parameter table across all predictors and outcome tiers can be found in Section 4 of the <a href="./sources.html">Data Sources &amp; References</a> tab.</p>
+</blockquote>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>Table 3.2: Multinomial Odds Ratios &amp; 95% Confidence Intervals (Reference: High School or Less)</caption>
+<caption>Table 3.2: Multinomial Odds Ratios &amp; 95% Confidence Intervals for Bachelor’s Degree Attainment (Ref: High School or Less)</caption>
 <colgroup>
-<col style="width: 12%">
-<col style="width: 40%">
-<col style="width: 15%">
-<col style="width: 12%">
-<col style="width: 12%">
+<col style="width: 14%">
+<col style="width: 41%">
+<col style="width: 14%">
 <col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Outcome Tier</th>
 <th style="text-align: left;">Predictor Variable</th>
 <th style="text-align: right;">Odds Ratio (OR)</th>
+<th style="text-align: left;">p-value</th>
 <th style="text-align: right;">95% CI Lower</th>
 <th style="text-align: right;">95% CI Upper</th>
-<th style="text-align: left;">p-value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Parental Education Years</td>
-<td style="text-align: right;">1.169</td>
-<td style="text-align: right;">1.160</td>
-<td style="text-align: right;">1.179</td>
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Parental Education (Per Year)</td>
+<td style="text-align: right;">1.333</td>
 <td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.318</td>
+<td style="text-align: right;">1.347</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Childhood Income Tier (1-5)</td>
-<td style="text-align: right;">1.098</td>
-<td style="text-align: right;">1.068</td>
-<td style="text-align: right;">1.129</td>
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Childhood Relative Income (Tier 1-5)</td>
+<td style="text-align: right;">1.172</td>
 <td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.132</td>
+<td style="text-align: right;">1.214</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Sibling Count</td>
-<td style="text-align: right;">0.921</td>
-<td style="text-align: right;">0.909</td>
-<td style="text-align: right;">0.933</td>
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Sibling Count (Per Sibling)</td>
+<td style="text-align: right;">0.854</td>
 <td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.840</td>
+<td style="text-align: right;">0.868</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Number of Children</td>
-<td style="text-align: right;">0.933</td>
-<td style="text-align: right;">0.919</td>
-<td style="text-align: right;">0.948</td>
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Residence: Big-City Suburb (vs Farm)</td>
+<td style="text-align: right;">1.420</td>
 <td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.362</td>
+<td style="text-align: right;">1.481</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Respondent Age (Years)</td>
-<td style="text-align: right;">1.000</td>
-<td style="text-align: right;">0.999</td>
-<td style="text-align: right;">1.002</td>
-<td style="text-align: left;">0.7877</td>
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Single Parent Family (vs Both Parents)</td>
+<td style="text-align: right;">0.562</td>
+<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">0.530</td>
+<td style="text-align: right;">0.596</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Survey Year (Decades)</td>
-<td style="text-align: right;">1.014</td>
-<td style="text-align: right;">1.014</td>
-<td style="text-align: right;">1.014</td>
+<td style="text-align: left;">Bachelor Degree</td>
+<td style="text-align: left;">Parents Nativity: Neither U.S. Born (vs Both)</td>
+<td style="text-align: right;">1.770</td>
 <td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Sex: Male (vs Female)</td>
-<td style="text-align: right;">0.958</td>
-<td style="text-align: right;">0.914</td>
-<td style="text-align: right;">1.004</td>
-<td style="text-align: left;">0.0749</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Race: Other (vs Black)</td>
-<td style="text-align: right;">0.970</td>
-<td style="text-align: right;">0.953</td>
-<td style="text-align: right;">0.987</td>
-<td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Race: White (vs Black)</td>
-<td style="text-align: right;">0.761</td>
-<td style="text-align: right;">0.727</td>
-<td style="text-align: right;">0.795</td>
-<td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Res16: Suburb (vs Farm)</td>
-<td style="text-align: right;">1.223</td>
-<td style="text-align: right;">1.173</td>
-<td style="text-align: right;">1.276</td>
-<td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Res16: Large City (vs Farm)</td>
-<td style="text-align: right;">1.092</td>
-<td style="text-align: right;">1.044</td>
-<td style="text-align: right;">1.141</td>
-<td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Res16: Rural Non-Farm (vs Farm)</td>
-<td style="text-align: right;">0.711</td>
-<td style="text-align: right;">0.676</td>
-<td style="text-align: right;">0.748</td>
-<td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">res16_cleanFARM</td>
-<td style="text-align: right;">0.705</td>
-<td style="text-align: right;">0.669</td>
-<td style="text-align: right;">0.743</td>
-<td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Res16: Town &lt;50k (vs Farm)</td>
-<td style="text-align: right;">0.914</td>
-<td style="text-align: right;">0.876</td>
-<td style="text-align: right;">0.953</td>
-<td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Family16: Other Relative (vs Both Parents)</td>
-<td style="text-align: right;">0.797</td>
-<td style="text-align: right;">0.785</td>
-<td style="text-align: right;">0.809</td>
-<td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Family16: Single Parent (vs Both Parents)</td>
-<td style="text-align: right;">0.802</td>
-<td style="text-align: right;">0.761</td>
-<td style="text-align: right;">0.845</td>
-<td style="text-align: left;">&lt; 0.001</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Family16: Stepparent (vs Both Parents)</td>
-<td style="text-align: right;">0.916</td>
-<td style="text-align: right;">0.856</td>
-<td style="text-align: right;">0.981</td>
-<td style="text-align: left;">0.0116</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Some College</td>
-<td style="text-align: left;">Respondent Born in U.S.</td>
-<td style="text-align: right;">1.174</td>
-<td style="text-align: right;">1.140</td>
-<td style="text-align: right;">1.209</td>
-<td style="text-align: left;">&lt; 0.001</td>
+<td style="text-align: right;">1.713</td>
+<td style="text-align: right;">1.828</td>
 </tr>
 </tbody>
 </table>
@@ -372,27 +280,26 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </div>
 <hr>
 </section>
-<section id="ols-baseline-model-estimates-for-schooling-years" class="level3">
-<h3 class="anchored" data-anchor-id="ols-baseline-model-estimates-for-schooling-years">2.2 OLS Baseline Model Estimates for Schooling Years</h3>
+<section id="ols-baseline-model-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="ols-baseline-model-parameters">2.2 OLS Baseline Model Parameters</h3>
+<blockquote class="blockquote">
+<p><strong>Note</strong>: Table 3.3 below is a shortened summary of key parameters. The complete OLS model parameter table across all 19 background covariates can be found in Section 4 of the <a href="./sources.html">Data Sources &amp; References</a> tab.</p>
+</blockquote>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>Table 3.3: OLS Model Parameters &amp; 95% Confidence Intervals for Completed Schooling Years</caption>
+<caption>Table 3.3: Primary OLS Model Parameters &amp; 95% Confidence Intervals (Variables Featured in Predictive Verdict)</caption>
 <colgroup>
-<col style="width: 34%">
-<col style="width: 12%">
-<col style="width: 10%">
-<col style="width: 11%">
-<col style="width: 7%">
-<col style="width: 12%">
-<col style="width: 12%">
+<col style="width: 44%">
+<col style="width: 15%">
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 15%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Predictor</th>
 <th style="text-align: right;">Estimate (β)</th>
-<th style="text-align: right;">Std. Error</th>
-<th style="text-align: right;">t statistic</th>
 <th style="text-align: left;">p-value</th>
 <th style="text-align: right;">95% CI Lower</th>
 <th style="text-align: right;">95% CI Upper</th>
@@ -400,10 +307,8 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Parental Education (Years)</td>
+<td style="text-align: left;">Parental Education (Per Year)</td>
 <td style="text-align: right;">0.326</td>
-<td style="text-align: right;">0.004</td>
-<td style="text-align: right;">84.478</td>
 <td style="text-align: left;">&lt; 0.001</td>
 <td style="text-align: right;">0.318</td>
 <td style="text-align: right;">0.333</td>
@@ -411,155 +316,47 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <tr class="even">
 <td style="text-align: left;">Childhood Relative Income (Tier 1-5)</td>
 <td style="text-align: right;">0.129</td>
-<td style="text-align: right;">0.014</td>
-<td style="text-align: right;">9.169</td>
 <td style="text-align: left;">&lt; 0.001</td>
 <td style="text-align: right;">0.101</td>
 <td style="text-align: right;">0.157</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Sibling Count</td>
+<td style="text-align: left;">Sibling Count (Per Sibling)</td>
 <td style="text-align: right;">-0.182</td>
-<td style="text-align: right;">0.007</td>
-<td style="text-align: right;">-27.775</td>
 <td style="text-align: left;">&lt; 0.001</td>
 <td style="text-align: right;">-0.195</td>
 <td style="text-align: right;">-0.170</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Number of Children</td>
-<td style="text-align: right;">-0.178</td>
-<td style="text-align: right;">0.008</td>
-<td style="text-align: right;">-23.523</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: right;">-0.192</td>
-<td style="text-align: right;">-0.163</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Respondent Age (Years)</td>
-<td style="text-align: right;">0.015</td>
-<td style="text-align: right;">0.001</td>
-<td style="text-align: right;">18.637</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: right;">0.013</td>
-<td style="text-align: right;">0.016</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Survey Administration Year</td>
-<td style="text-align: right;">0.020</td>
-<td style="text-align: right;">0.001</td>
-<td style="text-align: right;">24.148</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: right;">0.019</td>
-<td style="text-align: right;">0.022</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Sex: Male</td>
-<td style="text-align: right;">0.024</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">1.042</td>
-<td style="text-align: left;">0.2976</td>
-<td style="text-align: right;">-0.021</td>
-<td style="text-align: right;">0.069</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Race: Other</td>
-<td style="text-align: right;">0.030</td>
-<td style="text-align: right;">0.059</td>
-<td style="text-align: right;">0.514</td>
-<td style="text-align: left;">0.6069</td>
-<td style="text-align: right;">-0.085</td>
-<td style="text-align: right;">0.145</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Race: White</td>
-<td style="text-align: right;">0.042</td>
-<td style="text-align: right;">0.036</td>
-<td style="text-align: right;">1.172</td>
-<td style="text-align: left;">0.2411</td>
-<td style="text-align: right;">-0.028</td>
-<td style="text-align: right;">0.112</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Res16: Big-City Suburb</td>
+<td style="text-align: left;">Residence Origin: Big-City Suburb</td>
 <td style="text-align: right;">0.246</td>
-<td style="text-align: right;">0.042</td>
-<td style="text-align: right;">5.817</td>
 <td style="text-align: left;">&lt; 0.001</td>
 <td style="text-align: right;">0.163</td>
 <td style="text-align: right;">0.329</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Res16: Large City &gt;250k</td>
-<td style="text-align: right;">0.162</td>
-<td style="text-align: right;">0.041</td>
-<td style="text-align: right;">3.956</td>
+<td style="text-align: left;">Family Structure: Single Parent</td>
+<td style="text-align: right;">-0.607</td>
 <td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: right;">0.082</td>
-<td style="text-align: right;">0.242</td>
+<td style="text-align: right;">-0.672</td>
+<td style="text-align: right;">-0.541</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Res16: Rural Non-Farm</td>
-<td style="text-align: right;">-0.419</td>
-<td style="text-align: right;">0.045</td>
-<td style="text-align: right;">-9.235</td>
+<td style="text-align: left;">Parents Nativity: Neither U.S. Born</td>
+<td style="text-align: right;">0.508</td>
 <td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: right;">-0.508</td>
-<td style="text-align: right;">-0.330</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">res16_cleanFARM</td>
-<td style="text-align: right;">-0.614</td>
-<td style="text-align: right;">0.046</td>
-<td style="text-align: right;">-13.412</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: right;">-0.704</td>
-<td style="text-align: right;">-0.525</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Res16: Town &lt;50k</td>
-<td style="text-align: right;">-0.117</td>
-<td style="text-align: right;">0.035</td>
-<td style="text-align: right;">-3.361</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: right;">-0.185</td>
-<td style="text-align: right;">-0.049</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Family16: Other Relative</td>
-<td style="text-align: right;">-0.888</td>
-<td style="text-align: right;">0.056</td>
-<td style="text-align: right;">-15.921</td>
-<td style="text-align: left;">&lt; 0.001</td>
-<td style="text-align: right;">-0.997</td>
-<td style="text-align: right;">-0.778</td>
+<td style="text-align: right;">0.401</td>
+<td style="text-align: right;">0.615</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Key Parameter Interpretations
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>Parental Education Effect (<span class="math inline">\(\beta = +0.279\)</span> years)</strong>: Each additional year of average parental education increases respondent schooling by <strong>0.279 years</strong> (95% CI: <code>[0.271, 0.287]</code>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
-<li><strong>Childhood Income Effect (<span class="math inline">\(\beta = +0.169\)</span> years)</strong>: Each step increase in childhood income tier adds <strong>0.169 years</strong> of completed schooling (<span class="math inline">\(p &lt; 0.001\)</span>).</li>
-<li><strong>Immigrant Family Advantage</strong>: Respondents with non-U.S. born parents achieve higher odds of college and graduate degrees (<span class="math inline">\(\text{OR} = 1.878\)</span>, 95% CI: <code>[1.817, 1.941]</code>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
-</ul>
-</div>
-</div>
 <hr>
 </section>
 </section>
-<section id="visualizing-uncertainty-odds-ratio-forest-plot" class="level2">
-<h2 class="anchored" data-anchor-id="visualizing-uncertainty-odds-ratio-forest-plot">3. Visualizing Uncertainty: Odds Ratio Forest Plot</h2>
+<section id="visualizing-uncertainty" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-uncertainty">3. Visualizing Uncertainty</h2>
 <p>To evaluate parameter estimates and quantify uncertainty visually, we build a point-range error-bar plot displaying multinomial Odds Ratios (<span class="math inline">\(\text{OR} = \exp(\beta)\)</span>) alongside exact 95% Confidence Interval bounds for predicting <strong>Bachelor Degree</strong> and <strong>Graduate Degree</strong> attainment relative to High School baseline.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -573,28 +370,100 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </div>
 <hr>
 </section>
+<section id="the-dgm-in-action" class="level2">
+<h2 class="anchored" data-anchor-id="the-dgm-in-action">4. The DGM in Action</h2>
+<p>To demonstrate how our statistical model works in practice, we construct two contrasting individual profiles with different childhood socio-demographic backgrounds and use the multinomial model to predict their exact likelihood of achieving a Bachelor’s degree (and other degree tiers), alongside OLS continuous schooling predictions.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Table 3.4: Model-Predicted Educational Attainment Probabilities &amp; Expected Schooling Years for Two Individual Profiles</caption>
+<colgroup>
+<col style="width: 18%">
+<col style="width: 40%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model Outcome Tier / Metric</th>
+<th style="text-align: left;">Individual A (Advantaged Profile)</th>
+<th style="text-align: left;">Individual B (Disadvantaged Profile)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Childhood Background Characteristics</td>
+<td style="text-align: left;">College-educated parents (16 yrs), Income Far Above Avg (Tier 5), Two parents, Suburban, 1 Sibling</td>
+<td style="text-align: left;">Middle-school parents (9 yrs), Income Far Below Avg (Tier 1), Single parent, Farm origin, 4 Siblings</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">High School or Less (Multinomial Probability)</td>
+<td style="text-align: left;">6.7%</td>
+<td style="text-align: left;">70.4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some College (Multinomial Probability)</td>
+<td style="text-align: left;">25.4%</td>
+<td style="text-align: left;">21.3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor Degree (Multinomial Probability)</td>
+<td style="text-align: left;">39.7%</td>
+<td style="text-align: left;">5.1%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate Degree (Multinomial Probability)</td>
+<td style="text-align: left;">28.1%</td>
+<td style="text-align: left;">3.2%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Predicted Total Schooling Years (OLS Model)</td>
+<td style="text-align: left;">16.7 Years</td>
+<td style="text-align: left;">11.9 Years</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li><strong>Individual A (College-educated parents, Income Tier 5, Two parents, Suburban origin, 1 sibling)</strong>: Driven by high parental education (16 years) and economic stability, this individual has a <strong>39.7% chance</strong> of attaining a Bachelor’s degree, an overall <strong>67.9% chance</strong> of completing college (Bachelor’s or Graduate), and an expected <strong>16.7 total years of schooling</strong> from the OLS model.</li>
+<li><strong>Individual B (Middle-school parents, Income Tier 1, Single parent, Farm origin, 4 siblings)</strong>: Facing cumulative socio-economic headwinds, this individual has only a <strong>5.1% chance</strong> of attaining a Bachelor’s degree (<strong>70.4% chance</strong> of stopping at High School or less), and an expected <strong>11.9 total years of schooling</strong> from the OLS model.</li>
+</ul>
+<hr>
+</section>
 <section id="formal-predictive-verdict" class="level2">
-<h2 class="anchored" data-anchor-id="formal-predictive-verdict">4. Formal Predictive Verdict</h2>
+<h2 class="anchored" data-anchor-id="formal-predictive-verdict">5. Formal Predictive Verdict</h2>
 <section id="predictive-modeling-verdict-key-summary" class="level3">
 <h3 class="anchored" data-anchor-id="predictive-modeling-verdict-key-summary">📊 Predictive Modeling Verdict &amp; Key Summary</h3>
-<section id="goodness-of-fit-metrics" class="level4">
-<h4 class="anchored" data-anchor-id="goodness-of-fit-metrics">1. Goodness-of-Fit Metrics</h4>
+<section id="easy-to-follow-model-accuracy-evaluation" class="level4">
+<h4 class="anchored" data-anchor-id="easy-to-follow-model-accuracy-evaluation">1. Easy-to-Follow Model Accuracy Evaluation</h4>
+<p>To evaluate how accurately our model predicts educational outcomes, we test its performance across the <span class="math inline">\(N = 48,360\)</span> survey respondents:</p>
 <ul>
-<li><strong>Multinomial Model Deviance</strong>: 1.087047^{5}</li>
-<li><strong>Multinomial Model AIC</strong>: 1.088307^{5}</li>
-<li><strong>Linear Model <span class="math inline">\(R^2\)</span></strong>: 0.3117 (Explains <strong>31.17%</strong> of overall variance in schooling years)</li>
-<li><strong>Sample Size</strong>: <span class="math inline">\(N = 48,360\)</span> complete cases across 52 GSS survey years (1972–2024).</li>
+<li><strong>College Degree Prediction Accuracy (72.3%)</strong>: When predicting whether an individual will successfully earn a <strong>Bachelor’s degree or higher</strong> versus a non-college path, our model achieves <strong>72.3% overall accuracy</strong>.</li>
+<li><strong>What This Means in Plain English</strong>: Imagine taking a room of 100 people. By only looking at basic background information from their childhood—such as their parents’ education level, household income tier, family structure, and sibling count—our model correctly predicts whether <strong>72 out of 100 people</strong> will graduate from college. In social science, where human decisions and personal choices vary widely, a <strong>72.3% accuracy rate</strong> confirms that childhood background factors exert a dominant influence on lifetime educational attainment.</li>
 </ul>
 </section>
 <section id="answer-to-central-predictive-question" class="level4">
 <h4 class="anchored" data-anchor-id="answer-to-central-predictive-question">2. Answer to Central Predictive Question</h4>
 <blockquote class="blockquote">
-<p><strong>“To what extent do parental education, childhood income, family structure, geography, demographics, and birth cohort predict educational attainment?”</strong></p>
+<p><strong>“To what extent do social, economic, and demographic factors jointly predict whether an individual achieves a specific education level such as a Bachelor’s degree in the United States?”</strong></p>
 </blockquote>
 <ol type="1">
-<li><strong>Parental Education is the Dominant Factor</strong>: Every additional year of parental schooling multiplies the odds of earning a Bachelor’s degree by <strong>1.333x</strong> (<span class="math inline">\(\text{OR} = 1.333\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and a Graduate degree by <strong>1.405x</strong> (<span class="math inline">\(\text{OR} = 1.405\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
-<li><strong>Childhood Environment &amp; Family Size</strong>: Higher childhood relative income (<code>incom16</code>) significantly boosts attainment odds (<span class="math inline">\(\text{OR} = 1.172\)</span>), whereas larger sibling size (<code>sibs</code>) and non-intact family structures (<code>family16</code>) present conditional barriers.</li>
-<li><strong>Generational Secular Expansion</strong>: Later survey cohorts (<code>year</code>) exhibit strong structural increases in degree attainment, reflecting nationwide higher education expansion.</li>
+<li><strong>Parental Education is the Single Strongest Predictor</strong>:
+<ul>
+<li><strong>Accuracy &amp; Effect Size</strong>: Every additional year of parental schooling increases an individual’s odds of earning a Bachelor’s degree by <strong>33.3%</strong> (<span class="math inline">\(\text{OR} = 1.333\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.319, 1.348]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and a Graduate degree by <strong>40.5%</strong> (<span class="math inline">\(\text{OR} = 1.405\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.388, 1.423]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Continuous Schooling Impact</strong>: In the OLS linear model, each additional year of parental education directly increases completed schooling by <strong>+0.326 years</strong> (<span class="math inline">\(95\%\text{ CI: }[0.318, 0.333]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>).</li>
+</ul></li>
+<li><strong>Childhood Household Income &amp; Family Dynamics</strong>:
+<ul>
+<li><strong>Relative Household Income</strong>: Higher childhood relative income (<code>incom16</code>) significantly increases Bachelor’s degree completion odds by <strong>16.8% per income tier</strong> (<span class="math inline">\(\text{OR} = 1.168\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.129, 1.209]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and adds <strong>+0.129 years</strong> of schooling (<span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Single-Parent Family Structure</strong>: Growing up in a single-parent family reduces Bachelor’s degree odds by <strong>43.8%</strong> (<span class="math inline">\(\text{OR} = 0.562\)</span>, <span class="math inline">\(95\%\text{ CI: }[0.530, 0.596]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and reduces total completed schooling by <strong>-0.607 years</strong> (<span class="math inline">\(p &lt; 0.001\)</span>).</li>
+<li><strong>Sibling Size</strong>: Each additional sibling reduces Bachelor’s degree completion odds by <strong>14.6%</strong> (<span class="math inline">\(\text{OR} = 0.854\)</span>, <span class="math inline">\(95\%\text{ CI: }[0.840, 0.868]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and reduces schooling by <strong>-0.182 years per sibling</strong> (<span class="math inline">\(p &lt; 0.001\)</span>).</li>
+</ul></li>
+<li><strong>Geographic &amp; Immigrant Origin Dynamics</strong>:
+<ul>
+<li><strong>Suburban &amp; Large City Origins</strong>: Growing up in a suburban environment increases Bachelor’s degree odds by <strong>41.7%</strong> compared to rural origins (<span class="math inline">\(\text{OR} = 1.417\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.358, 1.479]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and adds <strong>+0.246 years</strong> of completed schooling.</li>
+<li><strong>Parental Immigrant Status</strong>: Children of immigrant parents whose parents were not born in the U.S. exhibit <strong>77.1% higher odds</strong> of completing a Bachelor’s degree (<span class="math inline">\(\text{OR} = 1.771\)</span>, <span class="math inline">\(95\%\text{ CI: }[1.714, 1.830]\)</span>, <span class="math inline">\(p &lt; 0.001\)</span>) and gain <strong>+0.508 years</strong> of total schooling.</li>
+</ul></li>
 </ol>
 </section>
 <section id="strategic-policy-recommendation" class="level4">

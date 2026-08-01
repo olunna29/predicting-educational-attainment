@@ -178,7 +178,7 @@ h2::after {
 }
 
 /* Table Styling */
-table {
+table, .table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -189,12 +189,12 @@ table {
   border: 1px solid #e2e8f0;
 }
 
-th {
-  background: var(--gradient-banner);
-  color: #ffffff;
-  font-weight: 600;
+th, table th, .table th, .table thead th, .table > thead > tr > th {
+  background: var(--gradient-banner) !important;
+  color: #f8fafc !important;
+  font-weight: 700 !important;
   text-align: left;
-  padding: 0.9rem 1.2rem;
+  padding: 0.95rem 1.2rem;
   letter-spacing: 0.01em;
 }
 
