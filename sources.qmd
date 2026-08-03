@@ -49,16 +49,7 @@ Below are the official GSS codebook definitions for all 15 variables analyzed in
 
 ---
 
-## 3. Academic & Methodological References
-
-- **Agresti, A.** (2013). *Categorical Data Analysis* (3rd ed.). John Wiley & Sons.
-- **Breen, R., & Jonsson, J. O.** (2005). Inequality of opportunity in comparative perspective: Recent research on educational attainment and social mobility. *Annual Review of Sociology*, 31(1), 223–243.
-- **Venables, W. N., & Ripley, B. D.** (2002). *Modern Applied Statistics with S* (4th ed.). Springer. [Multinomial Logistic Modeling via `nnet` R Package].
-- **Wickham, H., et al.** (2019). Welcome to the Tidyverse. *Journal of Open Source Software*, 4(43), 1686.
-
----
-
-## 4. Appendix: Complete Model Parameter Tables
+## 3. Appendix: Complete Model Parameter Tables
 
 Below are the complete, un-truncated parameter estimation tables for both statistical models fitted in this study.
 
@@ -82,7 +73,7 @@ multi_tidy <- broom::tidy(multi_fit, conf.int = TRUE, exponentiate = TRUE)
 ols_tidy <- broom::tidy(ols_fit, conf.int = TRUE)
 ```
 
-### 4.1 Full Multinomial Logistic Model Parameters & Odds Ratios
+### 3.1 Full Multinomial Logistic Model Parameters & Odds Ratios
 
 Below is the complete table of estimated parameters, Odds Ratios ($\text{OR} = \exp(\beta)$), and exact 95% Confidence Intervals for all background predictors across all three non-reference outcome tiers (*Some College*, *Bachelor Degree*, *Graduate Degree*, relative to baseline *High School or Less*).
 
@@ -128,12 +119,12 @@ multi_tidy |>
     `95% CI Lower` = conf.low,
     `95% CI Upper` = conf.high
   ) |> 
-  kable(caption = "Table 4.1: Full Multinomial Logistic Model Parameters & Odds Ratios across All Outcome Tiers")
+  kable(caption = "Table 3.1: Full Multinomial Logistic Model Parameters & Odds Ratios across All Outcome Tiers")
 ```
 
 ---
 
-### 4.2 Full OLS Baseline Model Parameters
+### 3.2 Full OLS Baseline Model Parameters
 
 Below is the complete table of all estimated parameters from the Ordinary Least Squares (OLS) linear regression model for completed schooling years ($Y_{\text{years}}$).
 
@@ -180,5 +171,5 @@ ols_tidy |>
     `95% CI Lower` = conf.low,
     `95% CI Upper` = conf.high
   ) |> 
-  kable(caption = "Table 4.2: Full OLS Model Parameters & 95% Confidence Intervals for Completed Schooling Years")
+  kable(caption = "Table 3.2: Full OLS Model Parameters & 95% Confidence Intervals for Completed Schooling Years")
 ```

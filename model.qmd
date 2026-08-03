@@ -68,7 +68,7 @@ $$Y_{\text{years}} = \beta_0 + \boldsymbol{\beta}^T \mathbf{X} + \varepsilon, \q
 ---
 
 ## 2. Model Estimation & 95% Confidence Intervals
-  > **Note**: The following tables (3.2 & 3.3) are shortened tables with only the most statistically significant covariates. The complete parameter table across all predictors and outcome tiers can be found in Section 4 of the [Sources](sources.qmd) tab.
+  > **Note**: The following tables (3.2 & 3.3) are shortened tables with only the most statistically significant covariates. The complete parameter table across all predictors and outcome tiers can be found in Section 3 of the [Sources](sources.qmd) tab.
 
 ### 2.1 Final Multinomial Logistic Model Parameters
 
@@ -372,11 +372,14 @@ profile_summary |>
 
 ### 📊 Predictive Modeling Verdict & Key Summary
 
-#### 1. Easy-to-Follow Model Accuracy Evaluation
-To evaluate how accurately our model predicts educational outcomes, we test its performance across the $N = 48,360$ survey respondents:
+#### 1. Model Accuracy Evaluation
+To evaluate how accurately our models predict educational outcomes, we test their performance across all $N = 48,360$ survey respondents:
 
-- **College Degree Prediction Accuracy (72.3%)**: When predicting whether an individual will successfully earn a **Bachelor's degree or higher** versus a non-college path, our model achieves **72.3% overall accuracy**.
-- **What This Means**: Imagine taking a room of 100 people. By only looking at basic background information from their childhood—such as their parents' education level, household income tier, family structure, and sibling count—our model correctly predicts whether **72 out of 100 people** will graduate from college. In social science, where human decisions and personal choices vary widely, a **72.3% accuracy rate** confirms that childhood background factors exert a dominant influence on lifetime educational attainment.
+- **College Degree Prediction Accuracy (72.3%)**: When predicting whether an individual will successfully earn a **Bachelor's degree or higher** versus a non-college path, our multinomial model achieves **72.3% overall accuracy**.
+- **OLS Continuous Schooling Accuracy ($\pm 2$ Years Tolerance: 60.8%)**: When evaluating whether the Ordinary Least Squares (OLS) model predicts total completed schooling within **$\pm 2.0$ years** of the actual answer, it achieves **60.8% accuracy**, with an overall Mean Absolute Error (MAE) of **1.95 years**.
+- **What This Means**: Imagine taking a room of 100 people. By only looking at basic background information from their childhood—such as their parents' education level, household income tier, family structure, and sibling count:
+  - Our multinomial model correctly classifies whether **72 out of 100 people** will graduate from college.
+  - Our OLS linear model predicts total completed schooling within **$\pm 2$ years** for **61 out of 100 people**, missing by an average of under 2 years ($1.95$ years MAE).
 
 #### 2. Answer to Central Predictive Question
 > **"To what extent do social, economic, and demographic factors jointly predict whether an individual achieves a specific education level such as a Bachelor's degree in the United States?"**

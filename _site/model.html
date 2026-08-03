@@ -198,7 +198,7 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <section id="model-estimation-95-confidence-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="model-estimation-95-confidence-intervals">2. Model Estimation &amp; 95% Confidence Intervals</h2>
 <blockquote class="blockquote">
-<p><strong>Note</strong>: The following tables (3.2 &amp; 3.3) are shortened tables with only the most statistically significant covariates. The complete parameter table across all predictors and outcome tiers can be found in Section 4 of the <a href="./sources.html">Sources</a> tab.</p>
+<p><strong>Note</strong>: The following tables (3.2 &amp; 3.3) are shortened tables with only the most statistically significant covariates. The complete parameter table across all predictors and outcome tiers can be found in Section 3 of the <a href="./sources.html">Sources</a> tab.</p>
 </blockquote>
 <section id="final-multinomial-logistic-model-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="final-multinomial-logistic-model-parameters">2.1 Final Multinomial Logistic Model Parameters</h3>
@@ -389,15 +389,6 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 </div>
 <hr>
 </section>
-<section id="how-combining-factors-influences-estimation-prediction-uncertainty" class="level3">
-<h3 class="anchored" data-anchor-id="how-combining-factors-influences-estimation-prediction-uncertainty">3.3 How Combining Factors Influences Estimation &amp; Prediction Uncertainty</h3>
-<ol type="1">
-<li><p><strong>Precision of OLS Continuous Parameters</strong>: Because our analysis utilizes a large national sample (<span class="math inline">\(N = 48,360\)</span>), individual linear slope parameters in the OLS model exhibit tight confidence bounds. This confirms that sampling noise is minimal and the direction of key socio-demographic effects is highly precise.</p></li>
-<li><p><strong>Multicollinearity &amp; Controlled Independent Effects</strong>: Socio-demographic origin traits are naturally correlated—parents with higher educational attainment also tend to earn higher relative household income and raise smaller families. By combining multiple factors simultaneously into a single multivariate specification, the model controls for confounding covariance.</p></li>
-<li><p><strong>Cumulative Prediction Uncertainty</strong>: When combining multiple predictors to generate individual point estimates (as demonstrated in Section 4), uncertainty accumulates across all model terms. While structural childhood variables account for significant macro-level educational inequality (achieving a <span class="math inline">\(72.3\%\)</span> degree classification accuracy), individual-level variance remains (<span class="math inline">\(\text{OLS } R^2 \approx 0.28\)</span>). This unaccounted variance represents unmeasured factors such as individual academic motivation, school quality, peer dynamics, and random life trajectory events.</p></li>
-</ol>
-<hr>
-</section>
 </section>
 <section id="the-dgm-in-action" class="level2">
 <h2 class="anchored" data-anchor-id="the-dgm-in-action">4. The DGM in Action</h2>
@@ -463,12 +454,17 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
 <h2 class="anchored" data-anchor-id="formal-predictive-verdict">5. Formal Predictive Verdict</h2>
 <section id="predictive-modeling-verdict-key-summary" class="level3">
 <h3 class="anchored" data-anchor-id="predictive-modeling-verdict-key-summary">📊 Predictive Modeling Verdict &amp; Key Summary</h3>
-<section id="easy-to-follow-model-accuracy-evaluation" class="level4">
-<h4 class="anchored" data-anchor-id="easy-to-follow-model-accuracy-evaluation">1. Easy-to-Follow Model Accuracy Evaluation</h4>
-<p>To evaluate how accurately our model predicts educational outcomes, we test its performance across the <span class="math inline">\(N = 48,360\)</span> survey respondents:</p>
+<section id="model-accuracy-evaluation" class="level4">
+<h4 class="anchored" data-anchor-id="model-accuracy-evaluation">1. Model Accuracy Evaluation</h4>
+<p>To evaluate how accurately our models predict educational outcomes, we test their performance across all <span class="math inline">\(N = 48,360\)</span> survey respondents:</p>
 <ul>
-<li><strong>College Degree Prediction Accuracy (72.3%)</strong>: When predicting whether an individual will successfully earn a <strong>Bachelor’s degree or higher</strong> versus a non-college path, our model achieves <strong>72.3% overall accuracy</strong>.</li>
-<li><strong>What This Means</strong>: Imagine taking a room of 100 people. By only looking at basic background information from their childhood—such as their parents’ education level, household income tier, family structure, and sibling count—our model correctly predicts whether <strong>72 out of 100 people</strong> will graduate from college. In social science, where human decisions and personal choices vary widely, a <strong>72.3% accuracy rate</strong> confirms that childhood background factors exert a dominant influence on lifetime educational attainment.</li>
+<li><strong>College Degree Prediction Accuracy (72.3%)</strong>: When predicting whether an individual will successfully earn a <strong>Bachelor’s degree or higher</strong> versus a non-college path, our multinomial model achieves <strong>72.3% overall accuracy</strong>.</li>
+<li><strong>OLS Continuous Schooling Accuracy (<span class="math inline">\(\pm 2\)</span> Years Tolerance: 60.8%)</strong>: When evaluating whether the Ordinary Least Squares (OLS) model predicts total completed schooling within <strong><span class="math inline">\(\pm 2.0\)</span> years</strong> of the actual answer, it achieves <strong>60.8% accuracy</strong>, with an overall Mean Absolute Error (MAE) of <strong>1.95 years</strong>.</li>
+<li><strong>What This Means</strong>: Imagine taking a room of 100 people. By only looking at basic background information from their childhood—such as their parents’ education level, household income tier, family structure, and sibling count:
+<ul>
+<li>Our multinomial model correctly classifies whether <strong>72 out of 100 people</strong> will graduate from college.</li>
+<li>Our OLS linear model predicts total completed schooling within <strong><span class="math inline">\(\pm 2\)</span> years</strong> for <strong>61 out of 100 people</strong>, missing by an average of under 2 years (<span class="math inline">\(1.95\)</span> years MAE).</li>
+</ul></li>
 </ul>
 </section>
 <section id="answer-to-central-predictive-question" class="level4">
@@ -578,7 +574,7 @@ Formal Data Generating Mechanisms, Likelihood Ratio Tests, 95% Confidence Interv
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/olunna29\.github\.io\/final-project\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

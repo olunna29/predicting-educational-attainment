@@ -156,8 +156,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#primary-empirical-data-source" id="toc-primary-empirical-data-source" class="nav-link active" data-scroll-target="#primary-empirical-data-source">1. Primary Empirical Data Source</a></li>
   <li><a href="#variable-codebook-descriptions" id="toc-variable-codebook-descriptions" class="nav-link" data-scroll-target="#variable-codebook-descriptions">2. Variable Codebook &amp; Descriptions</a></li>
-  <li><a href="#academic-methodological-references" id="toc-academic-methodological-references" class="nav-link" data-scroll-target="#academic-methodological-references">3. Academic &amp; Methodological References</a></li>
-  <li><a href="#appendix-complete-model-parameter-tables" id="toc-appendix-complete-model-parameter-tables" class="nav-link" data-scroll-target="#appendix-complete-model-parameter-tables">4. Appendix: Complete Model Parameter Tables</a></li>
+  <li><a href="#appendix-complete-model-parameter-tables" id="toc-appendix-complete-model-parameter-tables" class="nav-link" data-scroll-target="#appendix-complete-model-parameter-tables">3. Appendix: Complete Model Parameter Tables</a></li>
   </ul>
 </nav>
     </div>
@@ -297,26 +296,16 @@ Comprehensive APA 7th Edition Citations
 </table>
 <hr>
 </section>
-<section id="academic-methodological-references" class="level2">
-<h2 class="anchored" data-anchor-id="academic-methodological-references">3. Academic &amp; Methodological References</h2>
-<ul>
-<li><strong>Agresti, A.</strong> (2013). <em>Categorical Data Analysis</em> (3rd ed.). John Wiley &amp; Sons.</li>
-<li><strong>Breen, R., &amp; Jonsson, J. O.</strong> (2005). Inequality of opportunity in comparative perspective: Recent research on educational attainment and social mobility. <em>Annual Review of Sociology</em>, 31(1), 223–243.</li>
-<li><strong>Venables, W. N., &amp; Ripley, B. D.</strong> (2002). <em>Modern Applied Statistics with S</em> (4th ed.). Springer. [Multinomial Logistic Modeling via <code>nnet</code> R Package].</li>
-<li><strong>Wickham, H., et al.</strong> (2019). Welcome to the Tidyverse. <em>Journal of Open Source Software</em>, 4(43), 1686.</li>
-</ul>
-<hr>
-</section>
 <section id="appendix-complete-model-parameter-tables" class="level2">
-<h2 class="anchored" data-anchor-id="appendix-complete-model-parameter-tables">4. Appendix: Complete Model Parameter Tables</h2>
+<h2 class="anchored" data-anchor-id="appendix-complete-model-parameter-tables">3. Appendix: Complete Model Parameter Tables</h2>
 <p>Below are the complete, un-truncated parameter estimation tables for both statistical models fitted in this study.</p>
 <section id="full-multinomial-logistic-model-parameters-odds-ratios" class="level3">
-<h3 class="anchored" data-anchor-id="full-multinomial-logistic-model-parameters-odds-ratios">4.1 Full Multinomial Logistic Model Parameters &amp; Odds Ratios</h3>
+<h3 class="anchored" data-anchor-id="full-multinomial-logistic-model-parameters-odds-ratios">3.1 Full Multinomial Logistic Model Parameters &amp; Odds Ratios</h3>
 <p>Below is the complete table of estimated parameters, Odds Ratios (<span class="math inline">\(\text{OR} = \exp(\beta)\)</span>), and exact 95% Confidence Intervals for all background predictors across all three non-reference outcome tiers (<em>Some College</em>, <em>Bachelor Degree</em>, <em>Graduate Degree</em>, relative to baseline <em>High School or Less</em>).</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>Table 4.1: Full Multinomial Logistic Model Parameters &amp; Odds Ratios across All Outcome Tiers</caption>
+<caption>Table 3.1: Full Multinomial Logistic Model Parameters &amp; Odds Ratios across All Outcome Tiers</caption>
 <colgroup>
 <col style="width: 15%">
 <col style="width: 35%">
@@ -823,12 +812,12 @@ Comprehensive APA 7th Edition Citations
 <hr>
 </section>
 <section id="full-ols-baseline-model-parameters" class="level3">
-<h3 class="anchored" data-anchor-id="full-ols-baseline-model-parameters">4.2 Full OLS Baseline Model Parameters</h3>
+<h3 class="anchored" data-anchor-id="full-ols-baseline-model-parameters">3.2 Full OLS Baseline Model Parameters</h3>
 <p>Below is the complete table of all estimated parameters from the Ordinary Least Squares (OLS) linear regression model for completed schooling years (<span class="math inline">\(Y_{\text{years}}\)</span>).</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>Table 4.2: Full OLS Model Parameters &amp; 95% Confidence Intervals for Completed Schooling Years</caption>
+<caption>Table 3.2: Full OLS Model Parameters &amp; 95% Confidence Intervals for Completed Schooling Years</caption>
 <colgroup>
 <col style="width: 34%">
 <col style="width: 12%">
@@ -1113,7 +1102,7 @@ Comprehensive APA 7th Edition Citations
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/olunna29\.github\.io\/final-project\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
