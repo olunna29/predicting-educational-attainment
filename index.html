@@ -157,6 +157,7 @@ window.Quarto = {
   <li><a href="#the-context" id="toc-the-context" class="nav-link active" data-scroll-target="#the-context">1. The Context</a></li>
   <li><a href="#central-predictive-research-question" id="toc-central-predictive-research-question" class="nav-link" data-scroll-target="#central-predictive-research-question">2. Central Predictive Research Question</a></li>
   <li><a href="#dataset-architecture" id="toc-dataset-architecture" class="nav-link" data-scroll-target="#dataset-architecture">3. Dataset Architecture</a></li>
+  <li><a href="#key-assumptions-counters" id="toc-key-assumptions-counters" class="nav-link" data-scroll-target="#key-assumptions-counters">4. Key Assumptions &amp; Counters</a></li>
   </ul>
 </nav>
     </div>
@@ -282,6 +283,28 @@ How parental background, childhood economic environment, family structure, geogr
 </table>
 </div>
 </div>
+<hr>
+</section>
+<section id="key-assumptions-counters" class="level2">
+<h2 class="anchored" data-anchor-id="key-assumptions-counters">4. Key Assumptions &amp; Counters</h2>
+<ul>
+<li><strong>Validity:</strong> The consistency (or lack thereof) between the columns in the dataset and the corresponding columns in the Preceptor Table (the table containing the ideal information required to answer our primary question).
+<ul>
+<li><em>Counter:</em> The GSS outcome variable <code>educ</code> records the number of years respondents spent in school rather than the specific degree they actually earned. In contrast, the model categorizes education level by assuming standard thresholds (e.g., 4 years for a Bachelor’s degree, 6 years for a Master’s degree). However, these thresholds can misclassify individuals—for example, someone who takes 6 years to earn a Bachelor’s degree would be misclassified as holding a Master’s degree, while someone who completes a Bachelor’s degree in 3 years would be categorized as having only “Some College.”</li>
+</ul></li>
+<li><strong>Stability:</strong> The assumption that the relationships between variables remain constant across the dataset, the Preceptor Table, and the target population over time.
+<ul>
+<li><em>Counter:</em> Because some of the GSS data was collected as early as 1972, the relationships between covariates and the likelihood of pursuing post-secondary education may have shifted over time. For example, women surveyed in the 1970s may have grown up prior to the second wave of feminism in the 1960s, which dramatically increased female participation in higher education and the workforce.</li>
+</ul></li>
+<li><strong>Representativeness:</strong> The assumption that the sampled units (rows) accurately represent the broader population and the target units in the Preceptor Table.
+<ul>
+<li><em>Counter:</em> While the GSS draws from a probability-based random sample that provides a comprehensive snapshot of the United States, older survey cohorts may not be as strong a predictor for current educational trends as more recent data.</li>
+</ul></li>
+<li><strong>Unconfoundedness:</strong> The assumption that treatment assignment is independent of potential outcomes.
+<ul>
+<li><em>Counter:</em> Not applicable to this study, as the model is strictly predictive rather than causal.</li>
+</ul></li>
+</ul>
 
 
 </section>
