@@ -286,19 +286,6 @@ ols_tidy |>
 
 ---
 
-### 3.3 How Combining Factors Influences Estimation & Prediction Uncertainty
-
-1. **Precision of OLS Continuous Parameters**:
-   Because our analysis utilizes a large national sample ($N = 48,360$), individual linear slope parameters in the OLS model exhibit tight confidence bounds. This confirms that sampling noise is minimal and the direction of key socio-demographic effects is highly precise.
-
-2. **Multicollinearity & Controlled Independent Effects**:
-   Socio-demographic origin traits are naturally correlated—parents with higher educational attainment also tend to earn higher relative household income and raise smaller families. By combining multiple factors simultaneously into a single multivariate specification, the model controls for confounding covariance.
-
-3. **Cumulative Prediction Uncertainty**:
-   When combining multiple predictors to generate individual point estimates (as demonstrated in Section 4), uncertainty accumulates across all model terms. While structural childhood variables account for significant macro-level educational inequality (achieving a $72.3\%$ degree classification accuracy), individual-level variance remains ($\text{OLS } R^2 \approx 0.28$). This unaccounted variance represents unmeasured factors such as individual academic motivation, school quality, peer dynamics, and random life trajectory events.
-
----
-
 ## 4. The DGM in Action
 
 To demonstrate how our statistical model works in practice, we construct two contrasting individual profiles with different childhood socio-demographic backgrounds and use the multinomial model to predict their exact likelihood of achieving a Bachelor's degree (and other degree tiers), alongside OLS continuous schooling predictions.

@@ -71,3 +71,15 @@ summary_table <- tibble(
 summary_table |> 
   kable(caption = "Table 1.1: General Social Survey (GSS) Variable Specification & Data Coverage (1972–2024)")
 ```
+
+---
+
+## 4. The Key Assumptions (& Counters to Them)
+**1) Validity:** The consistency, or lack thereof, in the columns of the data set and the corresponding columns in the Preceptor Table (the table that has information necessary to answer our primary question).
+  Counter: The GSS data for the outcome variable works high for categorical predictions (because the data was collected that way); however, it has trouble being translated to numerical measurements about the number of years someone went to school. Measuring that variable numerically would require more assumptions and approximations to be made.
+**2) Stability:** The relationship between the columns in our data, the Preceptor Table, and the larger population is the same.
+  Counter: Because some of GSS data was collected as early as 1972, there is a possibility that the relationship between likelihood to pursure post-secondary education and the covariates could have shifted since then. For example, some women surveyed in the 70s could have grown up prior the Second Wave of Feminism in the 60s that encouraged women to pursue higher education and jobs outside of the home.
+**3) Representativeness:** The relationship between the rows/units--first between the data and the other rows, and second between the other rows and the Preceptor Table.
+  Counter: The GSS data does come from random sample and paints a pretty comprehensive picture of the United States; however, the older data may be as strong of a predictor for current educational trends compared to more recent data.
+**4) Unconfoundedness:** The treatment assignment is independent of the potential outcomes.
+  Counter: Not included in this model because it's predictive.
