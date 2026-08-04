@@ -1,26 +1,122 @@
-
 ::: {.hero-banner}
-# Our Question and Our Data {.unlisted}
-<p class="hero-subtitle">How parental background, childhood economic environment, family structure, geography, and birth cohorts shape individual educational outcomes.</p>
+# Predictive Drivers of Educational Attainment {.unlisted}
+<p class="hero-subtitle">How parental background, childhood economic status, family structure, geography, and birth cohorts shape educational outcomes in the United States.</p>
+:::
+
+::: {.overview-graphic-card}
+<div class="overview-graphic-header">
+  <span class="overview-graphic-badge">Interactive Overview</span>
+  <h3 style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #0f172a;">50-Year Trajectories of Educational Mobility (1972–2024)</h3>
+</div>
+
+<p style="font-size: 0.95rem; color: #475569; margin-bottom: 1.25rem;">
+  Explore how college graduation rates evolved over 50 years across childhood income levels. Even on a still frame, each line traces the rising educational trajectory of an income group from the 1970s to the 2020s. Hover over any point to inspect detailed metrics, or click legend entries to isolate specific childhood income tiers.
+</p>
+
+```{r hero-animated-plot}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-cap: "Interactive Figure: 50-Year Trajectories of Bachelor's degree or higher completion rates (%) across survey decades (1970s–2020s) stratified by childhood income tier. Data Source: General Social Survey."
+
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(tidyr)
+  library(plotly)
+})
+
+df <- readRDS("data/gss_cleaned.rds")
+
+df_traj <- df |> 
+  filter(!is.na(year_num), !is.na(paeduc_years), !is.na(educ_cat), !is.na(incom16_cat)) |> 
+  mutate(
+    decade = paste0(floor(year_num / 10) * 10, "s"),
+    incom16_cat = factor(
+      incom16_cat,
+      levels = c("FAR BELOW AVERAGE", "BELOW AVERAGE", "AVERAGE", "ABOVE AVERAGE", "FAR ABOVE AVERAGE"),
+      labels = c("Far Below Average", "Below Average", "Average", "Above Average", "Far Above Average")
+    )
+  ) |> 
+  group_by(decade, incom16_cat) |> 
+  summarize(
+    bachelors_pct = round(mean(educ_cat %in% c("Bachelor Degree", "Graduate Degree")) * 100, 1),
+    avg_parent_educ = round(mean(paeduc_years, na.rm = TRUE), 1),
+    avg_resp_years = round(mean(educ_years, na.rm = TRUE), 1),
+    sample_size = n(),
+    .groups = "drop"
+  )
+
+income_colors <- c(
+  "Far Above Average" = "#ef4466",
+  "Above Average"     = "#ec4899",
+  "Average"           = "#7c3aed",
+  "Below Average"     = "#2563eb",
+  "Far Below Average" = "#06b6d4"
+)
+
+fig <- plot_ly(
+  data = df_traj,
+  x = ~decade,
+  y = ~bachelors_pct,
+  color = ~incom16_cat,
+  colors = income_colors,
+  type = "scatter",
+  mode = "lines+markers",
+  line = list(width = 3.5),
+  marker = list(size = 9, line = list(width = 2, color = "#ffffff")),
+  text = ~paste0(
+    "<b>Decade: ", decade, "</b><br>",
+    "<b>Childhood Income:</b> ", incom16_cat, "<br>",
+    "<b>Bachelor's Degree+ Rate:</b> ", bachelors_pct, "%<br>",
+    "<b>Avg Parental Education:</b> ", avg_parent_educ, " Years<br>",
+    "<b>Avg Respondent Schooling:</b> ", avg_resp_years, " Years<br>",
+    "<b>Sample Size:</b> ", format(sample_size, big.mark = ",")
+  ),
+  hoverinfo = "text"
+) |> 
+layout(
+  xaxis = list(
+    title = list(text = "<b>Survey Decade</b>", font = list(size = 12, color = "#0f172a")),
+    gridcolor = "#f1f5f9"
+  ),
+  yaxis = list(
+    title = list(text = "<b>Bachelor's Degree or Higher Rate (%)</b>", font = list(size = 12, color = "#0f172a")),
+    gridcolor = "#f1f5f9",
+    ticksuffix = "%",
+    range = c(0, 75)
+  ),
+  legend = list(
+    title = list(text = "<b>Childhood Income Tier</b>"),
+    orientation = "h",
+    x = 0.02,
+    y = -0.22
+  ),
+  paper_bgcolor = "transparent",
+  plot_bgcolor = "#ffffff",
+  margin = list(t = 20, b = 70, l = 60, r = 30)
+)
+
+fig
+```
 :::
 
 ## 1. The Context
 
-Educational attainment is one of the most vital determinants of individual socio-economic mobility, health outcomes, and lifelong earnings trajectory in modern society. Over the past five decades, access to post-secondary education has expanded dramatically across the United States. However, individual educational trajectories remain deeply embedded within socio-demographic origins, parental academic background, and so much more.
+Educational attainment drives socio-economic mobility, career earnings, and health trajectories. While higher education access has expanded significantly over the past five decades, individual educational paths remain strongly tied to childhood family backgrounds and geographic origins.
 
-Understanding how these background factors jointly influence educational attainment enables workforce policy planners, academic leaders, and sociologists to quantify intergenerational mobility and identify structural barriers to higher education.
+Quantifying how these early life factors jointly predict educational outcomes helps sociologists and policy planners identify structural barriers and evaluate intergenerational mobility in the United States.
 
 ---
 
 ## 2. Central Predictive Research Question
 
-To what extent do social, economic, and demographic factors jointly predict whether an individual achieves a specific education level such as a Bachelor's degree in the United States?
+To what extent do social, economic, and demographic background factors jointly predict whether an individual achieves a post-secondary degree, such as a Bachelor's degree, in the United States?
 
 ---
 
 ## 3. Dataset Architecture
 
-The predictive framework draws upon the national **General Social Survey (GSS)** panel spanning **52 years (1972–2024)** with **$N = 75,699$ respondent observations**, capturing individual educational attainment alongside comprehensive socio-demographic and developmental background variables.
+This study uses the national **General Social Survey (GSS)** panel spanning **52 years (1972–2024)** with **$N = 75,699$ observations**, tracking individual educational attainment alongside key socio-demographic background variables.
 
 ```{r}
 #| echo: false
@@ -74,17 +170,33 @@ summary_table |>
 
 ---
 
-## 4. Key Assumptions & Counters
+## 4. Assumptions & Counters
 
-- **Validity:** The consistency (or lack thereof) between the columns in the dataset and the corresponding columns in the Preceptor Table (the table containing the ideal information required to answer our primary question).
-  - *Counter:* The GSS outcome variable `educ` records the number of years respondents spent in school rather than the specific degree they actually earned. In contrast, the model categorizes education level by assuming standard thresholds (e.g., 4 years for a Bachelor's degree, 6 years for a Master's degree). However, these thresholds can misclassify individuals—for example, someone who takes 6 years to earn a Bachelor's degree would be misclassified as holding a Master's degree, while someone who completes a Bachelor's degree in 3 years would be categorized as having only "Some College."
+- **Validity:** The consistency between measured columns and the ideal population table.
+  - *Counter:* The GSS variable `educ` measures total schooling years rather than degree credentials. Standard threshold conversions (e.g., 4 years = Bachelor's degree) can misclassify individuals who take extra years to graduate or finish early.
 
-- **Stability:** The assumption that the relationships between variables remain constant across the dataset, the Preceptor Table, and the target population over time.
-  - *Counter:* Because some of the GSS data was collected as early as 1972, the relationships between covariates and the likelihood of pursuing post-secondary education may have shifted over time. For example, women surveyed in the 1970s may have grown up prior to the second wave of feminism in the 1960s, which dramatically increased female participation in higher education and the workforce.
+- **Stability:** The assumption that covariate relationships remain constant over time.
+  - *Counter:* In data spanning 1972 to 2024, societal changes—such as rising female labor force participation and college enrollment—mean older survey cohorts may exhibit different mobility dynamics than recent cohorts.
 
-- **Representativeness:** The assumption that the sampled units (rows) accurately represent the broader population and the target units in the Preceptor Table.
-  - *Counter:* While the GSS draws from a probability-based random sample that provides a comprehensive snapshot of the United States, older survey cohorts may not be as strong a predictor for current educational trends as more recent data.
+- **Representativeness:** The assumption that sample rows represent the target population.
+  - *Counter:* While the GSS uses a national probability sample, older cohorts may reflect historical educational structures that differ from current trends.
 
-- **Unconfoundedness:** The assumption that treatment assignment is independent of potential outcomes.
-  - *Counter:* Not applicable to this study, as the model is strictly predictive rather than causal.
+- **Unconfoundedness:** The assumption of independent treatment assignment.
+  - *Counter:* Not applicable, as this study is strictly predictive rather than causal.
 
+---
+
+## 5. Key Predictive Findings
+
+Our predictive models reveal that childhood background factors strongly shape whether an individual earns a college degree. Ranked from **most to least influential**:
+
+1. **Parental Education (Most Influential Factor)**: A parent's own education is the single strongest predictor of a child's degree attainment. Each additional year of schooling completed by parents is associated with a **31.8% to 34.7% increase in the odds** of achieving a Bachelor's degree (adding **+0.33 years** of schooling).
+2. **Family Structure**: Growing up with a single parent is associated with a **40.4% to 47.0% decrease in the odds** of earning a Bachelor's degree compared to growing up with both parents (reducing expected schooling by **0.61 years**).
+3. **Number of Siblings**: Coming from a larger family is linked to lower college completion rates. Each additional sibling in the household is associated with a **13.2% to 16.0% decrease in the odds** of graduating with a Bachelor's degree (**-0.18 years** per sibling).
+4. **Immigrant Parent Background**: Children of foreign-born parents demonstrate high educational mobility, with non-U.S.-born parental nativity associated with a **71.3% to 82.8% increase in the odds** of attaining a Bachelor's degree (**+0.51 years** of completed schooling).
+5. **Childhood Household Income**: Higher relative family income during childhood steadily opens doors to higher education. Each step up in childhood income tier is associated with a **13.2% to 21.4% increase in the odds** of completing a Bachelor's degree (**+0.13 years** per income level).
+6. **Suburban Growing Environment**: Growing up in a suburban community offers higher college graduation odds compared to a rural or farm environment, associated with a **35.8% to 47.9% increase in the odds** of earning a Bachelor's degree (**+0.25 years** of schooling).
+
+> *For technical statistical parameters, test statistics ($t$-stats and $z$-scores), and formal confidence interval specifications, see the **[DGM & Predictive Model](model.qmd)** tab.*
+
+Overall, our predictive model accurately determines whether an individual completes a college degree for **72.3% of individuals** based solely on these childhood background traits.

@@ -1,7 +1,6 @@
-
 ::: {.hero-banner}
 # Data Visualization {.unlisted}
-<p class="hero-subtitle">Empirical Analysis Across 14 Background Covariates & Educational Attainment (GSS 1972–2024)</p>
+<p class="hero-subtitle">Empirical analysis of key background factors and educational outcomes in the United States (GSS 1972–2024).</p>
 :::
 
 ```{r setup}
@@ -19,20 +18,21 @@ suppressPackageStartupMessages({
 # Load clean GSS dataset
 df <- readRDS("data/gss_cleaned.rds")
 
-# Cohesive modern blue-purple-pink ggplot theme matching site branding
+# Modern theme with left-aligned titles to prevent text clipping
 theme_custom <- function() {
   theme_minimal(base_family = "sans") +
     theme(
-      plot.title = element_text(face = "bold", size = 13, color = "#0f172a"),
-      plot.subtitle = element_text(size = 10, color = "#475569", margin = margin(b = 10)),
-      axis.title = element_text(face = "bold", size = 10, color = "#334155"),
-      axis.text = element_text(size = 9, color = "#475569"),
-      legend.title = element_text(face = "bold", size = 9),
+      plot.title.position = "plot",
+      plot.title = element_text(face = "bold", size = 12, color = "#0f172a"),
+      plot.subtitle = element_text(size = 9, color = "#475569", margin = margin(b = 8)),
+      axis.title = element_text(face = "bold", size = 9.5, color = "#334155"),
+      axis.text = element_text(size = 8.5, color = "#475569"),
+      legend.title = element_text(face = "bold", size = 8.5),
       legend.position = "bottom",
       panel.grid.minor = element_blank(),
       panel.grid.major = element_line(color = "#f1f5f9"),
       strip.background = element_rect(fill = "#1e1b4b", color = NA),
-      strip.text = element_text(face = "bold", color = "#ffffff", size = 10)
+      strip.text = element_text(face = "bold", color = "#ffffff", size = 9)
     )
 }
 theme_set(theme_custom())
@@ -44,37 +44,23 @@ palette_edu <- c(
   "Bachelor Degree"     = "#ec4899", 
   "Graduate Degree"     = "#06b6d4"
 )
-
-palette_demo <- c(
-  "#2563eb", "#7c3aed", "#ec4899", "#06b6d4", "#f59e0b", "#10b981"
-)
 ```
 
 ---
 
 ## 1. Parental Education
-Is one's education level correlated to their parent's education level?
+How strongly does parental schooling correlate with a child's education level?
+
 ```{r graphic-1}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 1: Respondent mean completed schooling years plotted against Father's (paeduc) and Mother's (maeduc) educational attainment. Source: General Social Survey (1972–2024)."
-
-df_parents <- df |> 
-  filter(!is.na(paeduc_years), !is.na(maeduc_years), !is.na(educ_years)) |> 
-  group_by(paeduc_years) |> 
-  summarize(
-    `Father Education` = mean(educ_years),
-    `Mother Education` = mean(educ_years[maeduc_years == paeduc_years], na.rm = TRUE),
-    n = n(),
-    .groups = "drop"
-  ) |> 
-  filter(n >= 30)
+#| fig-cap: "Figure 1: Respondent mean schooling years vs. Father's (paeduc) and Mother's (maeduc) education. Source: GSS (1972–2024)."
 
 df_parents_long <- df |> 
   filter(!is.na(paeduc_years), !is.na(maeduc_years), !is.na(educ_years)) |> 
   pivot_longer(cols = c(paeduc_years, maeduc_years), names_to = "Parent", values_to = "parent_years") |> 
-  mutate(Parent = if_else(Parent == "paeduc_years", "Father's Education (paeduc)", "Mother's Education (maeduc)")) |> 
+  mutate(Parent = if_else(Parent == "paeduc_years", "Father's Education", "Mother's Education")) |> 
   group_by(Parent, parent_years) |> 
   summarize(mean_educ = mean(educ_years), .groups = "drop") |> 
   filter(parent_years <= 18)
@@ -82,23 +68,24 @@ df_parents_long <- df |>
 df_parents_long |> 
   ggplot(aes(x = parent_years, y = mean_educ, color = Parent)) +
   geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "#94a3b8", linewidth = 0.8) +
-  geom_line(linewidth = 1.3) +
-  geom_point(size = 3) +
-  scale_color_manual(values = c("Father's Education (paeduc)" = "#2563eb", "Mother's Education (maeduc)" = "#ec4899")) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2.5) +
+  scale_color_manual(values = c("Father's Education" = "#2563eb", "Mother's Education" = "#ec4899")) +
   scale_x_continuous(breaks = seq(0, 18, 2)) +
   scale_y_continuous(breaks = seq(8, 18, 2)) +
   labs(
-    title = "Intergenerational Educational Transmission: Parental vs. Respondent Schooling",
-    subtitle = "Key Takeaway: Strong positive linear slope. Children of college-educated parents average 15.5+ years of schooling",
+    title = "Parental vs. Respondent Completed Schooling Years",
+    subtitle = "Key Takeaway: Strong linear relationship. Children of college-educated parents average 15.5+ years of schooling.",
     x = "Parental Completed Years of Education",
-    y = "Respondent Mean Completed Years of Education (educ)"
+    y = "Respondent Mean Schooling Years"
   )
 ```
 
 ---
 
 ## 2. Childhood Financial Status 
-Is a child's financial status a good indicator of future years of schooling?
+Does childhood family income predict future education level?
+
 ```{r graphic-2}
 #| echo: false
 #| message: false
@@ -112,12 +99,12 @@ df |>
   mutate(pct = n / sum(n)) |> 
   ggplot(aes(x = incom16_cat, y = pct, fill = educ_cat)) +
   geom_col(position = "fill", width = 0.7, color = "white") +
-  scale_fill_manual(values = palette_edu, name = "Educational Attainment (educ)") +
+  scale_fill_manual(values = palette_edu, name = "Education Level") +
   scale_y_continuous(labels = percent_format()) +
   labs(
-    title = "Educational Attainment Tiers Stratified by Childhood Relative Income (incom16)",
-    subtitle = "Key Takeaway: Respondents from 'Far Above Average' childhood income are 3.2x more likely to earn a Graduate Degree than those from 'Far Below Average'",
-    x = "Family Income at Age 16 Relative to American Families (incom16)",
+    title = "Educational Attainment by Childhood Relative Income",
+    subtitle = "Key Takeaway: High-income children are 3.2x more likely to earn a Graduate Degree than low-income peers.",
+    x = "Family Income at Age 16 Relative to American Families",
     y = "Proportion of Respondents"
   )
 ```
@@ -125,12 +112,13 @@ df |>
 ---
 
 ## 3. Family Structure & Sibling Dynamics 
-Does number of siblings and family structure correlate to education levels?
+How do family structure and sibling size affect completed schooling?
+
 ```{r graphic-3}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 3: Respondent Completed Schooling Years by Family Structure and Sibling Count. Source: GSS (1972–2024)."
+#| fig-cap: "Figure 3: Completed Schooling Years by Family Structure and Sibling Count. Source: GSS (1972–2024)."
 
 df |> 
   filter(!is.na(family16_clean), !is.na(sibs_num), !is.na(educ_years)) |> 
@@ -145,10 +133,10 @@ df |>
   facet_wrap(~ sibs_group, ncol = 2) +
   scale_fill_manual(values = c("Both Own Parents" = "#2563eb", "Single Parent" = "#7c3aed", "Stepparent" = "#ec4899", "Other Relative" = "#06b6d4")) +
   labs(
-    title = "Schooling Years by Childhood Family Structure (family16) & Sibling Size (sibs)",
-    subtitle = "Key Takeaway: Growing up with both intact parents and smaller family sizes consistently yields higher educational attainment",
-    x = "Family Structure at Age 16 (family16)",
-    y = "Completed Schooling Years (educ)",
+    title = "Completed Schooling by Family Structure & Sibling Size",
+    subtitle = "Key Takeaway: Two-parent households and smaller family sizes consistently yield higher education levels.",
+    x = "Family Structure at Age 16",
+    y = "Completed Schooling Years",
     fill = "Family Structure"
   ) +
   theme(legend.position = "none")
@@ -157,7 +145,8 @@ df |>
 ---
 
 ## 4. Geographic Environment
-How good is city/town environment as a predictor of education level?
+How does childhood residence type correlate with higher education?
+
 ```{r graphic-4}
 #| echo: false
 #| message: false
@@ -179,22 +168,23 @@ df |>
   scale_fill_manual(values = c("Some College+" = "#2563eb", "Bachelor's Degree+" = "#7c3aed", "Graduate Degree" = "#ec4899")) +
   scale_x_continuous(labels = percent_format()) +
   labs(
-    title = "Higher Educational Attainment by Type of Residence at Age 16 (res16)",
-    subtitle = "Key Takeaway: Suburb and large city origins exhibit higher post-secondary degree attainment compared to farm and rural origins",
-    x = "Percentage of Respondents Achieving Level",
-    y = "Residence Type at Age 16 (res16)"
+    title = "Degree Completion Rates by Childhood Residence Type",
+    subtitle = "Key Takeaway: Suburban and large city origins show higher college completion rates than rural origins.",
+    x = "Percentage of Respondents",
+    y = "Residence Type at Age 16"
   )
 ```
 
 ---
 
 ## 5. Demographics & Nativity
-Are race/gender demographics and parent nativity good indicators of education level?
+Do parental nativity and demographic factors influence college completion?
+
 ```{r graphic-5}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 5: Bachelor's Degree+ Attainment Rates by Sex, Race, Respondent Nativity, and Parental Nativity. Source: GSS (1972–2024)."
+#| fig-cap: "Figure 5: Bachelor's Degree+ Attainment Rates by Sex, Race, and Parental Nativity. Source: GSS (1972–2024)."
 
 df_demo <- df |> 
   filter(!is.na(sex_clean), !is.na(race_clean), !is.na(born_clean), !is.na(parborn_clean), !is.na(educ_cat)) |> 
@@ -213,22 +203,23 @@ df_demo |>
   scale_shape_manual(values = c("FEMALE" = 16, "MALE" = 17), name = "Sex") +
   scale_y_continuous(labels = percent_format()) +
   labs(
-    title = "Bachelor's Degree+ Rates by Race, Sex, and Parental Nativity (parborn)",
-    subtitle = "Key Takeaway: Children of immigrant parents ('Neither U.S.') show elevated higher education completion across demographic subgroups",
-    x = "Parental Nativity Status (parborn)",
+    title = "Bachelor's Degree+ Rates by Demographics & Parental Nativity",
+    subtitle = "Key Takeaway: Children of immigrant parents ('Neither U.S.') exhibit high college completion rates.",
+    x = "Parental Nativity Status",
     y = "Bachelor's Degree or Higher Rate"
   )
 ```
 
 ---
 
-## 6. Multi-Decade Generational Trends & Parental Status
-How did educational attainment change over time and did having children change this rate?
+## 6. Multi-Decade Generational Trends
+How have college attainment rates evolved over the past 50 years?
+
 ```{r graphic-6}
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-cap: "Figure 6: Longitudinal Trends in Bachelor's+ Attainment (1972–2024) Stratified by Age Groups and Number of Children. Source: GSS (1972–2024)."
+#| fig-cap: "Figure 6: Trends in Bachelor's+ Attainment (1972–2024) by Age Group and Fertility. Source: GSS (1972–2024)."
 
 df_trend <- df |> 
   filter(!is.na(year_num), !is.na(age_num), !is.na(childs_num), !is.na(educ_cat)) |> 
@@ -253,10 +244,9 @@ df_trend |>
   scale_linetype_manual(values = c("<3 Children" = "solid", "3+ Children" = "dashed"), name = "Fertility") +
   scale_y_continuous(labels = percent_format()) +
   labs(
-    title = "Multi-Decade Evolution of College Attainment by Age (age) & Children (childs)",
-    subtitle = "Key Takeaway: Steady upward secular expansion from 1972 (15%) to 2024 (38%+), with lower fertility correlating with higher degree completion",
-    x = "Survey Administration Year (year)",
+    title = "Longitudinal Trends in College Attainment (1972–2024)",
+    subtitle = "Key Takeaway: Steady expansion from 15% in 1972 to 38%+ in 2024; smaller families show higher attainment.",
+    x = "Survey Administration Year",
     y = "Bachelor's Degree or Higher Rate"
   )
 ```
-

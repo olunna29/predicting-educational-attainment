@@ -71,6 +71,15 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.12.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -124,7 +133,7 @@ window.Quarto = {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Introduction</span></a>
+<span class="menu-text">Overview</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./exploratory.html"> 
@@ -157,7 +166,8 @@ window.Quarto = {
   <li><a href="#the-context" id="toc-the-context" class="nav-link active" data-scroll-target="#the-context">1. The Context</a></li>
   <li><a href="#central-predictive-research-question" id="toc-central-predictive-research-question" class="nav-link" data-scroll-target="#central-predictive-research-question">2. Central Predictive Research Question</a></li>
   <li><a href="#dataset-architecture" id="toc-dataset-architecture" class="nav-link" data-scroll-target="#dataset-architecture">3. Dataset Architecture</a></li>
-  <li><a href="#key-assumptions-counters" id="toc-key-assumptions-counters" class="nav-link" data-scroll-target="#key-assumptions-counters">4. Key Assumptions &amp; Counters</a></li>
+  <li><a href="#assumptions-counters" id="toc-assumptions-counters" class="nav-link" data-scroll-target="#assumptions-counters">4. Assumptions &amp; Counters</a></li>
+  <li><a href="#key-predictive-findings" id="toc-key-predictive-findings" class="nav-link" data-scroll-target="#key-predictive-findings">5. Key Predictive Findings</a></li>
   </ul>
 </nav>
     </div>
@@ -167,26 +177,44 @@ window.Quarto = {
 
 
 
-<section id="our-question-and-our-data" class="level1 unlisted hero-banner">
-<h1 class="unlisted">Our Question and Our Data</h1>
+<section id="predictive-drivers-of-educational-attainment" class="level1 unlisted hero-banner">
+<h1 class="unlisted">Predictive Drivers of Educational Attainment</h1>
 <p class="hero-subtitle">
-How parental background, childhood economic environment, family structure, geography, and birth cohorts shape individual educational outcomes.
+How parental background, childhood economic status, family structure, geography, and birth cohorts shape educational outcomes in the United States.
 </p>
 </section>
+<div class="overview-graphic-card">
+<div class="overview-graphic-header">
+<span class="overview-graphic-badge">Interactive Overview</span>
+<h3 style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #0f172a;" class="anchored">
+50-Year Trajectories of Educational Mobility (1972–2024)
+</h3>
+</div>
+<p style="font-size: 0.95rem; color: #475569; margin-bottom: 1.25rem;">
+Explore how college graduation rates evolved over 50 years across childhood income levels. Even on a still frame, each line traces the rising educational trajectory of an income group from the 1970s to the 2020s. Hover over any point to inspect detailed metrics, or click legend entries to isolate specific childhood income tiers.
+</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-5a0884e755f2b2f11146" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-5a0884e755f2b2f11146">{"x":{"visdat":{"511976f83ede":["function () ","plotlyVisDat"]},"cur_data":"511976f83ede","attrs":{"511976f83ede":{"x":{},"y":{},"mode":"lines+markers","line":{"width":3.5},"marker":{"size":9,"line":{"width":2,"color":"#ffffff"}},"text":{},"hoverinfo":"text","color":{},"colors":["#ef4466","#ec4899","#7c3aed","#2563eb","#06b6d4"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":70,"l":60,"t":20,"r":30},"xaxis":{"domain":[0,1],"automargin":true,"title":{"text":"<b>Survey Decade<\/b>","font":{"size":12,"color":"#0f172a"}},"gridcolor":"#f1f5f9","type":"category","categoryorder":"array","categoryarray":["1970s","1980s","1990s","2000s","2010s","2020s"]},"yaxis":{"domain":[0,1],"automargin":true,"title":{"text":"<b>Bachelor's Degree or Higher Rate (%)<\/b>","font":{"size":12,"color":"#0f172a"}},"gridcolor":"#f1f5f9","ticksuffix":"%","range":[0,75]},"legend":{"title":{"text":"<b>Childhood Income Tier<\/b>"},"orientation":"h","x":0.02,"y":-0.22},"paper_bgcolor":"transparent","plot_bgcolor":"#ffffff","hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["1970s","1980s","1990s","2000s","2010s","2020s"],"y":[7.0999999999999996,11,16,21.399999999999999,23.600000000000001,32.5],"mode":"lines+markers","line":{"color":"rgba(6,182,212,1)","width":3.5},"marker":{"color":"rgba(6,182,212,1)","size":9,"line":{"color":"#ffffff","width":2}},"text":["<b>Decade: 1970s<\/b><br><b>Childhood Income:<\/b> Far Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 7.1%<br><b>Avg Parental Education:<\/b> 5.8 Years<br><b>Avg Respondent Schooling:<\/b> 9.8 Years<br><b>Sample Size:<\/b>   396","<b>Decade: 1980s<\/b><br><b>Childhood Income:<\/b> Far Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 11%<br><b>Avg Parental Education:<\/b> 6.5 Years<br><b>Avg Respondent Schooling:<\/b> 11 Years<br><b>Sample Size:<\/b>   565","<b>Decade: 1990s<\/b><br><b>Childhood Income:<\/b> Far Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 16%<br><b>Avg Parental Education:<\/b> 7.3 Years<br><b>Avg Respondent Schooling:<\/b> 11.6 Years<br><b>Sample Size:<\/b>   243","<b>Decade: 2000s<\/b><br><b>Childhood Income:<\/b> Far Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 21.4%<br><b>Avg Parental Education:<\/b> 7.9 Years<br><b>Avg Respondent Schooling:<\/b> 11.9 Years<br><b>Sample Size:<\/b>   490","<b>Decade: 2010s<\/b><br><b>Childhood Income:<\/b> Far Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 23.6%<br><b>Avg Parental Education:<\/b> 8.7 Years<br><b>Avg Respondent Schooling:<\/b> 12.4 Years<br><b>Sample Size:<\/b>   675","<b>Decade: 2020s<\/b><br><b>Childhood Income:<\/b> Far Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 32.5%<br><b>Avg Parental Education:<\/b> 9.9 Years<br><b>Avg Respondent Schooling:<\/b> 13.4 Years<br><b>Sample Size:<\/b>   631"],"hoverinfo":["text","text","text","text","text","text"],"type":"scatter","name":"Far Below Average","textfont":{"color":"rgba(6,182,212,1)"},"error_y":{"color":"rgba(6,182,212,1)"},"error_x":{"color":"rgba(6,182,212,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1970s","1980s","1990s","2000s","2010s","2020s"],"y":[14.300000000000001,18.100000000000001,20.800000000000001,27.199999999999999,28.699999999999999,41],"mode":"lines+markers","line":{"color":"rgba(37,99,235,1)","width":3.5},"marker":{"color":"rgba(37,99,235,1)","size":9,"line":{"color":"#ffffff","width":2}},"text":["<b>Decade: 1970s<\/b><br><b>Childhood Income:<\/b> Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 14.3%<br><b>Avg Parental Education:<\/b> 7.4 Years<br><b>Avg Respondent Schooling:<\/b> 11.4 Years<br><b>Sample Size:<\/b> 1,629","<b>Decade: 1980s<\/b><br><b>Childhood Income:<\/b> Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 18.1%<br><b>Avg Parental Education:<\/b> 8.2 Years<br><b>Avg Respondent Schooling:<\/b> 12.2 Years<br><b>Sample Size:<\/b> 2,009","<b>Decade: 1990s<\/b><br><b>Childhood Income:<\/b> Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 20.8%<br><b>Avg Parental Education:<\/b> 9.3 Years<br><b>Avg Respondent Schooling:<\/b> 12.8 Years<br><b>Sample Size:<\/b>   838","<b>Decade: 2000s<\/b><br><b>Childhood Income:<\/b> Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 27.2%<br><b>Avg Parental Education:<\/b> 10.2 Years<br><b>Avg Respondent Schooling:<\/b> 13.4 Years<br><b>Sample Size:<\/b> 1,554","<b>Decade: 2010s<\/b><br><b>Childhood Income:<\/b> Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 28.7%<br><b>Avg Parental Education:<\/b> 10.3 Years<br><b>Avg Respondent Schooling:<\/b> 13.5 Years<br><b>Sample Size:<\/b> 2,043","<b>Decade: 2020s<\/b><br><b>Childhood Income:<\/b> Below Average<br><b>Bachelor's Degree+ Rate:<\/b> 41%<br><b>Avg Parental Education:<\/b> 11.3 Years<br><b>Avg Respondent Schooling:<\/b> 14.4 Years<br><b>Sample Size:<\/b> 1,847"],"hoverinfo":["text","text","text","text","text","text"],"type":"scatter","name":"Below Average","textfont":{"color":"rgba(37,99,235,1)"},"error_y":{"color":"rgba(37,99,235,1)"},"error_x":{"color":"rgba(37,99,235,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1970s","1980s","1990s","2000s","2010s","2020s"],"y":[13.9,19,25.300000000000001,32.399999999999999,35.600000000000001,44.899999999999999],"mode":"lines+markers","line":{"color":"rgba(124,58,237,1)","width":3.5},"marker":{"color":"rgba(124,58,237,1)","size":9,"line":{"color":"#ffffff","width":2}},"text":["<b>Decade: 1970s<\/b><br><b>Childhood Income:<\/b> Average<br><b>Bachelor's Degree+ Rate:<\/b> 13.9%<br><b>Avg Parental Education:<\/b> 9.3 Years<br><b>Avg Respondent Schooling:<\/b> 12.2 Years<br><b>Sample Size:<\/b> 4,298","<b>Decade: 1980s<\/b><br><b>Childhood Income:<\/b> Average<br><b>Bachelor's Degree+ Rate:<\/b> 19%<br><b>Avg Parental Education:<\/b> 10.1 Years<br><b>Avg Respondent Schooling:<\/b> 12.8 Years<br><b>Sample Size:<\/b> 5,548","<b>Decade: 1990s<\/b><br><b>Childhood Income:<\/b> Average<br><b>Bachelor's Degree+ Rate:<\/b> 25.3%<br><b>Avg Parental Education:<\/b> 10.9 Years<br><b>Avg Respondent Schooling:<\/b> 13.4 Years<br><b>Sample Size:<\/b> 2,300","<b>Decade: 2000s<\/b><br><b>Childhood Income:<\/b> Average<br><b>Bachelor's Degree+ Rate:<\/b> 32.4%<br><b>Avg Parental Education:<\/b> 11.9 Years<br><b>Avg Respondent Schooling:<\/b> 14 Years<br><b>Sample Size:<\/b> 3,454","<b>Decade: 2010s<\/b><br><b>Childhood Income:<\/b> Average<br><b>Bachelor's Degree+ Rate:<\/b> 35.6%<br><b>Avg Parental Education:<\/b> 11.9 Years<br><b>Avg Respondent Schooling:<\/b> 14.1 Years<br><b>Sample Size:<\/b> 3,851","<b>Decade: 2020s<\/b><br><b>Childhood Income:<\/b> Average<br><b>Bachelor's Degree+ Rate:<\/b> 44.9%<br><b>Avg Parental Education:<\/b> 12.6 Years<br><b>Avg Respondent Schooling:<\/b> 14.7 Years<br><b>Sample Size:<\/b> 3,647"],"hoverinfo":["text","text","text","text","text","text"],"type":"scatter","name":"Average","textfont":{"color":"rgba(124,58,237,1)"},"error_y":{"color":"rgba(124,58,237,1)"},"error_x":{"color":"rgba(124,58,237,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1970s","1980s","1990s","2000s","2010s","2020s"],"y":[31.699999999999999,34.799999999999997,44.399999999999999,46.399999999999999,53.5,63.5],"mode":"lines+markers","line":{"color":"rgba(236,72,153,1)","width":3.5},"marker":{"color":"rgba(236,72,153,1)","size":9,"line":{"color":"#ffffff","width":2}},"text":["<b>Decade: 1970s<\/b><br><b>Childhood Income:<\/b> Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 31.7%<br><b>Avg Parental Education:<\/b> 11.6 Years<br><b>Avg Respondent Schooling:<\/b> 13.7 Years<br><b>Sample Size:<\/b> 1,146","<b>Decade: 1980s<\/b><br><b>Childhood Income:<\/b> Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 34.8%<br><b>Avg Parental Education:<\/b> 12.6 Years<br><b>Avg Respondent Schooling:<\/b> 14.1 Years<br><b>Sample Size:<\/b> 1,855","<b>Decade: 1990s<\/b><br><b>Childhood Income:<\/b> Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 44.4%<br><b>Avg Parental Education:<\/b> 13.2 Years<br><b>Avg Respondent Schooling:<\/b> 14.7 Years<br><b>Sample Size:<\/b>   853","<b>Decade: 2000s<\/b><br><b>Childhood Income:<\/b> Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 46.4%<br><b>Avg Parental Education:<\/b> 13.8 Years<br><b>Avg Respondent Schooling:<\/b> 14.9 Years<br><b>Sample Size:<\/b> 1,328","<b>Decade: 2010s<\/b><br><b>Childhood Income:<\/b> Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 53.5%<br><b>Avg Parental Education:<\/b> 14.1 Years<br><b>Avg Respondent Schooling:<\/b> 15.1 Years<br><b>Sample Size:<\/b> 1,714","<b>Decade: 2020s<\/b><br><b>Childhood Income:<\/b> Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 63.5%<br><b>Avg Parental Education:<\/b> 14.5 Years<br><b>Avg Respondent Schooling:<\/b> 15.6 Years<br><b>Sample Size:<\/b> 1,552"],"hoverinfo":["text","text","text","text","text","text"],"type":"scatter","name":"Above Average","textfont":{"color":"rgba(236,72,153,1)"},"error_y":{"color":"rgba(236,72,153,1)"},"error_x":{"color":"rgba(236,72,153,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1970s","1980s","1990s","2000s","2010s","2020s"],"y":[38.5,43.600000000000001,48.799999999999997,55.600000000000001,48.100000000000001,61.100000000000001],"mode":"lines+markers","line":{"color":"rgba(239,68,102,1)","width":3.5},"marker":{"color":"rgba(239,68,102,1)","size":9,"line":{"color":"#ffffff","width":2}},"text":["<b>Decade: 1970s<\/b><br><b>Childhood Income:<\/b> Far Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 38.5%<br><b>Avg Parental Education:<\/b> 11.9 Years<br><b>Avg Respondent Schooling:<\/b> 13.7 Years<br><b>Sample Size:<\/b>   117","<b>Decade: 1980s<\/b><br><b>Childhood Income:<\/b> Far Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 43.6%<br><b>Avg Parental Education:<\/b> 12.7 Years<br><b>Avg Respondent Schooling:<\/b> 14.1 Years<br><b>Sample Size:<\/b>   181","<b>Decade: 1990s<\/b><br><b>Childhood Income:<\/b> Far Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 48.8%<br><b>Avg Parental Education:<\/b> 13.8 Years<br><b>Avg Respondent Schooling:<\/b> 14.3 Years<br><b>Sample Size:<\/b>    80","<b>Decade: 2000s<\/b><br><b>Childhood Income:<\/b> Far Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 55.6%<br><b>Avg Parental Education:<\/b> 14 Years<br><b>Avg Respondent Schooling:<\/b> 15.2 Years<br><b>Sample Size:<\/b>   142","<b>Decade: 2010s<\/b><br><b>Childhood Income:<\/b> Far Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 48.1%<br><b>Avg Parental Education:<\/b> 12.9 Years<br><b>Avg Respondent Schooling:<\/b> 14.7 Years<br><b>Sample Size:<\/b>   212","<b>Decade: 2020s<\/b><br><b>Childhood Income:<\/b> Far Above Average<br><b>Bachelor's Degree+ Rate:<\/b> 61.1%<br><b>Avg Parental Education:<\/b> 14.2 Years<br><b>Avg Respondent Schooling:<\/b> 15.2 Years<br><b>Sample Size:<\/b>   190"],"hoverinfo":["text","text","text","text","text","text"],"type":"scatter","name":"Far Above Average","textfont":{"color":"rgba(239,68,102,1)"},"error_y":{"color":"rgba(239,68,102,1)"},"error_x":{"color":"rgba(239,68,102,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Interactive Figure: 50-Year Trajectories of Bachelor’s degree or higher completion rates (%) across survey decades (1970s–2020s) stratified by childhood income tier. Data Source: General Social Survey.</p>
+</div>
+</div>
+</div>
 <section id="the-context" class="level2">
 <h2 class="anchored" data-anchor-id="the-context">1. The Context</h2>
-<p>Educational attainment is one of the most vital determinants of individual socio-economic mobility, health outcomes, and lifelong earnings trajectory in modern society. Over the past five decades, access to post-secondary education has expanded dramatically across the United States. However, individual educational trajectories remain deeply embedded within socio-demographic origins, parental academic background, and so much more.</p>
-<p>Understanding how these background factors jointly influence educational attainment enables workforce policy planners, academic leaders, and sociologists to quantify intergenerational mobility and identify structural barriers to higher education.</p>
+<p>Educational attainment drives socio-economic mobility, career earnings, and health trajectories. While higher education access has expanded significantly over the past five decades, individual educational paths remain strongly tied to childhood family backgrounds and geographic origins.</p>
+<p>Quantifying how these early life factors jointly predict educational outcomes helps sociologists and policy planners identify structural barriers and evaluate intergenerational mobility in the United States.</p>
 <hr>
 </section>
 <section id="central-predictive-research-question" class="level2">
 <h2 class="anchored" data-anchor-id="central-predictive-research-question">2. Central Predictive Research Question</h2>
-<p>To what extent do social, economic, and demographic factors jointly predict whether an individual achieves a specific education level such as a Bachelor’s degree in the United States?</p>
+<p>To what extent do social, economic, and demographic background factors jointly predict whether an individual achieves a post-secondary degree, such as a Bachelor’s degree, in the United States?</p>
 <hr>
 </section>
 <section id="dataset-architecture" class="level2">
 <h2 class="anchored" data-anchor-id="dataset-architecture">3. Dataset Architecture</h2>
-<p>The predictive framework draws upon the national <strong>General Social Survey (GSS)</strong> panel spanning <strong>52 years (1972–2024)</strong> with <strong><span class="math inline">\(N = 75,699\)</span> respondent observations</strong>, capturing individual educational attainment alongside comprehensive socio-demographic and developmental background variables.</p>
+<p>This study uses the national <strong>General Social Survey (GSS)</strong> panel spanning <strong>52 years (1972–2024)</strong> with <strong><span class="math inline">\(N = 75,699\)</span> observations</strong>, tracking individual educational attainment alongside key socio-demographic background variables.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -285,26 +313,43 @@ How parental background, childhood economic environment, family structure, geogr
 </div>
 <hr>
 </section>
-<section id="key-assumptions-counters" class="level2">
-<h2 class="anchored" data-anchor-id="key-assumptions-counters">4. Key Assumptions &amp; Counters</h2>
+<section id="assumptions-counters" class="level2">
+<h2 class="anchored" data-anchor-id="assumptions-counters">4. Assumptions &amp; Counters</h2>
 <ul>
-<li><strong>Validity:</strong> The consistency (or lack thereof) between the columns in the dataset and the corresponding columns in the Preceptor Table (the table containing the ideal information required to answer our primary question).
+<li><strong>Validity:</strong> The consistency between measured columns and the ideal population table.
 <ul>
-<li><em>Counter:</em> The GSS outcome variable <code>educ</code> records the number of years respondents spent in school rather than the specific degree they actually earned. In contrast, the model categorizes education level by assuming standard thresholds (e.g., 4 years for a Bachelor’s degree, 6 years for a Master’s degree). However, these thresholds can misclassify individuals—for example, someone who takes 6 years to earn a Bachelor’s degree would be misclassified as holding a Master’s degree, while someone who completes a Bachelor’s degree in 3 years would be categorized as having only “Some College.”</li>
+<li><em>Counter:</em> The GSS variable <code>educ</code> measures total schooling years rather than degree credentials. Standard threshold conversions (e.g., 4 years = Bachelor’s degree) can misclassify individuals who take extra years to graduate or finish early.</li>
 </ul></li>
-<li><strong>Stability:</strong> The assumption that the relationships between variables remain constant across the dataset, the Preceptor Table, and the target population over time.
+<li><strong>Stability:</strong> The assumption that covariate relationships remain constant over time.
 <ul>
-<li><em>Counter:</em> Because some of the GSS data was collected as early as 1972, the relationships between covariates and the likelihood of pursuing post-secondary education may have shifted over time. For example, women surveyed in the 1970s may have grown up prior to the second wave of feminism in the 1960s, which dramatically increased female participation in higher education and the workforce.</li>
+<li><em>Counter:</em> In data spanning 1972 to 2024, societal changes—such as rising female labor force participation and college enrollment—mean older survey cohorts may exhibit different mobility dynamics than recent cohorts.</li>
 </ul></li>
-<li><strong>Representativeness:</strong> The assumption that the sampled units (rows) accurately represent the broader population and the target units in the Preceptor Table.
+<li><strong>Representativeness:</strong> The assumption that sample rows represent the target population.
 <ul>
-<li><em>Counter:</em> While the GSS draws from a probability-based random sample that provides a comprehensive snapshot of the United States, older survey cohorts may not be as strong a predictor for current educational trends as more recent data.</li>
+<li><em>Counter:</em> While the GSS uses a national probability sample, older cohorts may reflect historical educational structures that differ from current trends.</li>
 </ul></li>
-<li><strong>Unconfoundedness:</strong> The assumption that treatment assignment is independent of potential outcomes.
+<li><strong>Unconfoundedness:</strong> The assumption of independent treatment assignment.
 <ul>
-<li><em>Counter:</em> Not applicable to this study, as the model is strictly predictive rather than causal.</li>
+<li><em>Counter:</em> Not applicable, as this study is strictly predictive rather than causal.</li>
 </ul></li>
 </ul>
+<hr>
+</section>
+<section id="key-predictive-findings" class="level2">
+<h2 class="anchored" data-anchor-id="key-predictive-findings">5. Key Predictive Findings</h2>
+<p>Our predictive models reveal that childhood background factors strongly shape whether an individual earns a college degree. Ranked from <strong>most to least influential</strong>:</p>
+<ol type="1">
+<li><strong>Parental Education (Most Influential Factor)</strong>: A parent’s own education is the single strongest predictor of a child’s degree attainment. Each additional year of schooling completed by parents is associated with a <strong>31.8% to 34.7% increase in the odds</strong> of achieving a Bachelor’s degree (adding <strong>+0.33 years</strong> of schooling).</li>
+<li><strong>Family Structure</strong>: Growing up with a single parent is associated with a <strong>40.4% to 47.0% decrease in the odds</strong> of earning a Bachelor’s degree compared to growing up with both parents (reducing expected schooling by <strong>0.61 years</strong>).</li>
+<li><strong>Number of Siblings</strong>: Coming from a larger family is linked to lower college completion rates. Each additional sibling in the household is associated with a <strong>13.2% to 16.0% decrease in the odds</strong> of graduating with a Bachelor’s degree (<strong>-0.18 years</strong> per sibling).</li>
+<li><strong>Immigrant Parent Background</strong>: Children of foreign-born parents demonstrate high educational mobility, with non-U.S.-born parental nativity associated with a <strong>71.3% to 82.8% increase in the odds</strong> of attaining a Bachelor’s degree (<strong>+0.51 years</strong> of completed schooling).</li>
+<li><strong>Childhood Household Income</strong>: Higher relative family income during childhood steadily opens doors to higher education. Each step up in childhood income tier is associated with a <strong>13.2% to 21.4% increase in the odds</strong> of completing a Bachelor’s degree (<strong>+0.13 years</strong> per income level).</li>
+<li><strong>Suburban Growing Environment</strong>: Growing up in a suburban community offers higher college graduation odds compared to a rural or farm environment, associated with a <strong>35.8% to 47.9% increase in the odds</strong> of earning a Bachelor’s degree (<strong>+0.25 years</strong> of schooling).</li>
+</ol>
+<blockquote class="blockquote">
+<p><em>For technical statistical parameters, test statistics (<span class="math inline">\(t\)</span>-stats and <span class="math inline">\(z\)</span>-scores), and formal confidence interval specifications, see the <strong><a href="./model.html">DGM &amp; Predictive Model</a></strong> tab.</em></p>
+</blockquote>
+<p>Overall, our predictive model accurately determines whether an individual completes a college degree for <strong>72.3% of individuals</strong> based solely on these childhood background traits.</p>
 
 
 </section>

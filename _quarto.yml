@@ -8,7 +8,7 @@ website:
   navbar:
     background: primary
     left:
-      - text: "Introduction"
+      - text: "Overview"
         href: index.qmd
       - text: "Visualization"
         href: exploratory.qmd

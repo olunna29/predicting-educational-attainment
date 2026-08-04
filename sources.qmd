@@ -8,50 +8,50 @@ format:
 
 ::: {.hero-banner}
 # Data Sources & References {.unlisted}
-<p class="hero-subtitle">Comprehensive APA 7th Edition Citations</p>
+<p class="hero-subtitle">Data Provenance, Variable Specifications, and Full Parameter Tables</p>
 :::
 
-## 1. Primary Empirical Data Source
+## 1. Primary Data Source
 
-The empirical analysis in this project is based on data from the **General Social Survey (GSS)**, conducted by **NORC at the University of Chicago**.
+The empirical analysis in this project uses data from the **General Social Survey (GSS)**, conducted by **NORC at the University of Chicago**.
 
 ### General Social Survey (NORC at the University of Chicago)
 
-- **Reference List Citation**:
+- **APA Reference Citation**:
   > Davern, M., Bautista, R., Freese, J., Herd, P., & Morgan, S. L. (2024). *General Social Survey 1972–2024 (Release 3)* [Data set]. NORC at the University of Chicago. [https://gssdataexplorer.norc.org](https://gssdataexplorer.norc.org)
 
-- **Dataset Scope & Methodology**:
-  The General Social Survey (GSS) is one of the nation's most authoritative, long-running social science research studies. Since 1972, the GSS has monitored societal trends and demographic transformations across the adult, non-institutionalized population of the United States using nationally representative probability sampling.
+- **Methodology & Scope**:
+  The General Social Survey (GSS) monitors societal trends and demographic transformations across the adult, non-institutionalized U.S. population using nationally representative probability sampling.
 
 ---
 
-## 2. Variable Codebook & Descriptions
+## 2. Variable Codebook & Definitions
 
 Below are the official GSS codebook definitions for all 15 variables analyzed in this study:
 
 | Variable Name | GSS Label | Description & Coding Scheme |
 | :--- | :--- | :--- |
-| **`educ`** | Respondent Educational Attainment | Highest grade of school completed (0–20 years). Recoded into 4 tiers: *High School or Less*, *Some College*, *Bachelor Degree*, *Graduate Degree*. |
-| **`paeduc`** | Father's Educational Attainment | Highest grade of school completed by respondent's father (0–20 years). |
-| **`maeduc`** | Mother's Educational Attainment | Highest grade of school completed by respondent's mother (0–20 years). |
-| **`incom16`** | Relative Family Income at Age 16 | Family income at age 16 relative to American families: 1 = Far Below Average, 2 = Below Average, 3 = Average, 4 = Above Average, 5 = Far Above Average. |
-| **`family16`** | Family Structure at Age 16 | Living arrangement at age 16: *Both Own Parents*, *Single Parent*, *Stepparent*, *Other Relative/Arrangement*. |
+| **`educ`** | Respondent Educational Attainment | Highest grade completed (0–20 years). Recoded into: *High School or Less*, *Some College*, *Bachelor Degree*, *Graduate Degree*. |
+| **`paeduc`** | Father's Educational Attainment | Highest grade completed by father (0–20 years). |
+| **`maeduc`** | Mother's Educational Attainment | Highest grade completed by mother (0–20 years). |
+| **`incom16`** | Relative Family Income at Age 16 | Income at age 16 relative to U.S. families: 1 = Far Below Average to 5 = Far Above Average. |
+| **`family16`** | Family Structure at Age 16 | Living arrangement at age 16: *Both Own Parents*, *Single Parent*, *Stepparent*, *Other Relative*. |
 | **`res16`** | Residence Type at Age 16 | Type of place lived in at age 16: *Farm*, *Country Non-Farm*, *Town <50k*, *50k to 250k*, *Big-City Suburb*, *City >250k*. |
 | **`sex`** | Respondent's Sex | Sex assigned at interview: *Female*, *Male*. |
 | **`race`** | Respondent's Race | Race of respondent: *White*, *Black*, *Other*. |
-| **`born`** | Respondent Born in U.S. | Was the respondent born in the United States? *Yes*, *No*. |
-| **`parborn`** | Parents Born in U.S. | Were respondent's parents born in the U.S.? *Both U.S.*, *One U.S.*, *Neither U.S.* |
+| **`born`** | Respondent Born in U.S. | Born in the United States: *Yes*, *No*. |
+| **`parborn`** | Parents Born in U.S. | Parents born in U.S.: *Both U.S.*, *One U.S.*, *Neither U.S.* |
 | **`sibs`** | Number of Siblings | Total number of brothers and sisters (0 to 6+). |
-| **`childs`** | Number of Children | Ever had children / total number of children (0 to 8+). |
-| **`age`** | Respondent's Age | Age at time of interview (18 to 89 years). |
-| **`year`** | Survey Administration Year | Calendar year of survey round (1972 through 2024). |
-| **`agekdbrn`** | Age at First Child's Birth | Age when respondent's first child was born. (Excluded from final predictive model due to 62.1% missingness/inapplicability across historical survey rounds). |
+| **`childs`** | Number of Children | Total number of children (0 to 8+). |
+| **`age`** | Respondent's Age | Age at interview (18 to 89 years). |
+| **`year`** | Survey Administration Year | Survey administration year (1972 to 2024). |
+| **`agekdbrn`** | Age at First Child's Birth | Age when first child was born. Excluded from final model due to missingness across early survey rounds. |
 
 ---
 
 ## 3. Appendix: Complete Model Parameter Tables
 
-Below are the complete, un-truncated parameter estimation tables for both statistical models fitted in this study.
+Below are the complete parameter estimation tables for both fitted statistical models.
 
 ```{r setup-appendix}
 #| echo: false
@@ -75,7 +75,7 @@ ols_tidy <- broom::tidy(ols_fit, conf.int = TRUE)
 
 ### 3.1 Full Multinomial Logistic Model Parameters & Odds Ratios
 
-Below is the complete table of estimated parameters, Odds Ratios ($\text{OR} = \exp(\beta)$), and exact 95% Confidence Intervals for all background predictors across all three non-reference outcome tiers (*Some College*, *Bachelor Degree*, *Graduate Degree*, relative to baseline *High School or Less*).
+Complete table of estimated parameters, Odds Ratios ($\text{OR} = \exp(\beta)$), and 95% Confidence Intervals relative to baseline *High School or Less*.
 
 ```{r fit-multinomial-full-table}
 #| echo: false
@@ -126,7 +126,7 @@ multi_tidy |>
 
 ### 3.2 Full OLS Baseline Model Parameters
 
-Below is the complete table of all estimated parameters from the Ordinary Least Squares (OLS) linear regression model for completed schooling years ($Y_{\text{years}}$).
+Complete table of estimated parameters from the OLS linear regression model for completed schooling years ($Y_{\text{years}}$).
 
 ```{r fit-ols-full-table}
 #| echo: false
